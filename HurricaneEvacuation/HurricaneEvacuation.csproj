@@ -46,11 +46,13 @@
     <Compile Include="Simulator.cs" />
     <Compile Include="SimulatorEnvironment\IAgent.cs" />
     <Compile Include="SimulatorEnvironment\IEdge.cs" />
+    <Compile Include="SimulatorEnvironment\IGraph.cs" />
     <Compile Include="SimulatorEnvironment\Impl\Actions\NoOperation.cs" />
     <Compile Include="SimulatorEnvironment\Impl\Actions\Traverse.cs" />
     <Compile Include="SimulatorEnvironment\Impl\Agents\AbstractAgent.cs" />
     <Compile Include="SimulatorEnvironment\Impl\Agents\HumanAgent.cs" />
     <Compile Include="SimulatorEnvironment\Impl\GraphComponents\AbstractVertex.cs" />
+    <Compile Include="SimulatorEnvironment\Impl\GraphComponents\EmptyVertex.cs" />
     <Compile Include="SimulatorEnvironment\Impl\GraphComponents\EvacuationVertex.cs" />
     <Compile Include="SimulatorEnvironment\Impl\GraphComponents\Graph.cs" />
     <Compile Include="SimulatorEnvironment\Impl\GraphComponents\ShelterVertex.cs" />

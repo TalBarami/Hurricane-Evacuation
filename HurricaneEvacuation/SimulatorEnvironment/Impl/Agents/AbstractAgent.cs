@@ -22,5 +22,9 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
         {
             Passengers = 0;
         }
+
+        public void Visit(EmptyVertex v)
+        {
+        }
     }
 }

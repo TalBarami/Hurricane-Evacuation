@@ -4,12 +4,14 @@
     {
         public IVertex V1 { get; }
         public IVertex V2 { get; }
+        public int Weight { get; }
         public bool Blocked { get; set; }
 
-        public Edge (IVertex v1, IVertex v2)
+        public Edge (IVertex v1, IVertex v2, int weight)
         {
             V1 = v1;
             V2 = v2;
+            Weight = weight;
         }
 
         public bool ConnectedTo(IVertex v)

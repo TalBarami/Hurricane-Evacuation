@@ -14,6 +14,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents
         protected AbstractVertex(int id)
         {
             Id = id;
+            Neighbors = new List<IEdge>();
         }
 
         public abstract void Accept(IAgent agent);

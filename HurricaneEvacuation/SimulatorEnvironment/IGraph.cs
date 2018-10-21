@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace HurricaneEvacuation.SimulatorEnvironment
 {
-    interface IEdge
+    interface IGraph
     {
-        int Weight { get; }
-        bool Blocked { get; set; }
-        bool ConnectedTo(IVertex v);
+        int Deadline { get; set; }
+        IList<IVertex> Vertices { get; }
+
     }
 }
