@@ -4,13 +4,13 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents
 {
     class Graph : IGraph
     {
-        public int Deadline { get; set; }
         public IList<IVertex> Vertices { get; }
+        public IList<IEdge> Edges { get; }
 
-        public Graph(int deadline, IList<IVertex> vertices)
+        public Graph(IList<IVertex> vertices, IList<IEdge> edges)
         {
-            Deadline = deadline;
             Vertices = vertices;
+            Edges = edges;
         }
     }
 }

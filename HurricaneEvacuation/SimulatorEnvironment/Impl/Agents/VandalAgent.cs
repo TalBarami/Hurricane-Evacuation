@@ -15,7 +15,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
             InitialDelay = initialDelay;
         }
 
-        public override IAction PerformStep()
+        public override IAction PerformStep(IGraph world)
         {
             if (InitialDelay > 0)
             {

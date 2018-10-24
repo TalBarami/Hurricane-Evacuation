@@ -19,7 +19,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
             Position = position;
         }
 
-        public abstract IAction PerformStep();
+        public abstract IAction PerformStep(IGraph world);
 
         public void Visit(EvacuationVertex v)
         {

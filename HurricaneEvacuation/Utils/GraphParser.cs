@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Xml;
 using HurricaneEvacuation.SimulatorEnvironment;
+using HurricaneEvacuation.SimulatorEnvironment.Exceptions;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents;
 
 namespace HurricaneEvacuation.Utils
@@ -21,29 +22,30 @@ namespace HurricaneEvacuation.Utils
         private const char NEWLINE = '\n';
 
 
-        public (IGraph, string) CreateGraphFromFile(string path)
+        public (IGraph, int, string) CreateGraphFromFile(string path)
         {
             return CreateGraphFromString(File.ReadAllText(path));
         }
 
-        public (IGraph, string) CreateGraphFromString(string s)
+        public (IGraph, int, string) CreateGraphFromString(string s)
         {
-            return (CreateGraphFromStringList(s.Split(NEWLINE).ToList()), s);
+            var (graph, deadline) = CreateGraphFromStringList(s.Split(NEWLINE).ToList());
+            return (graph, deadline, s);
         }
 
-        public IGraph CreateGraphFromStringList(List<string> data)
+        public (IGraph, int) CreateGraphFromStringList(List<string> data)
         {
             var cleanData = data.Select(line => line.Split(COMMENT)[0]).ToList();
 
-            var vertices = InitializeVertices(
+            var (vertices, edges) = InitializeVertices(
                 cleanData.FindAll(line => line.StartsWith(VERTEX)),
                 cleanData.FindAll(line => line.StartsWith(EDGE)));
             var deadline = int.Parse(cleanData.Find(line => line.StartsWith(DEADLINE)).Split(WHITESPACE)[1]);
 
-            return new Graph(deadline, vertices);
+            return (new Graph(vertices, edges), deadline);
         }
 
-        public IVertex[] InitializeVertices(List<string> verticesData, List<string> edgesData)
+        public (IVertex[], IEdge[]) InitializeVertices(List<string> verticesData, List<string> edgesData)
         {
             var sizeLine = verticesData.Find(line => !line.Contains(PICKUP) && !line.Contains(SHELTER));
             verticesData.Remove(sizeLine);
@@ -74,13 +76,14 @@ namespace HurricaneEvacuation.Utils
                 }
             }
 
-            AssignEdges(vertices, edgesData);
+            var edges = AssignEdges(vertices, edgesData);
 
-            return vertices;
+            return (vertices, edges);
         }
 
-        public void AssignEdges(IVertex[] vertices, List<string> data)
+        public IEdge[] AssignEdges(IVertex[] vertices, List<string> data)
         {
+            var edges = new List<IEdge>();
             data.ForEach(line =>
             {
                 var parts = line.Split(WHITESPACE);
@@ -88,25 +91,11 @@ namespace HurricaneEvacuation.Utils
                 var v2 = vertices.First(v => v.Id == int.Parse(parts[2]));
                 var weight = int.Parse(parts[3].Substring(1));
                 var e = new Edge(v1, v2, weight);
+                edges.Add(e);
                 v1.Neighbors.Add(e);
                 v2.Neighbors.Add(e);
             });
-        }
-    }
-
-    public class ParseException : Exception
-    {
-
-        public ParseException()
-        {
-        }
-
-        public ParseException(string message) : base(message)
-        {
-        }
-
-        public ParseException(string message, Exception inner) : base(message, inner)
-        {
+            return edges.ToArray();
         }
     }
 }

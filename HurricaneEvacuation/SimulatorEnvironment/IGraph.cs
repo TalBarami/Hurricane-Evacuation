@@ -8,8 +8,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment
 {
     interface IGraph
     {
-        int Deadline { get; set; }
         IList<IVertex> Vertices { get; }
-
+        IList<IEdge> Edges { get; }
     }
 }

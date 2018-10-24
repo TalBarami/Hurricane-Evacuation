@@ -12,7 +12,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
         {
         }
 
-        public override IAction PerformStep()
+        public override IAction PerformStep(IGraph world)
         {
             throw new NotImplementedException();
         }

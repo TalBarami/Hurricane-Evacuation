@@ -14,7 +14,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment
         IVertex Goal { get; set; }
         int TicksLeft { get; set; }
         int Passengers { get; set; }
-        IAction PerformStep();
+        IAction PerformStep(IGraph world);
         void Visit(EvacuationVertex v);
         void Visit(ShelterVertex v);
         void Visit(EmptyVertex v);

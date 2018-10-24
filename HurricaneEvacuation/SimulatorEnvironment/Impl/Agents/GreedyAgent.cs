@@ -13,7 +13,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
         {
         }
 
-        public override IAction PerformStep()
+        public override IAction PerformStep(IGraph world)
         {
             if (Passengers > 0)
             {

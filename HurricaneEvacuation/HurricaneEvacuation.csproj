@@ -45,6 +45,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Simulator.cs" />
+    <Compile Include="SimulatorEnvironment\Exceptions\InvalidAgentException.cs" />
+    <Compile Include="SimulatorEnvironment\Exceptions\ParseException.cs" />
     <Compile Include="SimulatorEnvironment\IAgent.cs" />
     <Compile Include="SimulatorEnvironment\IEdge.cs" />
     <Compile Include="SimulatorEnvironment\IGraph.cs" />
