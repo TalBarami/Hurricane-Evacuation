@@ -3,8 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using HurricaneEvacuation.SimulatorEnvironment.Impl.Agents;
 using HurricaneEvacuation.Utils;
 
 namespace HurricaneEvacuation
@@ -25,8 +27,58 @@ namespace HurricaneEvacuation
                        "#D 10                     ; Deadline is at time 10";
 
             var parser = new GraphParser();
-            IGraph g = parser.CreateGraphFromString(s);
+            var (graph, src) = parser.CreateGraphFromString(s);
+
+            Console.WriteLine("Please specify: <numOfAgents>");
+            if (!int.TryParse(Console.ReadLine(), out var numOfAgents))
+            {
+                Console.WriteLine("Bye...");
+                return;
+            }
+            Console.WriteLine("Please specify: <agentId>;<vertexId>");
+            var agents = new List<IAgent>();
+            for (var i = 0; i < numOfAgents;)
+            {
+                var parts = Console.ReadLine()?.Split(';');
+                if (parts == null || parts.Length < 2 ||
+                    !int.TryParse(parts[0], out var agentId) || !int.TryParse(parts[1], out var vertexId))
+                {
+                    Console.WriteLine("WRONG. Please specify: <agentId>;<vertexId>");
+                    continue;
+                }
+
+                agents.Add(CreateAgent(agentId, graph.Vertices.First(v => v.Id == vertexId)));
+                i++;
+            }
+
+            Console.WriteLine(src);
             Console.Read();
+        }
+
+        private static IAgent CreateAgent(int agentId, IVertex v)
+        {
+            switch (agentId)
+            {
+                case 1:
+                    return new HumanAgent(v);
+                default:
+                    throw new InvalidAgentIdException($"Unidentified Id: {agentId}");
+            }
+        }
+    }
+    
+    public class InvalidAgentIdException : Exception
+    {
+        public InvalidAgentIdException()
+        {
+        }
+
+        public InvalidAgentIdException(string message) : base(message)
+        {
+        }
+
+        public InvalidAgentIdException(string message, Exception inner) : base(message, inner)
+        {
         }
     }
 }

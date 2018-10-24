@@ -6,7 +6,15 @@ using System.Threading.Tasks;
 
 namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
 {
-    class HumanAgent
+    class HumanAgent : AbstractAgent
     {
+        public HumanAgent(IVertex position) : base(position)
+        {
+        }
+
+        public override IAction PerformStep()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

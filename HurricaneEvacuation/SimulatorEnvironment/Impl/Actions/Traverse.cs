@@ -8,6 +8,9 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Actions
 {
     class Traverse : IAction
     {
-
+        public int Cost(IAgent a, IEdge e)
+        {
+            return e.Weight * (1 + a.Passengers);
+        }
     }
 }

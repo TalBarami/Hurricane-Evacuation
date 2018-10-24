@@ -11,38 +11,51 @@ namespace HurricaneEvacuation.Utils
 {
     class GraphParser
     {
-        public IGraph CreateGraphFromFile(string path)
+        private const string VERTEX = "#V";
+        private const string EDGE = "#E";
+        private const string DEADLINE = "#D";
+        private const char PICKUP = 'P';
+        private const char SHELTER = 'S';
+        private const char WHITESPACE = ' ';
+        private const char COMMENT = ';';
+        private const char NEWLINE = '\n';
+
+
+        public (IGraph, string) CreateGraphFromFile(string path)
         {
-            return CreateGraphFromStringList(File.ReadAllLines(path).ToList());
+            return CreateGraphFromString(File.ReadAllText(path));
         }
 
-        public IGraph CreateGraphFromString(string s)
+        public (IGraph, string) CreateGraphFromString(string s)
         {
-            return CreateGraphFromStringList(s.Split('\n').ToList());
+            return (CreateGraphFromStringList(s.Split(NEWLINE).ToList()), s);
         }
 
         public IGraph CreateGraphFromStringList(List<string> data)
         {
-            var cleanData = data.Select(line => line.Split(';')[0]).ToList();
+            var cleanData = data.Select(line => line.Split(COMMENT)[0]).ToList();
 
-            var vertices = InitializeVertices(cleanData.FindAll(line => line.StartsWith("#V")), cleanData.FindAll(line => line.StartsWith("#E")));
-            var deadline = int.Parse(cleanData.Find(line => line.StartsWith("#D")).Split(' ')[1]);
+            var vertices = InitializeVertices(
+                cleanData.FindAll(line => line.StartsWith(VERTEX)),
+                cleanData.FindAll(line => line.StartsWith(EDGE)));
+            var deadline = int.Parse(cleanData.Find(line => line.StartsWith(DEADLINE)).Split(WHITESPACE)[1]);
 
             return new Graph(deadline, vertices);
         }
 
         public IVertex[] InitializeVertices(List<string> verticesData, List<string> edgesData)
         {
-            var sizeLine = verticesData.Find(line => !line.Contains("P") && !line.Contains("S"));
-            var size = int.Parse(sizeLine.Split(' ')[1]);
+            var sizeLine = verticesData.Find(line => !line.Contains(PICKUP) && !line.Contains(SHELTER));
+            verticesData.Remove(sizeLine);
+            var size = int.Parse(sizeLine.Split(WHITESPACE)[1]);
             var vertices = new IVertex[size];
 
             for (var i = 0; i < vertices.Length; i++)
             {
-                var vertexLine = verticesData.FirstOrDefault(line => int.Parse(line.Split(' ')[1]) == i);
+                var vertexLine = verticesData.FirstOrDefault(line => int.Parse(line.Split(WHITESPACE)[1]) == (i+1));
                 if (vertexLine != null)
                 {
-                    var parts = vertexLine.Split(' ');
+                    var parts = vertexLine.Split(WHITESPACE);
                     switch (parts[2])
                     {
                         case "P":
@@ -70,7 +83,7 @@ namespace HurricaneEvacuation.Utils
         {
             data.ForEach(line =>
             {
-                var parts = line.Split(' ');
+                var parts = line.Split(WHITESPACE);
                 var v1 = vertices.First(v => v.Id == int.Parse(parts[1]));
                 var v2 = vertices.First(v => v.Id == int.Parse(parts[2]));
                 var weight = int.Parse(parts[3].Substring(1));
@@ -79,42 +92,6 @@ namespace HurricaneEvacuation.Utils
                 v2.Neighbors.Add(e);
             });
         }
-
-        /*public void ParseLine(string line, ref IVertex[] vertices, ref int deadline)
-        {
-            var parts = line.Split(' ');
-            switch (parts[0])
-            {
-                case "#V":
-                    var vNumber = int.Parse(parts[1]);
-                    switch (parts[2])
-                    {
-                        case "P":
-                            vertices[vNumber] = new EvacuationVertex(vNumber, int.Parse(parts[3]));
-                            break;
-                        case "S":
-                            vertices[vNumber] = new ShelterVertex(vNumber);
-                            break;
-                        default:
-                            vertices = new IVertex[vNumber];
-                            break;
-                    }
-                    break;
-                case "#E":
-                    var v1 = vertices.First(v => v.Id == int.Parse(parts[1]));
-                    var v2 = vertices.First(v => v.Id == int.Parse(parts[2]));
-                    var weight = int.Parse(parts[3]);
-                    var e = new Edge(v1, v2, weight);
-                    v1.Neighbors.Add(e);
-                    v2.Neighbors.Add(e);
-                    break;
-                case "#D":
-                    deadline = int.Parse(parts[1]);
-                    break;
-                default:
-                    throw new ParseException($"Unable to parse line: {line}");
-            }
-        }*/
     }
 
     public class ParseException : Exception

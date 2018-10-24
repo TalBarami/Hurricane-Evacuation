@@ -9,7 +9,16 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
 {
     abstract class AbstractAgent : IAgent
     {
+        public IVertex Position { get; set; }
+        public IVertex Goal { get; set; }
+        public int TicksLeft { get; set; }
         public int Passengers { get; set; }
+
+        protected AbstractAgent(IVertex position)
+        {
+            Position = position;
+        }
+
         public abstract IAction PerformStep();
 
         public void Visit(EvacuationVertex v)

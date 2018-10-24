@@ -10,6 +10,9 @@ namespace HurricaneEvacuation.SimulatorEnvironment
 {
     interface IAgent
     {
+        IVertex Position { get; set; }
+        IVertex Goal { get; set; }
+        int TicksLeft { get; set; }
         int Passengers { get; set; }
         IAction PerformStep();
         void Visit(EvacuationVertex v);
