@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HurricaneEvacuation.SimulatorEnvironment
 {
-    interface IGraph
+    internal interface IGraph
     {
         IList<IVertex> Vertices { get; }
         IList<IEdge> Edges { get; }

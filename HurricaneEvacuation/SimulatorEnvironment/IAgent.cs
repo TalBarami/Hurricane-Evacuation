@@ -8,13 +8,18 @@ using HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents;
 
 namespace HurricaneEvacuation.SimulatorEnvironment
 {
-    interface IAgent
+    internal interface IAgent
     {
+        string Id { get; }
         IVertex Position { get; set; }
         IVertex Goal { get; set; }
         int TicksLeft { get; set; }
         int Passengers { get; set; }
-        IAction PerformStep(IGraph world);
+        int PeopleSaved { get; set; }
+        int ActionsPerformed { get; set; }
+
+
+        void PerformStep(IGraph world);
         void Visit(EvacuationVertex v);
         void Visit(ShelterVertex v);
         void Visit(EmptyVertex v);

@@ -6,11 +6,23 @@ using System.Threading.Tasks;
 
 namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Actions
 {
-    class NoOperation : IAction
+    internal class NoOperation : IAction
     {
-        public int Cost(IAgent a, IEdge e)
+        public IVertex Destination { get; set; }
+
+        public NoOperation(IVertex destination)
+        {
+            Destination = destination;
+        }
+
+        public double Cost()
         {
             return 1;
+        }
+
+        public override string ToString()
+        {
+            return "do nothing";
         }
     }
 }

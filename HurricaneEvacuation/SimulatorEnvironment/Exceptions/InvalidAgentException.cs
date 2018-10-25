@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HurricaneEvacuation.SimulatorEnvironment.Exceptions
 {
-    class InvalidAgentIdException : Exception
+    internal class InvalidAgentIdException : Exception
     {
         public InvalidAgentIdException()
         {

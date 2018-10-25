@@ -6,11 +6,29 @@ using System.Threading.Tasks;
 
 namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Actions
 {
-    class Traverse : IAction
+    internal class Traverse : IAction
     {
-        public int Cost(IAgent a, IEdge e)
+        private const double K = 0.15;
+
+        private readonly IAgent agent;
+        private readonly IEdge edge;
+        public Traverse(IVertex destination, IAgent agent, IEdge edge)
         {
-            return e.Weight * (1 + a.Passengers);
+            Destination = destination;
+            this.agent = agent;
+            this.edge = edge;
+        }
+
+        public IVertex Destination { get; set; }
+
+        public double Cost()
+        {
+            return edge.Weight * (1 + agent.Passengers * K);
+        }
+
+        public override string ToString()
+        {
+            return $"move from {agent.Position} to {Destination}";
         }
     }
 }

@@ -1,6 +1,8 @@
-﻿namespace HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents
+﻿using System;
+
+namespace HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents
 {
-    class Edge : IEdge
+    internal class Edge : IEdge
     {
         public IVertex V1 { get; }
         public IVertex V2 { get; }
@@ -14,9 +16,34 @@
             Weight = weight;
         }
 
-        public bool ConnectedTo(IVertex v)
+        public bool Contains(IVertex v1)
         {
-            return V1.Equals(v) || V2.Equals(v);
+            return V1.Equals(v1) || V2.Equals(v1);
+        }
+
+        public bool Contains(IVertex v1, IVertex v2)
+        {
+            return Contains(v1) && Contains(v2);
+        }
+
+        public IVertex OtherV(IVertex v)
+        {
+            return v.Equals(V1) ? V2 : V1;
+        }
+
+        public override string ToString()
+        {
+            return $"({V1.Id},{V2.Id})W{Weight}";
+        }
+
+        public int CompareTo(object obj)
+        {
+            if (obj is IEdge edge)
+            {
+                return Weight.CompareTo(edge.Weight);
+            }
+
+            throw new Exception("Invalid object type");
         }
     }
 }

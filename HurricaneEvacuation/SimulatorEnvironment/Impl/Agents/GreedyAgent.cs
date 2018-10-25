@@ -7,23 +7,17 @@ using HurricaneEvacuation.SimulatorEnvironment.Impl.Actions;
 
 namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
 {
-    class GreedyAgent : AbstractAgent
+    internal class GreedyAgent : AbstractAgent
     {
-        public GreedyAgent(IVertex position) : base(position)
+        public GreedyAgent(int id, IVertex position) : base(position)
         {
+            Id = $"GreedyAgent{id}";
         }
 
-        public override IAction PerformStep(IGraph world)
+        public override IAction PlayNext(IGraph world)
         {
-            if (Passengers > 0)
-            {
-                // Search for shelter
-            }
-            else
-            {
-                // Search for people
-            }
-            return new NoOperation();
+            // If carry - find shelter. Else, or if can't reach shelter - find people, Else or if can't reach people, nop.
+            return null;
         }
     }
 }

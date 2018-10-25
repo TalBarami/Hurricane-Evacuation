@@ -60,13 +60,17 @@
     <Compile Include="SimulatorEnvironment\Impl\GraphComponents\EmptyVertex.cs" />
     <Compile Include="SimulatorEnvironment\Impl\GraphComponents\EvacuationVertex.cs" />
     <Compile Include="SimulatorEnvironment\Impl\GraphComponents\Graph.cs" />
+    <Compile Include="SimulatorEnvironment\Impl\GraphComponents\Path.cs" />
     <Compile Include="SimulatorEnvironment\Impl\GraphComponents\ShelterVertex.cs" />
     <Compile Include="SimulatorEnvironment\IAction.cs" />
+    <Compile Include="SimulatorEnvironment\IPath.cs" />
     <Compile Include="SimulatorEnvironment\IVertex.cs" />
-    <Compile Include="Utils\GraphParser.cs" />
+    <Compile Include="SimulatorEnvironment\Impl\GraphComponents\GraphParser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimulatorEnvironment\Impl\GraphComponents\Edge.cs" />
+    <Compile Include="SimulatorEnvironment\Utils\GraphAlgorithms.cs" />
+    <Compile Include="SimulatorEnvironment\Utils\ListUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

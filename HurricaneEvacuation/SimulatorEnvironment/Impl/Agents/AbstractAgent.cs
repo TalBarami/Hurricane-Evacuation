@@ -7,28 +7,59 @@ using HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents;
 
 namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
 {
-    abstract class AbstractAgent : IAgent
+    internal abstract class AbstractAgent : IAgent
     {
+        public string Id { get; protected set; }
         public IVertex Position { get; set; }
         public IVertex Goal { get; set; }
         public int TicksLeft { get; set; }
         public int Passengers { get; set; }
+        public int PeopleSaved { get; set; }
+        public int ActionsPerformed { get; set; }
 
         protected AbstractAgent(IVertex position)
         {
-            Position = position;
+            Position = Goal = position;
         }
 
-        public abstract IAction PerformStep(IGraph world);
+        public void PerformStep(IGraph world)
+        {
+            if (TicksLeft == 0)
+            {
+                Reach();
+                var action = PlayNext(world);
+                ActionsPerformed++;
+                Goal = action.Destination;
+                TicksLeft = (int) Math.Round(action.Cost());
+                Console.WriteLine($"{Id} decided to {action}.");
+            }
+            else
+            {
+                Console.WriteLine($"{Id} is on his way from {Position} to {Goal}. {TicksLeft} ticks left.");
+                TicksLeft--;
+            }
+        }
+
+        private void Reach()
+        {
+            Console.WriteLine($"{Id} has reached {Goal}.");
+            Position = Goal;
+            Position.Accept(this);
+        }
+
+        public abstract IAction PlayNext(IGraph world);
 
         public void Visit(EvacuationVertex v)
         {
             Passengers += v.PeopleCount;
+            Console.WriteLine($"{Id} picked {v.PeopleCount} passengers and now carries {Passengers} passengers.");
             v.PeopleCount = 0;
         }
 
         public void Visit(ShelterVertex v)
         {
+            PeopleSaved += Passengers;
+            Console.WriteLine($"{Id} dropped {Passengers} passengers in a shelter, saved total of {PeopleSaved} passengers");
             Passengers = 0;
         }
 

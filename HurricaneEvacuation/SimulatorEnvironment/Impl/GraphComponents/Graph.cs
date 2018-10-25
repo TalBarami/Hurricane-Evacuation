@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using HurricaneEvacuation.SimulatorEnvironment.Utils;
 
 namespace HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents
 {
-    class Graph : IGraph
+    internal class Graph : IGraph
     {
         public IList<IVertex> Vertices { get; }
         public IList<IEdge> Edges { get; }
@@ -11,6 +14,15 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents
         {
             Vertices = vertices;
             Edges = edges;
+        }
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+            sb.Append("\tVertices: ").Append(Vertices.ListToString())
+                .Append("\n")
+                .Append("\tEdges: ").Append(Edges.ListToString());
+            return sb.ToString();
         }
     }
 }

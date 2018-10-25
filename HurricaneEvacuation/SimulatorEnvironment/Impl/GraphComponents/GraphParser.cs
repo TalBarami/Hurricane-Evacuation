@@ -1,36 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.Xml;
-using HurricaneEvacuation.SimulatorEnvironment;
 using HurricaneEvacuation.SimulatorEnvironment.Exceptions;
-using HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents;
 
-namespace HurricaneEvacuation.Utils
+namespace HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents
 {
-    class GraphParser
+    internal class GraphParser
     {
         private const string VERTEX = "#V";
         private const string EDGE = "#E";
         private const string DEADLINE = "#D";
-        private const char PICKUP = 'P';
-        private const char SHELTER = 'S';
+        private const string PICKUP = "P";
+        private const string SHELTER = "S";
         private const char WHITESPACE = ' ';
         private const char COMMENT = ';';
         private const char NEWLINE = '\n';
 
-
-        public (IGraph, int, string) CreateGraphFromFile(string path)
-        {
-            return CreateGraphFromString(File.ReadAllText(path));
-        }
-
-        public (IGraph, int, string) CreateGraphFromString(string s)
+        public (IGraph, int) CreateGraphFromString(string s)
         {
             var (graph, deadline) = CreateGraphFromStringList(s.Split(NEWLINE).ToList());
-            return (graph, deadline, s);
+            return (graph, deadline);
         }
 
         public (IGraph, int) CreateGraphFromStringList(List<string> data)
@@ -60,10 +49,10 @@ namespace HurricaneEvacuation.Utils
                     var parts = vertexLine.Split(WHITESPACE);
                     switch (parts[2])
                     {
-                        case "P":
+                        case PICKUP:
                             vertices[i] = new EvacuationVertex(i+1, int.Parse(parts[3]));
                             break;
-                        case "S":
+                        case SHELTER:
                             vertices[i] = new ShelterVertex(i+1);
                             break;
                         default:

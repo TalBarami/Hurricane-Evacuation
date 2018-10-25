@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 using HurricaneEvacuation.SimulatorEnvironment;
 using HurricaneEvacuation.SimulatorEnvironment.Exceptions;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.Agents;
-using HurricaneEvacuation.Utils;
+using HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents;
 
 namespace HurricaneEvacuation
 {
-    class Simulator
+    internal class Simulator
     {
         private IGraph World { get; set; }
         private IList<IAgent> Agents { get; set; }
@@ -29,21 +29,25 @@ namespace HurricaneEvacuation
 
         public void Start()
         {
-            var i = 0;
             while (Time < Deadline)
             {
-                var action = Agents[i].PerformStep(World);
-
-
-
-                i++;
+                Console.WriteLine($"\nStarting new round, time to world's end: {Time}/{Deadline}");
+                foreach (var agent in Agents)
+                {
+                    agent.PerformStep(World);
+                    System.Threading.Thread.Sleep(1000);
+                }
+                System.Threading.Thread.Sleep(1000);
+                Time++;
             }
+
+            Console.WriteLine("ALL YOUR BASE ARE BELONG TO US.");
         }
 
         public void CreateGraph(string text)
         {
             var parser = new GraphParser();
-            var (graph, deadline, src) = parser.CreateGraphFromString(text);
+            var (graph, deadline) = parser.CreateGraphFromString(text);
             Deadline = deadline;
             World = graph;
             Time = 0;
@@ -57,35 +61,35 @@ namespace HurricaneEvacuation
                 Console.WriteLine("Bye...");
                 return;
             }
-            Console.WriteLine("Please specify: <agentId>;<vertexId>");
+            Console.WriteLine("Please specify: <agentType>;<vertexId>");
             var agents = new List<IAgent>();
-            for (var i = 0; i < numOfAgents;)
+            for (var agentId = 0; agentId < numOfAgents;)
             {
                 var parts = Console.ReadLine()?.Split(';');
                 if (parts == null || parts.Length < 2 ||
-                    !int.TryParse(parts[0], out var agentId) || !int.TryParse(parts[1], out var vertexId) ||
-                    !BuildAgent(agentId, World.Vertices.First(v => v.Id == vertexId), out var agent))
+                    !int.TryParse(parts[0], out var agentType) || !int.TryParse(parts[1], out var vertexId) ||
+                    !BuildAgent(agentId, agentType, World.Vertices.First(v => v.Id == vertexId), out var agent))
                 {
                     Console.WriteLine("Wrong parameters.");
                     continue;
                 }
 
                 agents.Add(agent);
-                i++;
+                agentId++;
             }
 
             Agents = agents;
         }
 
-        private static bool BuildAgent(int agentId, IVertex v, out IAgent agent)
+        private static bool BuildAgent(int agentId, int agentType, IVertex v, out IAgent agent)
         {
-            switch (agentId)
+            switch (agentType)
             {
                 case 1:
-                    agent = new HumanAgent(v);
+                    agent = new HumanAgent(agentId, v);
                     break;
                 case 2:
-                    agent = new GreedyAgent(v);
+                    agent = new GreedyAgent(agentId, v);
                     break;
                 case 3:
                 {
@@ -95,11 +99,11 @@ namespace HurricaneEvacuation
                         agent = null;
                         return false;
                     }
-                    agent = new VandalAgent(v, initialDelay);
+                    agent = new VandalAgent(agentId, v, initialDelay);
                     break;
                 }
                 default:
-                    throw new InvalidAgentIdException($"Unidentified Id: {agentId}");
+                    throw new InvalidAgentIdException($"Unidentified Id: {agentType}");
             }
 
             return true;

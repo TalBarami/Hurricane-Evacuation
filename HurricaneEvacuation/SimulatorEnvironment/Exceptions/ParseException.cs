@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HurricaneEvacuation.SimulatorEnvironment.Exceptions
 {
-    class ParseException : Exception
+    internal class ParseException : Exception
     {
 
         public ParseException()

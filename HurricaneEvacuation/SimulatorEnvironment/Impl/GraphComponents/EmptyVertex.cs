@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents
 {
-    class EmptyVertex : AbstractVertex
+    internal class EmptyVertex : AbstractVertex
     {
         public EmptyVertex(int id) : base(id)
         {

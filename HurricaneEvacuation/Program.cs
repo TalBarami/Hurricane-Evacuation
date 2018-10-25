@@ -7,13 +7,14 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.Agents;
-using HurricaneEvacuation.Utils;
+using HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents;
+using HurricaneEvacuation.SimulatorEnvironment.Utils;
 
 namespace HurricaneEvacuation
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             var s = "#V 4    ; number of vertices n in graph (from 1 to n)\n" +
                        "#E 1 2 W1                 ; Edge from vertex 1 to vertex 2, weight 1\n" +
@@ -24,11 +25,24 @@ namespace HurricaneEvacuation
                        "#V 2 P 1                  ; Vertex 2 initially contains 1 person to be rescued\n" +
                        "#V 1 S                    ; Vertex 1 contains a hurricane shelter (a \"goal vertex\" - there may be more than one)\n" +
                        "#V 4 P 2                  ; Vertex 4 initially contains 2 persons to be rescued\n" +
-                       "#D 10                     ; Deadline is at time 10";
+                       "#D 20                     ; Deadline is at time 10";
 
-            Simulator sim = new Simulator();
+            /*Simulator sim = new Simulator();
             sim.Initialize(s);
-            sim.Start();
+            sim.Start();*/
+
+            GraphParser gp = new GraphParser();
+            var (g, d) = gp.CreateGraphFromString(s);
+
+            var result = GraphAlgorithms.Dijkstra(g, g.Vertices.First(v => v.Id == 1));
+
+            Console.WriteLine($"Graph:\n{g}\n");
+            foreach (var path in result)
+            {
+                Console.WriteLine(path.ToString());
+            }
+
+            Console.ReadLine();
         }
     }
 }

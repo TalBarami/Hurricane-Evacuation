@@ -1,6 +1,6 @@
 ﻿namespace HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents
 {
-    class EvacuationVertex : AbstractVertex
+    internal class EvacuationVertex : AbstractVertex
     {
         public int PeopleCount { get; set; }
 
@@ -12,6 +12,11 @@
         public override void Accept(IAgent agent)
         {
             agent.Visit(this);
+        }
+
+        public override string ToString()
+        {
+            return $"{base.ToString()}P{PeopleCount}";
         }
     }
 }

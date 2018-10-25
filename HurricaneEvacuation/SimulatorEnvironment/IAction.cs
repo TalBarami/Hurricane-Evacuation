@@ -1,7 +1,8 @@
 ﻿namespace HurricaneEvacuation.SimulatorEnvironment
 {
-    interface IAction
+    internal interface IAction
     {
-        int Cost(IAgent a, IEdge e);
+        IVertex Destination { get; set; }
+        double Cost();
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents
 {
-    class ShelterVertex : AbstractVertex
+    internal class ShelterVertex : AbstractVertex
     {
         public ShelterVertex(int id) : base(id)
         {
@@ -9,6 +9,11 @@
         public override void Accept(IAgent agent)
         {
             agent.Visit(this);
+        }
+
+        public override string ToString()
+        {
+            return $"{base.ToString()}S";
         }
     }
 }

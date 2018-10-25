@@ -7,23 +7,34 @@ using HurricaneEvacuation.SimulatorEnvironment.Impl.Actions;
 
 namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
 {
-    class VandalAgent : AbstractAgent
+    internal class VandalAgent : AbstractAgent
     {
         private int InitialDelay { get; set; }
-        public VandalAgent(IVertex position, int initialDelay) : base(position)
+        public VandalAgent(int id, IVertex position, int initialDelay) : base(position)
         {
+            Id = $"VandalAgent{id}";
             InitialDelay = initialDelay;
         }
 
-        public override IAction PerformStep(IGraph world)
+        public override IAction PlayNext(IGraph world)
         {
             if (InitialDelay > 0)
             {
+                Console.WriteLine($"{Id} will start causing troubles in {InitialDelay}");
                 InitialDelay--;
-                return new NoOperation();
+                return new NoOperation(Position);
             }
 
-            return new Traverse();
+            Console.WriteLine($"{Id} is on the loose!");
+            var edges = Position.ValidEdges();
+            var minimal = edges.Aggregate(edges[0], (minEdge, newEdge) =>
+                (newEdge.CompareTo(minEdge) < 0) ||
+                (newEdge.CompareTo(minEdge) == 0 && newEdge.OtherV(Position).CompareTo(minEdge.OtherV(Position)) < 0)
+                    ? newEdge
+                    : minEdge);
+            minimal.Blocked = true;
+
+            return new Traverse(minimal.OtherV(Position), this, minimal);
         }
     }
 }
