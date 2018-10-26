@@ -24,9 +24,13 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
                 InitialDelay--;
                 return new NoOperation(Position);
             }
+            var edges = Position.ValidEdges();
+            if (edges.Count == 0)
+            {
+                return new NoOperation(Position);
+            }
 
             Console.WriteLine($"{Id} is on the loose!");
-            var edges = Position.ValidEdges();
             var minimal = edges.Aggregate(edges[0], (minEdge, newEdge) =>
                 (newEdge.CompareTo(minEdge) < 0) ||
                 (newEdge.CompareTo(minEdge) == 0 && newEdge.OtherV(Position).CompareTo(minEdge.OtherV(Position)) < 0)

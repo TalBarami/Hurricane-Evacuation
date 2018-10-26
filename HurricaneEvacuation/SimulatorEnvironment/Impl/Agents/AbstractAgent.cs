@@ -30,7 +30,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
                 var action = PlayNext(world);
                 ActionsPerformed++;
                 Goal = action.Destination;
-                TicksLeft = (int) Math.Round(action.Cost());
+                TicksLeft = (int) Math.Round(action.Cost()) - 1;
                 Console.WriteLine($"{Id} decided to {action}.");
             }
             else
@@ -51,6 +51,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
 
         public void Visit(EvacuationVertex v)
         {
+            if (v.PeopleCount <= 0) return;
             Passengers += v.PeopleCount;
             Console.WriteLine($"{Id} picked {v.PeopleCount} passengers and now carries {Passengers} passengers.");
             v.PeopleCount = 0;
@@ -58,6 +59,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
 
         public void Visit(ShelterVertex v)
         {
+            if (Passengers <= 0) return;
             PeopleSaved += Passengers;
             Console.WriteLine($"{Id} dropped {Passengers} passengers in a shelter, saved total of {PeopleSaved} passengers");
             Passengers = 0;
