@@ -12,14 +12,12 @@ namespace HurricaneEvacuation.SimulatorEnvironment
     {
         string Id { get; }
         IVertex Position { get; set; }
-        IVertex Goal { get; set; }
-        int TicksLeft { get; set; }
         int Passengers { get; set; }
         int PeopleSaved { get; set; }
         int ActionsPerformed { get; set; }
 
 
-        void PerformStep(IGraph world);
+        IAction PerformStep();
         void Visit(EvacuationVertex v);
         void Visit(ShelterVertex v);
         void Visit(EmptyVertex v);

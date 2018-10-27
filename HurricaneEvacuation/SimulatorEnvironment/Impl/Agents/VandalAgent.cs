@@ -16,7 +16,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
             InitialDelay = initialDelay;
         }
 
-        public override IAction PlayNext(IGraph world)
+        public override IAction PlayNext()
         {
             if (InitialDelay > 0)
             {
@@ -37,6 +37,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
                     ? newEdge
                     : minEdge);
             minimal.Blocked = true;
+            Console.WriteLine($"{Id} blocked the path: {minimal}");
 
             return new Traverse(minimal.OtherV(Position), this, minimal);
         }

@@ -33,7 +33,8 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents
 
         public override string ToString()
         {
-            return $"({V1.Id},{V2.Id})W{Weight}";
+            var blockedStatus = Blocked ? "B" : "";
+            return $"({V1.Id},{V2.Id})W{Weight}{blockedStatus}";
         }
 
         public int CompareTo(object obj)

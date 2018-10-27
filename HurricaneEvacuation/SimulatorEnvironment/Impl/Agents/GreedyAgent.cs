@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.Actions;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents;
+using HurricaneEvacuation.SimulatorEnvironment.Impl.Settings;
 using HurricaneEvacuation.SimulatorEnvironment.Utils;
 
 namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
@@ -17,12 +18,12 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
             Id = $"GreedyAgent{id}";
         }
 
-        public override IAction PlayNext(IGraph world)
+        public override IAction PlayNext()
         {
-            // If carry - find shelter. Else, or if can't reach shelter - find people, Else or if can't reach people, nop.
-            var paths = GraphAlgorithms.Dijkstra(world, Position);
+            var world = SettingsSingleton.Instance;
+            var paths = GraphAlgorithms.Dijkstra(world.Graph, Position);
 
-            IPath selectedPath = Passengers > 0 ? FindShelter(paths) : FindPeople(paths);
+            var selectedPath = Passengers > 0 ? FindShelter(paths) : FindPeople(paths);
 
             if (selectedPath.Next == null)
             {

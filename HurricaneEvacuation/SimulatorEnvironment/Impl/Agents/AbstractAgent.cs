@@ -11,20 +11,27 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
     {
         public string Id { get; protected set; }
         public IVertex Position { get; set; }
-        public IVertex Goal { get; set; }
-        public int TicksLeft { get; set; }
         public int Passengers { get; set; }
         public int PeopleSaved { get; set; }
         public int ActionsPerformed { get; set; }
 
         protected AbstractAgent(IVertex position)
         {
-            Position = Goal = position;
+            Position = position;
+            Position.Accept(this);
         }
 
-        public void PerformStep(IGraph world)
+        public IAction PerformStep()
         {
-            if (TicksLeft == 0)
+            Console.WriteLine($"{Id} is playing from vertex {Position}.");
+            var action = PlayNext();
+            Console.WriteLine($"{Id} decided to {action}.");
+            ActionsPerformed++;
+            Position = action.Destination;
+            Position.Accept(this);
+
+            return action;
+            /*if (TicksLeft == 0)
             {
                 Reach();
                 var action = PlayNext(world);
@@ -37,17 +44,10 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
             {
                 Console.WriteLine($"{Id} is on his way from {Position} to {Goal}. {TicksLeft} ticks left.");
                 TicksLeft--;
-            }
+            }*/
         }
 
-        private void Reach()
-        {
-            Console.WriteLine($"{Id} has reached {Goal}.");
-            Position = Goal;
-            Position.Accept(this);
-        }
-
-        public abstract IAction PlayNext(IGraph world);
+        public abstract IAction PlayNext();
 
         public void Visit(EvacuationVertex v)
         {

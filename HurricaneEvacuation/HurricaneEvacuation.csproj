@@ -63,7 +63,12 @@
     <Compile Include="SimulatorEnvironment\Impl\GraphComponents\Path.cs" />
     <Compile Include="SimulatorEnvironment\Impl\GraphComponents\ShelterVertex.cs" />
     <Compile Include="SimulatorEnvironment\IAction.cs" />
+    <Compile Include="SimulatorEnvironment\Impl\Settings\AbstractSettings.cs" />
+    <Compile Include="SimulatorEnvironment\Impl\Settings\CodeSettings.cs" />
+    <Compile Include="SimulatorEnvironment\Impl\Settings\ConsoleSettings.cs" />
+    <Compile Include="SimulatorEnvironment\Impl\Settings\SettingsSingleton.cs" />
     <Compile Include="SimulatorEnvironment\IPath.cs" />
+    <Compile Include="SimulatorEnvironment\ISettings.cs" />
     <Compile Include="SimulatorEnvironment\IVertex.cs" />
     <Compile Include="SimulatorEnvironment\Impl\GraphComponents\GraphParser.cs" />
     <Compile Include="Program.cs" />

@@ -5,108 +5,58 @@ using System.Text;
 using System.Threading.Tasks;
 using HurricaneEvacuation.SimulatorEnvironment;
 using HurricaneEvacuation.SimulatorEnvironment.Exceptions;
+using HurricaneEvacuation.SimulatorEnvironment.Impl;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.Agents;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents;
+using HurricaneEvacuation.SimulatorEnvironment.Impl.Settings;
 
 namespace HurricaneEvacuation
 {
     internal class Simulator
     {
-        private IGraph World { get; set; }
-        private IList<IAgent> Agents { get; set; }
-        private int Deadline { get; set; }
-        private int Time { get; set; }
+        private IGraph world { get; set; }
+        private IList<IAgent> agents { get; set; }
+        private int deadline { get; set; }
+        private double time { get; set; }
 
         public Simulator()
         {
+            Initialize();
         }
 
-        public void Initialize(string text)
+        private void Initialize()
         {
-            CreateGraph(text);
-            CreateAgents();
+            var settings = SettingsSingleton.Instance;
+            world = settings.Graph;
+            agents = settings.Agents;
+            deadline = settings.Deadline;
+            time = 0;
         }
 
         public void Start()
         {
-            while (Time < Deadline)
+            var i = 0;
+            while (time < deadline)
             {
-                Console.WriteLine($"\nStarting new round, time to world's end: {Time}/{Deadline}");
-                foreach (var agent in Agents)
+                /*Console.WriteLine($"\nStarting new round, time to world's end: {time}/{deadline}");
+                foreach (var agent in agents)
                 {
-                    agent.PerformStep(World);
+                    agent.PerformStep(world);
                     System.Threading.Thread.Sleep(1000);
                 }
                 System.Threading.Thread.Sleep(1000);
-                Time++;
+                time++;*/
+
+                var currentAgent = agents[i];
+                Console.WriteLine($"Time to world's end: {time}/{deadline}.\nWorld state:\n{world}");
+                var action = currentAgent.PerformStep();
+                time += action.Cost;
+                i = (i + 1) % agents.Count;
+                System.Threading.Thread.Sleep(2000);
+                Console.WriteLine();
             }
 
-            Console.WriteLine("ALL YOUR BASE ARE BELONG TO US.");
-        }
-
-        public void CreateGraph(string text)
-        {
-            var parser = new GraphParser();
-            var (graph, deadline) = parser.CreateGraphFromString(text);
-            Deadline = deadline;
-            World = graph;
-            Time = 0;
-        }
-
-        public void CreateAgents()
-        {
-            Console.WriteLine("Please specify: <numOfAgents>");
-            if (!int.TryParse(Console.ReadLine(), out var numOfAgents))
-            {
-                Console.WriteLine("Bye...");
-                return;
-            }
-            Console.WriteLine("Please specify: <agentType>;<vertexId>");
-            var agents = new List<IAgent>();
-            for (var agentId = 0; agentId < numOfAgents;)
-            {
-                var parts = Console.ReadLine()?.Split(';');
-                if (parts == null || parts.Length < 2 ||
-                    !int.TryParse(parts[0], out var agentType) || !int.TryParse(parts[1], out var vertexId) ||
-                    !BuildAgent(agentId, agentType, World.Vertices.First(v => v.Id == vertexId), out var agent))
-                {
-                    Console.WriteLine("Wrong parameters.");
-                    continue;
-                }
-
-                agents.Add(agent);
-                agentId++;
-            }
-
-            Agents = agents;
-        }
-
-        private static bool BuildAgent(int agentId, int agentType, IVertex v, out IAgent agent)
-        {
-            switch (agentType)
-            {
-                case 1:
-                    agent = new HumanAgent(agentId, v);
-                    break;
-                case 2:
-                    agent = new GreedyAgent(agentId, v);
-                    break;
-                case 3:
-                {
-                    Console.WriteLine("Please specify <initialDelay> for the Vandal Agent.");
-                    if (!int.TryParse(Console.ReadLine(), out var initialDelay))
-                    {
-                        agent = null;
-                        return false;
-                    }
-                    agent = new VandalAgent(agentId, v, initialDelay);
-                    break;
-                }
-                default:
-                    throw new InvalidAgentIdException($"Unidentified Id: {agentType}");
-            }
-
-            return true;
+            Console.WriteLine("\nALL YOUR BASE ARE BELONG TO US.");
         }
     }
 }

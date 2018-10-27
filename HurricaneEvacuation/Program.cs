@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.Agents;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents;
+using HurricaneEvacuation.SimulatorEnvironment.Impl.Settings;
 using HurricaneEvacuation.SimulatorEnvironment.Utils;
 
 namespace HurricaneEvacuation
@@ -28,23 +29,18 @@ namespace HurricaneEvacuation
                     "#V 4 P 2                  ; Vertex 4 initially contains 2 persons to be rescued\n" +
                     "#V 5 S\n" +
                     "#D 20                     ; Deadline is at time 10";
+            var (graph, deadline) = new GraphParser().CreateGraphFromString(s);
+            IList<IAgent> agents = new List<IAgent>()
+            {
+                new GreedyAgent(1, graph.Vertices[0]),
+                new VandalAgent(2, graph.Vertices[3], 0)
+            };
 
+            var settings = new CodeSettings(graph, agents, deadline, 0.15);
+            SettingsSingleton.Instance = settings;
             var sim = new Simulator();
-            sim.Initialize(s);
             sim.Start();
             Console.ReadLine();
-            /*GraphParser gp = new GraphParser();
-            var (g, d) = gp.CreateGraphFromString(s);
-
-            var result = GraphAlgorithms.Dijkstra(g, g.Vertices.First(v => v.Id == 1));
-
-            Console.WriteLine($"Graph:\n{g}\n");
-            foreach (var path in result)
-            {
-                Console.WriteLine(path.ToString());
-            }
-
-            Console.ReadLine();*/
         }
     }
 }

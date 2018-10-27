@@ -15,10 +15,9 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
             Id = $"HumanAgent{id}";
         }
 
-        public override IAction PlayNext(IGraph world)
+        public override IAction PlayNext()
         {
             Console.WriteLine($"{Id}, your current position is: {Position}");
-            Console.WriteLine($"World State is:\n{world}");
             var validEdges = Position.ValidEdges();
             var validNeighbors = validEdges.Select(e => e.OtherV(Position)).ToList();
             Console.WriteLine($"You can stay at {Position.Id} or move to: {validNeighbors.ListToString()}");

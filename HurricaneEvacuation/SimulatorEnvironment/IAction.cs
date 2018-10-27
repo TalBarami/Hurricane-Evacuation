@@ -3,6 +3,6 @@
     internal interface IAction
     {
         IVertex Destination { get; set; }
-        double Cost();
+        double Cost { get; }
     }
 }

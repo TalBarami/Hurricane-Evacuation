@@ -15,10 +15,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Actions
             Destination = destination;
         }
 
-        public double Cost()
-        {
-            return 1;
-        }
+        public double Cost => 1;
 
         public override string ToString()
         {
