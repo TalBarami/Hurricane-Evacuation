@@ -13,9 +13,8 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
 {
     internal class GreedyAgent : AbstractAgent
     {
-        public GreedyAgent(int id, IVertex position) : base(position)
+        public GreedyAgent(int id, IVertex position) : base(id, position)
         {
-            Id = $"GreedyAgent{id}";
         }
 
         public override IAction PlayNext()
@@ -37,7 +36,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
             }
 
             var dst = nestedPath.Source;
-            return new Traverse(dst, this, dst.ValidEdges().First(e => e.OtherV(dst) == Position));
+            return new Traverse(this, dst.ValidEdges().First(e => e.OtherV(dst) == Position));
         }
 
         private IPath FindShelter(IList<IPath> paths)

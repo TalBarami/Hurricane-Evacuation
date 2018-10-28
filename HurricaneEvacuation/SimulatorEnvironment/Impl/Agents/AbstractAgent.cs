@@ -15,8 +15,9 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
         public int PeopleSaved { get; set; }
         public int ActionsPerformed { get; set; }
 
-        protected AbstractAgent(IVertex position)
+        protected AbstractAgent(int id, IVertex position)
         {
+            Id = $"{GetType().Name}{id}";
             Position = position;
             Position.Accept(this);
         }
@@ -31,20 +32,6 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
             Position.Accept(this);
 
             return action;
-            /*if (TicksLeft == 0)
-            {
-                Reach();
-                var action = PlayNext(world);
-                ActionsPerformed++;
-                Goal = action.Destination;
-                TicksLeft = (int) Math.Round(action.Cost()) - 1;
-                Console.WriteLine($"{Id} decided to {action}.");
-            }
-            else
-            {
-                Console.WriteLine($"{Id} is on his way from {Position} to {Goal}. {TicksLeft} ticks left.");
-                TicksLeft--;
-            }*/
         }
 
         public abstract IAction PlayNext();

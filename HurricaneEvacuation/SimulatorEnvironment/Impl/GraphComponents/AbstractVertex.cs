@@ -18,6 +18,8 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents
         }
 
         public abstract void Accept(IAgent agent);
+
+        public abstract void Accept(IHeuristicFunction heuristicFunction);
         public IList<IEdge> ValidEdges()
         {
             return Neighbors.Where(e => !e.Blocked).ToList();

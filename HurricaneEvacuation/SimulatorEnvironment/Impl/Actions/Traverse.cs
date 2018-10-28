@@ -9,13 +9,13 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Actions
 {
     internal class Traverse : IAction
     {
-        private readonly IEdge edge;
-        private readonly int currentPassengers;
-        private readonly IVertex currentPosition;
-        public Traverse(IVertex destination, IAgent agent, IEdge edge)
+        protected readonly IEdge edge;
+        protected readonly int currentPassengers;
+        protected readonly IVertex currentPosition;
+        public Traverse(IAgent agent, IEdge edge)
         {
-            Destination = destination;
             this.edge = edge;
+            Destination = edge.OtherV(agent.Position);
             currentPassengers = agent.Passengers;
             currentPosition = agent.Position;
             

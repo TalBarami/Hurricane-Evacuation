@@ -38,15 +38,6 @@ namespace HurricaneEvacuation
             var i = 0;
             while (time < deadline)
             {
-                /*Console.WriteLine($"\nStarting new round, time to world's end: {time}/{deadline}");
-                foreach (var agent in agents)
-                {
-                    agent.PerformStep(world);
-                    System.Threading.Thread.Sleep(1000);
-                }
-                System.Threading.Thread.Sleep(1000);
-                time++;*/
-
                 var currentAgent = agents[i];
                 Console.WriteLine($"Time to world's end: {time}/{deadline}.\nWorld state:\n{world}");
                 var action = currentAgent.PerformStep();

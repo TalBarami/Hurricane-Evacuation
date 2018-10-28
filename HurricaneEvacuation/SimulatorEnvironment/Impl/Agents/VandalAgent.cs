@@ -10,9 +10,8 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
     internal class VandalAgent : AbstractAgent
     {
         private int InitialDelay { get; set; }
-        public VandalAgent(int id, IVertex position, int initialDelay) : base(position)
+        public VandalAgent(int id, IVertex position, int initialDelay) : base(id, position)
         {
-            Id = $"VandalAgent{id}";
             InitialDelay = initialDelay;
         }
 
@@ -36,10 +35,8 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
                 (newEdge.CompareTo(minEdge) == 0 && newEdge.OtherV(Position).CompareTo(minEdge.OtherV(Position)) < 0)
                     ? newEdge
                     : minEdge);
-            minimal.Blocked = true;
-            Console.WriteLine($"{Id} blocked the path: {minimal}");
 
-            return new Traverse(minimal.OtherV(Position), this, minimal);
+            return new BlockingTraverse(this, minimal);
         }
     }
 }

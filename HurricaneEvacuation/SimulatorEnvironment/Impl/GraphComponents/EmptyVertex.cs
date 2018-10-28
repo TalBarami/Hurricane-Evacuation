@@ -16,5 +16,10 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents
         {
             agent.Visit(this);
         }
+
+        public override void Accept(IHeuristicFunction heuristicFunction)
+        {
+            heuristicFunction.Visit(this);
+        }
     }
 }

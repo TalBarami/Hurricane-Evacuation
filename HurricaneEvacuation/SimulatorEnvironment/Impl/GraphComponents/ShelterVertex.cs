@@ -10,6 +10,10 @@
         {
             agent.Visit(this);
         }
+        public override void Accept(IHeuristicFunction heuristicFunction)
+        {
+            heuristicFunction.Visit(this);
+        }
 
         public override string ToString()
         {

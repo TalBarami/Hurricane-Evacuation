@@ -10,9 +10,8 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
 {
     internal class HumanAgent : AbstractAgent
     {
-        public HumanAgent(int id, IVertex position) : base(position)
+        public HumanAgent(int id, IVertex position) : base(id, position)
         {
-            Id = $"HumanAgent{id}";
         }
 
         public override IAction PlayNext()
@@ -33,7 +32,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
                 return new NoOperation(Position);
             }
 
-            return new Traverse(destinationVertex, this, validEdges.First(e => e.Contains(Position, destinationVertex)));
+            return new Traverse(this, validEdges.First(e => e.Contains(Position, destinationVertex)));
         }
     }
 }
