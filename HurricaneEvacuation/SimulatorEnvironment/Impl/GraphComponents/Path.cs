@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
 namespace HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents
 {
-    class Path : IPath
+    internal class Path : IPath
     {
         public IVertex Source { get; }
         public IPath Next { get; }

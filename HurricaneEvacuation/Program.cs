@@ -1,15 +1,9 @@
-﻿using HurricaneEvacuation.SimulatorEnvironment;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
+using HurricaneEvacuation.SimulatorEnvironment;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.Agents;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.Settings;
-using HurricaneEvacuation.SimulatorEnvironment.Utils;
 
 namespace HurricaneEvacuation
 {
@@ -30,7 +24,7 @@ namespace HurricaneEvacuation
                     "#V 5 S\n" +
                     "#D 20                     ; Deadline is at time 10";
             var (graph, deadline) = new GraphParser().CreateGraphFromString(s);
-            IList<IAgent> agents = new List<IAgent>()
+            IList<IAgent> agents = new List<IAgent>
             {
                 new GreedyAgent(1, graph.Vertices[0]),
                 new VandalAgent(2, graph.Vertices[3], 0)

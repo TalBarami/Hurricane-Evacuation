@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Settings
 {
-    class CodeSettings : AbstractSettings
+    internal class CodeSettings : AbstractSettings
     {
         public CodeSettings(IGraph world, IList<IAgent> agents, int deadline, double slowDown)
         {

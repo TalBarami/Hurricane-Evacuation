@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HurricaneEvacuation.SimulatorEnvironment
+﻿namespace HurricaneEvacuation.SimulatorEnvironment
 {
-    interface IPath
+    internal interface IPath
     {
         IVertex Source { get; }
         IPath Next { get; }

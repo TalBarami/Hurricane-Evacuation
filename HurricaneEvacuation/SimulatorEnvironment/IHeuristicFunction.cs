@@ -2,7 +2,7 @@
 
 namespace HurricaneEvacuation.SimulatorEnvironment
 {
-    interface IHeuristicFunction
+    internal interface IHeuristicFunction
     {
         void Visit(EmptyVertex v);
         void Visit(EvacuationVertex v);

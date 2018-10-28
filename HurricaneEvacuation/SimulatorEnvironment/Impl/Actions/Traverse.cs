@@ -1,25 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HurricaneEvacuation.SimulatorEnvironment.Impl.Settings;
+﻿using HurricaneEvacuation.SimulatorEnvironment.Impl.Settings;
 
 namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Actions
 {
     internal class Traverse : IAction
     {
-        protected readonly IEdge edge;
-        protected readonly int currentPassengers;
-        protected readonly IVertex currentPosition;
+        protected readonly IEdge Edge;
+        protected readonly int CurrentPassengers;
+        protected readonly IVertex CurrentPosition;
         public Traverse(IAgent agent, IEdge edge)
         {
-            this.edge = edge;
+            Edge = edge;
             Destination = edge.OtherV(agent.Position);
-            currentPassengers = agent.Passengers;
-            currentPosition = agent.Position;
+            CurrentPassengers = agent.Passengers;
+            CurrentPosition = agent.Position;
 
-            Cost = edge.Weight * (1 + currentPassengers * SettingsSingleton.Instance.SlowDown);
+            Cost = edge.Weight * (1 + CurrentPassengers * SettingsSingleton.Instance.SlowDown);
         }
 
         public double Cost { get; }
@@ -27,7 +22,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Actions
 
         public override string ToString()
         {
-            return $"move from {currentPosition} to {Destination}";
+            return $"move from {CurrentPosition} to {Destination}";
         }
     }
 }

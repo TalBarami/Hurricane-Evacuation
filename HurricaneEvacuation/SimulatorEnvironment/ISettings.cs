@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace HurricaneEvacuation.SimulatorEnvironment
 {
-    interface ISettings
+    internal interface ISettings
     {
         IGraph Graph { get; }
         IList<IAgent> Agents { get; }

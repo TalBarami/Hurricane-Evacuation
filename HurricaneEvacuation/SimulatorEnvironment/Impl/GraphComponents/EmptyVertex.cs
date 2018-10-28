@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents
+﻿namespace HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents
 {
     internal class EmptyVertex : AbstractVertex
     {

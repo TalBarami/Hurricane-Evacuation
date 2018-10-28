@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
 {
-    class RTAStar : AbstractAiAgent
+    internal class RtaStar : AbstractAiAgent
     {
-        public RTAStar(int id, IVertex position, IHeuristicFunction heuristicFunction) : base(id, position, heuristicFunction)
+        public RtaStar(int id, IVertex position, IHeuristicFunction heuristicFunction) : base(id, position, heuristicFunction)
         {
         }
 

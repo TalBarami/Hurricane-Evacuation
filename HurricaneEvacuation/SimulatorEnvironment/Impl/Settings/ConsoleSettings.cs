@@ -7,7 +7,7 @@ using HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents;
 
 namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Settings
 {
-    class ConsoleSettings : AbstractSettings
+    internal class ConsoleSettings : AbstractSettings
     {
         public ConsoleSettings()
         {

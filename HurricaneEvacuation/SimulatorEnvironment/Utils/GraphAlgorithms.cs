@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents;
 
 namespace HurricaneEvacuation.SimulatorEnvironment.Utils
 {
-    static class GraphAlgorithms
+    internal static class GraphAlgorithms
     {
         public static IList<IPath> Dijkstra(IGraph g, IVertex s)
         {
