@@ -12,9 +12,10 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Actions
         public BlockingTraverse(IAgent agent, IEdge edge) : base(agent, edge)
         {
             edge.Blocked = true;
+            Cost = 1 + base.Cost;
         }
 
-        public new double Cost => 1 + edge.Weight * (1 + currentPassengers * SettingsSingleton.Instance.SlowDown);
+        public new double Cost { get; }
 
         public override string ToString()
         {

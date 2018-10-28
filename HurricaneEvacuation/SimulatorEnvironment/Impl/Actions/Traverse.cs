@@ -18,11 +18,11 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Actions
             Destination = edge.OtherV(agent.Position);
             currentPassengers = agent.Passengers;
             currentPosition = agent.Position;
-            
+
+            Cost = edge.Weight * (1 + currentPassengers * SettingsSingleton.Instance.SlowDown);
         }
 
-        public double Cost => edge.Weight * (1 + currentPassengers * SettingsSingleton.Instance.SlowDown);
-
+        public double Cost { get; }
         public IVertex Destination { get; set; }
 
         public override string ToString()

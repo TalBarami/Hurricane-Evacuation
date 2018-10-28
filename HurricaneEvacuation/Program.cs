@@ -36,7 +36,7 @@ namespace HurricaneEvacuation
                 new VandalAgent(2, graph.Vertices[3], 0)
             };
 
-            var settings = new CodeSettings(graph, agents, deadline, 0.15);
+            var settings = new CodeSettings(graph, agents, deadline, 1);
             SettingsSingleton.Instance = settings;
             var sim = new Simulator();
             sim.Start();

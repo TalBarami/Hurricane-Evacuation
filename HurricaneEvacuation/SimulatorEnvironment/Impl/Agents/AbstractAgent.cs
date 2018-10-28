@@ -26,7 +26,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
         {
             Console.WriteLine($"{Id} is playing from vertex {Position}.");
             var action = PlayNext();
-            Console.WriteLine($"{Id} decided to {action}.");
+            Console.WriteLine($"{Id} decided to {action} at cost {action.Cost}.");
             ActionsPerformed++;
             Position = action.Destination;
             Position.Accept(this);

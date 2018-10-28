@@ -13,10 +13,10 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Actions
         public NoOperation(IVertex destination)
         {
             Destination = destination;
+            Cost = 1;
         }
 
-        public double Cost => 1;
-
+        public double Cost { get; }
         public override string ToString()
         {
             return "do nothing";
