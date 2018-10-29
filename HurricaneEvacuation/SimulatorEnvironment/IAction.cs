@@ -4,5 +4,6 @@
     {
         IVertex Destination { get; set; }
         double Cost { get; }
+        void Approve();
     }
 }

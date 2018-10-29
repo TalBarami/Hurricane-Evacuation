@@ -5,13 +5,13 @@ using HurricaneEvacuation.SimulatorEnvironment.Utils;
 
 namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
 {
-    internal class HumanAgent : AbstractAgent
+    internal class HumanAgent : VehicleAgent
     {
         public HumanAgent(int id, IVertex position) : base(id, position)
         {
         }
 
-        public override IAction PlayNext()
+        protected override IAction PlayNext()
         {
             Console.WriteLine($"{Id}, your current position is: {Position}");
             var validEdges = Position.ValidEdges();

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.Actions;
+using HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents;
 
 namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
 {
@@ -12,7 +14,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
             InitialDelay = initialDelay;
         }
 
-        public override IAction PlayNext()
+        protected override IAction PlayNext()
         {
             if (InitialDelay > 0)
             {
@@ -27,13 +29,26 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
             }
 
             Console.WriteLine($"{Id} is on the loose!");
-            var minimal = edges.Aggregate(edges[0], (minEdge, newEdge) =>
+            var minimal = FindMinimalEdge(edges);
+
+            return new BlockingTraverse(this, minimal);
+        }
+
+        public override void Visit(EvacuationVertex v)
+        {
+        }
+
+        public override void Visit(ShelterVertex v)
+        {
+        }
+
+        private IEdge FindMinimalEdge(IList<IEdge> edges)
+        {
+            return edges.Aggregate(edges[0], (minEdge, newEdge) =>
                 (newEdge.CompareTo(minEdge) < 0) ||
                 (newEdge.CompareTo(minEdge) == 0 && newEdge.OtherV(Position).CompareTo(minEdge.OtherV(Position)) < 0)
                     ? newEdge
                     : minEdge);
-
-            return new BlockingTraverse(this, minimal);
         }
     }
 }

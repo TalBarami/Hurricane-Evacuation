@@ -11,6 +11,10 @@
         }
 
         public double Cost { get; }
+        public void Approve()
+        {
+        }
+
         public override string ToString()
         {
             return "do nothing";

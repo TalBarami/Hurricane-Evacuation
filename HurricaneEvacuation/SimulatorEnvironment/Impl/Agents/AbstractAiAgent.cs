@@ -1,6 +1,6 @@
 ﻿namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
 {
-    internal abstract class AbstractAiAgent : AbstractAgent
+    internal abstract class AbstractAiAgent : VehicleAgent
     {
         protected IHeuristicFunction HeuristicFunction;
 

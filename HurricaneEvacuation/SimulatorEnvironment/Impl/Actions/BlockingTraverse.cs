@@ -4,11 +4,16 @@
     {
         public BlockingTraverse(IAgent agent, IEdge edge) : base(agent, edge)
         {
-            edge.Blocked = true;
             Cost = 1 + base.Cost;
         }
 
-        public new double Cost { get; }
+        public override double Cost { get; }
+
+        public override void Approve()
+        {
+            base.Approve();
+            Edge.Blocked = true;
+        }
 
         public override string ToString()
         {

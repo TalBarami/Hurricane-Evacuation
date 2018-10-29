@@ -1,14 +1,17 @@
-﻿using HurricaneEvacuation.SimulatorEnvironment.Impl.Settings;
+﻿using System;
+using HurricaneEvacuation.SimulatorEnvironment.Impl.Settings;
 
 namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Actions
 {
     internal class Traverse : IAction
     {
+        protected readonly IAgent Agent;
         protected readonly IEdge Edge;
         protected readonly int CurrentPassengers;
         protected readonly IVertex CurrentPosition;
         public Traverse(IAgent agent, IEdge edge)
         {
+            Agent = agent;
             Edge = edge;
             Destination = edge.OtherV(agent.Position);
             CurrentPassengers = agent.Passengers;
@@ -17,7 +20,13 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Actions
             Cost = edge.Weight * (1 + CurrentPassengers * SettingsSingleton.Instance.SlowDown);
         }
 
-        public double Cost { get; }
+        public virtual double Cost { get; }
+        public virtual void Approve()
+        {
+            Console.WriteLine($"{Agent.Id} decided to {this} at cost {Cost}.");
+            Agent.MoveTo(Destination);
+        }
+
         public IVertex Destination { get; set; }
 
         public override string ToString()

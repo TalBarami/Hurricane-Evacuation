@@ -8,13 +8,13 @@ using HurricaneEvacuation.SimulatorEnvironment.Utils;
 
 namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
 {
-    internal class GreedyAgent : AbstractAgent
+    internal class GreedyAgent : VehicleAgent
     {
         public GreedyAgent(int id, IVertex position) : base(id, position)
         {
         }
 
-        public override IAction PlayNext()
+        protected override IAction PlayNext()
         {
             var world = SettingsSingleton.Instance;
             var paths = GraphAlgorithms.Dijkstra(world.Graph, Position);

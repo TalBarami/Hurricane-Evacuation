@@ -35,6 +35,12 @@ namespace HurricaneEvacuation
                 var currentAgent = Agents[i];
                 Console.WriteLine($"Time to world's end: {Time}/{Deadline}.\nWorld state:\n{World}");
                 var action = currentAgent.PerformStep();
+                if (Time + action.Cost > Deadline)
+                {
+                    Console.WriteLine($"There was not enough time for {currentAgent.Id} to finish his action.");
+                    break;
+                }
+                action.Approve();
                 Time += action.Cost;
                 i = (i + 1) % Agents.Count;
                 Thread.Sleep(2000);

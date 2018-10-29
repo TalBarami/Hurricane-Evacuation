@@ -8,7 +8,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
         {
         }
 
-        public override IAction PlayNext()
+        protected override IAction PlayNext()
         {
             throw new NotImplementedException();
         }

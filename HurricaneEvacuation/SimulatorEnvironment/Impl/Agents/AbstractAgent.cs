@@ -1,4 +1,5 @@
 ﻿using System;
+using HurricaneEvacuation.SimulatorEnvironment.Impl.Actions;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents;
 
 namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
@@ -6,10 +7,10 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
     internal abstract class AbstractAgent : IAgent
     {
         public string Id { get; protected set; }
-        public IVertex Position { get; set; }
-        public int Passengers { get; set; }
-        public int PeopleSaved { get; set; }
-        public int ActionsPerformed { get; set; }
+        public IVertex Position { get; protected set; }
+        public int Passengers { get; protected set; }
+        public int PeopleSaved { get; protected set; }
+        public int ActionsPerformed { get; protected set; }
 
         protected AbstractAgent(int id, IVertex position)
         {
@@ -22,34 +23,24 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
         {
             Console.WriteLine($"{Id} is playing from vertex {Position}.");
             var action = PlayNext();
-            Console.WriteLine($"{Id} decided to {action} at cost {action.Cost}.");
-            ActionsPerformed++;
-            Position = action.Destination;
-            Position.Accept(this);
-
             return action;
         }
 
-        public abstract IAction PlayNext();
+        protected abstract IAction PlayNext();
 
-        public void Visit(EvacuationVertex v)
-        {
-            if (v.PeopleCount <= 0) return;
-            Passengers += v.PeopleCount;
-            Console.WriteLine($"{Id} picked {v.PeopleCount} passengers and now carries {Passengers} passengers.");
-            v.PeopleCount = 0;
-        }
+        public abstract void Visit(EvacuationVertex v);
 
-        public void Visit(ShelterVertex v)
-        {
-            if (Passengers <= 0) return;
-            PeopleSaved += Passengers;
-            Console.WriteLine($"{Id} dropped {Passengers} passengers in a shelter, saved total of {PeopleSaved} passengers");
-            Passengers = 0;
-        }
+        public abstract void Visit(ShelterVertex v);
 
         public void Visit(EmptyVertex v)
         {
+        }
+
+        public void MoveTo(IVertex destination)
+        {
+            ActionsPerformed++;
+            Position = destination;
+            Position.Accept(this);
         }
     }
 }
