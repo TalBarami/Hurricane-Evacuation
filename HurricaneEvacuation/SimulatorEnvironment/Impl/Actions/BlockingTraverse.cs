@@ -2,8 +2,10 @@
 {
     internal class BlockingTraverse : Traverse
     {
-        public BlockingTraverse(IAgent agent, IEdge edge) : base(agent, edge)
+        protected IEdge BlockEdge;
+        public BlockingTraverse(IAgent agent, IEdge destination, IEdge blockEdge) : base(agent, destination)
         {
+            BlockEdge = blockEdge;
             Cost = 1 + base.Cost;
         }
 
@@ -12,12 +14,12 @@
         public override void Approve()
         {
             base.Approve();
-            Edge.Blocked = true;
+            BlockEdge.Blocked = true;
         }
 
         public override string ToString()
         {
-            return $"{base.ToString()} and block the path";
+            return $"{base.ToString()} and block the path to {BlockEdge}";
         }
     }
 }

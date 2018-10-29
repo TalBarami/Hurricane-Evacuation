@@ -29,9 +29,11 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
             }
 
             Console.WriteLine($"{Id} is on the loose!");
-            var minimal = FindMinimalEdge(edges);
+            var blockEdge = FindMinimalEdge(edges);
+            edges.Remove(blockEdge);
+            var destinationEdge = FindMinimalEdge(edges);
 
-            return new BlockingTraverse(this, minimal);
+            return new BlockingTraverse(this, destinationEdge, blockEdge);
         }
 
         public override void Visit(EvacuationVertex v)

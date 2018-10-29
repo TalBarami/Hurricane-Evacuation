@@ -17,7 +17,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Actions
         public double Cost { get; }
         public void Approve()
         {
-            Console.WriteLine($"{Agent} decided to {this}");
+            Console.WriteLine($"{Agent.Id} decided to {this}");
         }
 
         public override string ToString()
