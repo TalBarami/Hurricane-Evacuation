@@ -23,7 +23,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
 
             if (selectedPath.Next == null)
             {
-                return new NoOperation(Position);
+                return new NoOperation(this, Position);
             }
 
             var nestedPath = selectedPath;

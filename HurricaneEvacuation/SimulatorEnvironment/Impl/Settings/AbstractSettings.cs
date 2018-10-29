@@ -8,6 +8,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Settings
         public IList<IAgent> Agents { get; protected set; }
         public int Deadline { get; protected set; }
         public double SlowDown { get; protected set; }
+        public double WeightConstant { get; protected set; }
 
         public override string ToString()
         {

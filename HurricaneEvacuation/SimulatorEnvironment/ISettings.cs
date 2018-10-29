@@ -8,5 +8,6 @@ namespace HurricaneEvacuation.SimulatorEnvironment
         IList<IAgent> Agents { get; }
         int Deadline { get; }
         double SlowDown { get; }
+        double WeightConstant { get; }
     }
 }

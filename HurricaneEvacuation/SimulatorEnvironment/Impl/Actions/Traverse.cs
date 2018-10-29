@@ -5,6 +5,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Actions
 {
     internal class Traverse : IAction
     {
+        public IVertex Destination { get; }
         protected readonly IAgent Agent;
         protected readonly IEdge Edge;
         protected readonly int CurrentPassengers;
@@ -23,15 +24,13 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Actions
         public virtual double Cost { get; }
         public virtual void Approve()
         {
-            Console.WriteLine($"{Agent.Id} decided to {this} at cost {Cost}.");
+            Console.WriteLine($"{Agent.Id} decided to {this}.");
             Agent.MoveTo(Destination);
         }
 
-        public IVertex Destination { get; set; }
-
         public override string ToString()
         {
-            return $"move from {CurrentPosition} to {Destination}";
+            return $"move from {CurrentPosition} to {Destination} at cost {Cost}";
         }
     }
 }

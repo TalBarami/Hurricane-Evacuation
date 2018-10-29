@@ -59,7 +59,7 @@
     <Compile Include="SimulatorEnvironment\Impl\Agents\GreedyAgent.cs" />
     <Compile Include="SimulatorEnvironment\Impl\Agents\GreedyHeuristicAgent.cs" />
     <Compile Include="SimulatorEnvironment\Impl\Agents\HumanAgent.cs" />
-    <Compile Include="SimulatorEnvironment\Impl\Agents\RTAStar.cs" />
+    <Compile Include="SimulatorEnvironment\Impl\Agents\RtaStarAgent.cs" />
     <Compile Include="SimulatorEnvironment\Impl\Agents\VandalAgent.cs" />
     <Compile Include="SimulatorEnvironment\Impl\Agents\VehicleAgent.cs" />
     <Compile Include="SimulatorEnvironment\Impl\GraphComponents\AbstractVertex.cs" />

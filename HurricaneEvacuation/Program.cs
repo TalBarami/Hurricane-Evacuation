@@ -27,10 +27,10 @@ namespace HurricaneEvacuation
             IList<IAgent> agents = new List<IAgent>
             {
                 new GreedyAgent(1, graph.Vertices[0]),
-                new VandalAgent(2, graph.Vertices[3], 0)
+                new VandalAgent(2, graph.Vertices[3], 2)
             };
 
-            var settings = new CodeSettings(graph, agents, deadline, 1);
+            var settings = new CodeSettings(graph, agents, deadline, .75, -1);
             SettingsSingleton.Instance = settings;
             var sim = new Simulator();
             sim.Start();

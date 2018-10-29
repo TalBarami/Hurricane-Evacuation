@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using HurricaneEvacuation.SimulatorEnvironment.Exceptions;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.Agents;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents;
@@ -78,6 +79,14 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Settings
                         agent = new VandalAgent(agentId, v, initialDelay);
                         break;
                     }
+                case 4:
+                    agent = new GreedyHeuristicAgent(agentId, v, null);
+                    break;
+                case 5:
+                    agent = new AStarAgent(agentId, v, null);
+                    break;
+                case 6: agent = new RtaStarAgent(agentId, v, null);
+                    break;
                 default:
                     throw new InvalidAgentIdException($"Unidentified Id: {agentType}");
             }

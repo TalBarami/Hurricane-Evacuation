@@ -2,9 +2,9 @@
 
 namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
 {
-    internal class RtaStar : AbstractAiAgent
+    internal class RtaStarAgent : AbstractAiAgent
     {
-        public RtaStar(int id, IVertex position, IHeuristicFunction heuristicFunction) : base(id, position, heuristicFunction)
+        public RtaStarAgent(int id, IVertex position, IHeuristicFunction heuristicFunction) : base(id, position, heuristicFunction)
         {
         }
 

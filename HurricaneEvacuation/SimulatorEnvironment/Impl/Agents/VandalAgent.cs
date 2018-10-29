@@ -20,12 +20,12 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
             {
                 Console.WriteLine($"{Id} will start causing troubles in {InitialDelay}");
                 InitialDelay--;
-                return new NoOperation(Position);
+                return new NoOperation(this, Position);
             }
             var edges = Position.ValidEdges();
             if (edges.Count == 0)
             {
-                return new NoOperation(Position);
+                return new NoOperation(this, Position);
             }
 
             Console.WriteLine($"{Id} is on the loose!");

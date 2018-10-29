@@ -2,7 +2,7 @@
 {
     internal interface IAction
     {
-        IVertex Destination { get; set; }
+        IVertex Destination { get; }
         double Cost { get; }
         void Approve();
     }

@@ -37,7 +37,7 @@ namespace HurricaneEvacuation
                 var action = currentAgent.PerformStep();
                 if (Time + action.Cost > Deadline)
                 {
-                    Console.WriteLine($"There was not enough time for {currentAgent.Id} to finish his action.");
+                    Console.WriteLine($"{currentAgent.Id} decided to {action}, but there was not enough time for {currentAgent.Id} to finish his action.");
                     break;
                 }
                 action.Approve();
