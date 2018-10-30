@@ -3,7 +3,7 @@
     internal class BlockingTraverse : Traverse
     {
         protected IEdge BlockEdge;
-        public BlockingTraverse(IAgent agent, IEdge destination, IEdge blockEdge) : base(agent, destination)
+        public BlockingTraverse(IAgent agent, IEdge destination, IEdge blockEdge, double slowDown) : base(agent, destination, slowDown)
         {
             BlockEdge = blockEdge;
             Cost = 1 + base.Cost;

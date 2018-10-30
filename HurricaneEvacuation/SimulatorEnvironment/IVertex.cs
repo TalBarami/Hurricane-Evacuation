@@ -8,7 +8,6 @@ namespace HurricaneEvacuation.SimulatorEnvironment
         int Id { get; }
         IList<IEdge> Neighbors { get; }
         void Accept(IAgent agent);
-        void Accept(IHeuristicFunction heuristicFunction);
         IList<IEdge> ValidEdges();
     }
 }

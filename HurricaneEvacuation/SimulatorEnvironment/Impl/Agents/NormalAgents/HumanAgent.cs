@@ -3,15 +3,15 @@ using System.Linq;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.Actions;
 using HurricaneEvacuation.SimulatorEnvironment.Utils;
 
-namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
+namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.NormalAgents
 {
     internal class HumanAgent : VehicleAgent
     {
-        public HumanAgent(int id, IVertex position) : base(id, position)
+        public HumanAgent(int id, ISettings settings, IVertex position) : base(id, settings, position)
         {
         }
 
-        protected override IAction PlayNext()
+        protected override IAction PlayNext(double time)
         {
             Console.WriteLine($"{Id}, your current position is: {Position}");
             var validEdges = Position.ValidEdges();
@@ -29,7 +29,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
                 return new NoOperation(this, Position);
             }
 
-            return new Traverse(this, validEdges.First(e => e.Contains(Position, destinationVertex)));
+            return new Traverse(this, validEdges.First(e => e.Contains(Position, destinationVertex)), Settings.SlowDown);
         }
     }
 }

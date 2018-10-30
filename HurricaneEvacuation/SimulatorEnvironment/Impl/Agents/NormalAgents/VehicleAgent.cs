@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents;
 
-namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
+namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.NormalAgents
 {
     abstract class VehicleAgent : AbstractAgent
     {
-        protected VehicleAgent(int id, IVertex position) : base(id, position)
+        protected VehicleAgent(int id, ISettings settings, IVertex position) : base(id, settings, position)
         {
         }
 

@@ -4,8 +4,6 @@ namespace HurricaneEvacuation.SimulatorEnvironment
 {
     internal interface IHeuristicFunction
     {
-        void Visit(EmptyVertex v);
-        void Visit(EvacuationVertex v);
-        void Visit(ShelterVertex v);
+        double Value(IGraph graph, IVertex source, double time, double deadline);
     }
 }

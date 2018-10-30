@@ -4,14 +4,19 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using HurricaneEvacuation.SimulatorEnvironment.Exceptions;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.Agents;
+using HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.AI_Agents;
+using HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.NormalAgents;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents;
+using HurricaneEvacuation.SimulatorEnvironment.Impl.HeuristicFunctions;
 
 namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Settings
 {
     internal class ConsoleSettings : AbstractSettings
     {
+        private AgentsFactory factory;
         public ConsoleSettings()
         {
+            factory = new AgentsFactory(this);
             CreateGraph("");
             CreateAgents();
         }
@@ -38,60 +43,27 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Settings
                 Console.WriteLine("Bye...");
                 return;
             }
-            Console.WriteLine("Please specify: <agentType>;<vertexId>");
+            Console.WriteLine("Please specify: <agentType>;<vertexId> (also add ';<initialDelay>' for vandal agents)");
             var agents = new List<IAgent>();
             for (var agentId = 0; agentId < numOfAgents;)
             {
                 var parts = Console.ReadLine()?.Split(';');
+                var initialDelay = 0;
                 if (parts == null || parts.Length < 2 ||
                     !int.TryParse(parts[0], out var agentType) || !int.TryParse(parts[1], out var vertexId) ||
-                    !BuildAgent(agentId, agentType, Graph.Vertices.First(v => v.Id == vertexId), out var agent))
+                    (agentType == 2 && !int.TryParse(parts[2], out initialDelay)))
                 {
                     Console.WriteLine("Wrong parameters.");
                     continue;
                 }
+
+                var agent = factory.CreateAgent(agentType, Graph.Vertices.First(v => v.Id == vertexId), initialDelay);
 
                 agents.Add(agent);
                 agentId++;
             }
 
             Agents = agents;
-        }
-
-        private static bool BuildAgent(int agentId, int agentType, IVertex v, out IAgent agent)
-        {
-            switch (agentType)
-            {
-                case 1:
-                    agent = new HumanAgent(agentId, v);
-                    break;
-                case 2:
-                    agent = new GreedyAgent(agentId, v);
-                    break;
-                case 3:
-                    {
-                        Console.WriteLine("Please specify <initialDelay> for the Vandal Agent.");
-                        if (!int.TryParse(Console.ReadLine(), out var initialDelay))
-                        {
-                            agent = null;
-                            return false;
-                        }
-                        agent = new VandalAgent(agentId, v, initialDelay);
-                        break;
-                    }
-                case 4:
-                    agent = new GreedyHeuristicAgent(agentId, v, null);
-                    break;
-                case 5:
-                    agent = new AStarAgent(agentId, v, null);
-                    break;
-                case 6: agent = new RtaStarAgent(agentId, v, null);
-                    break;
-                default:
-                    throw new InvalidAgentIdException($"Unidentified Id: {agentType}");
-            }
-
-            return true;
         }
     }
 }

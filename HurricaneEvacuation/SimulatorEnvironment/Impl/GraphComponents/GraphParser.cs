@@ -46,7 +46,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents
                 if (vertexLine != null)
                 {
                     var parts = vertexLine.Split(Whitespace);
-                    switch (parts[2])
+                    switch (parts[2].ToUpper())
                     {
                         case Pickup:
                             vertices[i] = new EvacuationVertex(i+1, int.Parse(parts[3]));

@@ -10,7 +10,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Actions
         protected readonly IEdge Edge;
         protected readonly int CurrentPassengers;
         protected readonly IVertex CurrentPosition;
-        public Traverse(IAgent agent, IEdge edge)
+        public Traverse(IAgent agent, IEdge edge, double slowDown)
         {
             Agent = agent;
             Edge = edge;
@@ -18,7 +18,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Actions
             CurrentPassengers = agent.Passengers;
             CurrentPosition = agent.Position;
 
-            Cost = edge.Weight * (1 + CurrentPassengers * SettingsSingleton.Instance.SlowDown);
+            Cost = edge.Weight * (1 + CurrentPassengers * slowDown);
         }
 
         public virtual double Cost { get; }

@@ -3,21 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.Actions;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents;
-using HurricaneEvacuation.SimulatorEnvironment.Impl.Settings;
 using HurricaneEvacuation.SimulatorEnvironment.Utils;
 
-namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
+namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.NormalAgents
 {
     internal class GreedyAgent : VehicleAgent
     {
-        public GreedyAgent(int id, IVertex position) : base(id, position)
+        public GreedyAgent(int id, ISettings settings, IVertex position) : base(id, settings, position)
         {
         }
 
-        protected override IAction PlayNext()
+        protected override IAction PlayNext(double time)
         {
-            var world = SettingsSingleton.Instance;
-            var paths = GraphAlgorithms.Dijkstra(world.Graph, Position);
+            var paths = GraphAlgorithms.Dijkstra(Settings.Graph, Position);
 
             var selectedPath = Passengers > 0 ? FindShelter(paths) : FindPeople(paths);
 
@@ -33,7 +31,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
             }
 
             var dst = nestedPath.Source;
-            return new Traverse(this, dst.ValidEdges().First(e => e.OtherV(dst) == Position));
+            return new Traverse(this, dst.ValidEdges().First(e => e.OtherV(dst) == Position), Settings.SlowDown);
         }
 
         private IPath FindShelter(IList<IPath> paths)

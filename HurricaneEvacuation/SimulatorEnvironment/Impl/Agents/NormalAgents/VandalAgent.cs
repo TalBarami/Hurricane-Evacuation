@@ -4,17 +4,17 @@ using System.Linq;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.Actions;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents;
 
-namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
+namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.NormalAgents
 {
     internal class VandalAgent : AbstractAgent
     {
         private int InitialDelay { get; set; }
-        public VandalAgent(int id, IVertex position, int initialDelay) : base(id, position)
+        public VandalAgent(int id, ISettings settings, IVertex position, int initialDelay) : base(id, settings, position)
         {
             InitialDelay = initialDelay;
         }
 
-        protected override IAction PlayNext()
+        protected override IAction PlayNext(double time)
         {
             if (InitialDelay > 0)
             {
@@ -33,15 +33,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
             edges.Remove(blockEdge);
             var destinationEdge = FindMinimalEdge(edges);
 
-            return new BlockingTraverse(this, destinationEdge, blockEdge);
-        }
-
-        public override void Visit(EvacuationVertex v)
-        {
-        }
-
-        public override void Visit(ShelterVertex v)
-        {
+            return new BlockingTraverse(this, destinationEdge, blockEdge, Settings.SlowDown);
         }
 
         private IEdge FindMinimalEdge(IList<IEdge> edges)

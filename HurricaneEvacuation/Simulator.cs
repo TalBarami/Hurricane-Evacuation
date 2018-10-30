@@ -8,41 +8,24 @@ namespace HurricaneEvacuation
 {
     internal class Simulator
     {
-        private IGraph World { get; set; }
-        private IList<IAgent> Agents { get; set; }
-        private int Deadline { get; set; }
+        private readonly ISettings Settings;
         private double Time { get; set; }
 
-        public Simulator()
+        public Simulator(ISettings settings)
         {
-            Initialize();
-        }
-
-        private void Initialize()
-        {
-            var settings = SettingsSingleton.Instance;
-            World = settings.Graph;
-            Agents = settings.Agents;
-            Deadline = settings.Deadline;
+            Settings = settings;
             Time = 0;
         }
 
         public void Start()
         {
             var i = 0;
-            while (Time < Deadline)
+            while (Time < Settings.Deadline)
             {
-                var currentAgent = Agents[i];
-                Console.WriteLine($"Time to world's end: {Time}/{Deadline}.\nWorld state:\n{World}");
-                var action = currentAgent.PerformStep();
-                if (Time + action.Cost > Deadline)
-                {
-                    Console.WriteLine($"{currentAgent.Id} decided to {action}, but there was not enough time for {currentAgent.Id} to finish his action.");
-                    break;
-                }
-                action.Approve();
-                Time += action.Cost;
-                i = (i + 1) % Agents.Count;
+                var currentAgent = Settings.Agents[i];
+                Console.WriteLine($"Time to world's end: {Time}/{Settings.Deadline}.\nWorld state:\n{Settings.Graph}");
+                Time = currentAgent.PerformStep(Time);
+                i = (i + 1) % Settings.Agents.Count;
                 Thread.Sleep(2000);
                 Console.WriteLine();
             }

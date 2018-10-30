@@ -11,7 +11,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment
         int ActionsPerformed { get; }
 
 
-        IAction PerformStep();
+        double PerformStep(double time);
         void Visit(EvacuationVertex v);
         void Visit(ShelterVertex v);
         void Visit(EmptyVertex v);
