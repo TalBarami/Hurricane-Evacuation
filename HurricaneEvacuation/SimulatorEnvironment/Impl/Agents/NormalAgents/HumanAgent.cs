@@ -24,12 +24,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.NormalAgents
             }
 
             var destinationVertex = validNeighbors.First(v => v.Id == dst);
-            if (dst == Position.Id)
-            {
-                return new NoOperation(this, Position);
-            }
-
-            return new Traverse(this, validEdges.First(e => e.Contains(Position, destinationVertex)), Settings.SlowDown);
+            return dst == Position.Id ? NoOperation() : Traverse(validEdges.First(e => e.Contains(Position, destinationVertex)));
         }
     }
 }

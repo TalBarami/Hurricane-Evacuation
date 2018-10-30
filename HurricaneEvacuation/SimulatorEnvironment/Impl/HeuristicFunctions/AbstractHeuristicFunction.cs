@@ -12,6 +12,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.HeuristicFunctions
         protected AbstractHeuristicFunction()
         {
         }
-        public abstract double Value(IGraph graph, IVertex source, double time, double deadline);
+
+        public abstract double Value(ISettings settings, IVertex source, double time);
     }
 }

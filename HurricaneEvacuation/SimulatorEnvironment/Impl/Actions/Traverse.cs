@@ -1,5 +1,6 @@
 ﻿using System;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.Settings;
+using HurricaneEvacuation.SimulatorEnvironment.Utils;
 
 namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Actions
 {
@@ -18,7 +19,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Actions
             CurrentPassengers = agent.Passengers;
             CurrentPosition = agent.Position;
 
-            Cost = edge.Weight * (1 + CurrentPassengers * slowDown);
+            Cost = GraphUtils.TraverseTime(edge.Weight, CurrentPassengers, slowDown);
         }
 
         public virtual double Cost { get; }

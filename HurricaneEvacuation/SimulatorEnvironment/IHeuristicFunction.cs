@@ -4,6 +4,6 @@ namespace HurricaneEvacuation.SimulatorEnvironment
 {
     internal interface IHeuristicFunction
     {
-        double Value(IGraph graph, IVertex source, double time, double deadline);
+        double Value(ISettings settings, IVertex source, double time);
     }
 }

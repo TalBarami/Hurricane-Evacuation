@@ -21,7 +21,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.NormalAgents
 
             if (selectedPath.Next == null)
             {
-                return new NoOperation(this, Position);
+                return NoOperation();
             }
 
             var nestedPath = selectedPath;
@@ -31,7 +31,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.NormalAgents
             }
 
             var dst = nestedPath.Source;
-            return new Traverse(this, dst.ValidEdges().First(e => e.OtherV(dst) == Position), Settings.SlowDown);
+            return Traverse(dst.ValidEdges().First(e => e.OtherV(dst) == Position));
         }
 
         private IPath FindShelter(IList<IPath> paths)

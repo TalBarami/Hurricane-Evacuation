@@ -20,12 +20,12 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.NormalAgents
             {
                 Console.WriteLine($"{Id} will start causing troubles in {InitialDelay}");
                 InitialDelay--;
-                return new NoOperation(this, Position);
+                return NoOperation();
             }
             var edges = Position.ValidEdges();
             if (edges.Count == 0)
             {
-                return new NoOperation(this, Position);
+                return NoOperation();
             }
 
             Console.WriteLine($"{Id} is on the loose!");
@@ -33,7 +33,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.NormalAgents
             edges.Remove(blockEdge);
             var destinationEdge = FindMinimalEdge(edges);
 
-            return new BlockingTraverse(this, destinationEdge, blockEdge, Settings.SlowDown);
+            return BlockingTraverse(destinationEdge, blockEdge);
         }
 
         private IEdge FindMinimalEdge(IList<IEdge> edges)

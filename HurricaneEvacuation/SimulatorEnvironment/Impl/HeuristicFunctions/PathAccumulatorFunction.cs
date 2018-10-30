@@ -8,7 +8,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.HeuristicFunctions
 {
     class PathAccumulatorFunction : AbstractHeuristicFunction
     {
-        public override double Value(IGraph graph, IVertex source, double time, double deadline)
+        public override double Value(ISettings settings, IVertex source, double time)
         {
             throw new NotImplementedException();
         }

@@ -41,6 +41,21 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
 
         protected abstract IAction PlayNext(double time);
 
+        protected IAction NoOperation()
+        {
+            return new NoOperation(this);
+        }
+
+        protected IAction Traverse(IEdge edge)
+        {
+            return new Traverse(this, edge, Settings.SlowDown);
+        }
+
+        protected IAction BlockingTraverse(IEdge destination, IEdge blockEdge)
+        {
+            return new BlockingTraverse(this, destination, blockEdge, Settings.SlowDown);
+        }
+
         public virtual void Visit(EvacuationVertex v) { }
 
         public virtual void Visit(ShelterVertex v) { }

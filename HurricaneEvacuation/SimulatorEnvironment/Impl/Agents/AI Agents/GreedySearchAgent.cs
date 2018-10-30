@@ -9,6 +9,8 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.AI_Agents
 {
     internal class GreedySearchAgent : AbstractAiAgent
     {
+        double TOLERANCE = 0.0001;
+
         public GreedySearchAgent(int id, ISettings settings, IVertex position) : base(id, settings, position)
         {
             HeuristicFunction = new UnreachablePeopleFunction();
@@ -16,17 +18,29 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.AI_Agents
 
         protected override IAction PlayNext(double time)
         {
-            var hMapper = Position.ValidEdges().Select(e =>
+            /*var actions = GraphAlgorithms.Hey(Settings.Graph, Position, time, Settings.Deadline, HeuristicFunction)
+                .Where(action => action.Source != Position).ToList();
+            return Traverse(Position.ValidEdges().First(e => e.OtherV(Position) == actions[0].Source));*/
+
+            var actions = FindMinimalHValues(Position, time);
+            return actions.Keys.First();
+        }
+
+        private Dictionary<IAction, double> FindMinimalHValues(IVertex source, double time)
+        {
+            var minimalHValues = GetHValues(source, time);
+            return minimalHValues.Where(move => Math.Abs(move.Value - minimalHValues.Min(m => m.Value)) < TOLERANCE)
+                .ToDictionary(kv => kv.Key, kv => kv.Value);
+        }
+
+        private Dictionary<IAction, double> GetHValues(IVertex source, double time)
+        {
+            return source.ValidEdges().Select(e =>
             {
-                var possibleTraverse = new Traverse(this, e, Settings.SlowDown);
-                var hValue = HeuristicFunction.Value(Settings.Graph, possibleTraverse.Destination,
-                    time + possibleTraverse.Cost, Settings.Deadline);
+                var possibleTraverse = Traverse(e);
+                var hValue = HeuristicFunction.Value(Settings, possibleTraverse.Destination, time + possibleTraverse.Cost);
                 return (possibleTraverse, hValue);
-            }).ToList();
-
-            return hMapper.Aggregate(hMapper[0], (minPair, newPair) =>
-                newPair.Item2 < minPair.Item2 ? newPair : minPair).Item1;
-
+            }).ToDictionary(tuple => tuple.Item1, tuple => tuple.Item2);
         }
     }
 }

@@ -11,10 +11,10 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.HeuristicFunctions
         private PathAccumulatorFunction PathSoFar { get; }
         private UnreachablePeopleFunction UnreachablePeople { get; }
 
-        public override double Value(IGraph graph, IVertex source, double time, double deadline)
+        public override double Value(ISettings settings, IVertex source, double time)
         {
-            return PathSoFar.Value(graph, source, time, deadline) +
-                   UnreachablePeople.Value(graph, source, time, deadline);
+            return PathSoFar.Value(settings, source, time) +
+                   UnreachablePeople.Value(settings, source, time);
         }
     }
 }

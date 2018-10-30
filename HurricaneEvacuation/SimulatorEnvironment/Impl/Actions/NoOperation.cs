@@ -7,10 +7,10 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Actions
         public IVertex Destination { get; }
         protected readonly IAgent Agent;
 
-        public NoOperation(IAgent agent, IVertex destination)
+        public NoOperation(IAgent agent)
         {
             Agent = agent;
-            Destination = destination;
+            Destination = agent.Position;
             Cost = 1;
         }
 

@@ -1,4 +1,7 @@
-﻿using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents
 {
@@ -15,6 +18,20 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents
             Weight = weight;
         }
 
+        public IList<IVertex> GetVertices()
+        {
+            var vertices = new List<IVertex> {Source};
+            var iterator = Next;
+
+            while (iterator != null)
+            {
+                vertices.Add(iterator.Source);
+                iterator = iterator.Next;
+            }
+
+            return vertices;
+        }
+
         public override string ToString()
         {
             var sb = new StringBuilder();
@@ -28,6 +45,15 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents
             }
 
             return sb.ToString();
+        }
+
+        public int CompareTo(object obj)
+        {
+            if (obj != null && obj is IPath path)
+            {
+                return Weight.CompareTo(path.Weight);
+            }
+            throw new NotSupportedException();
         }
     }
 }
