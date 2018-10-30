@@ -35,7 +35,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.AI_Agents
             {
                 var possibleTraverse = Traverse(e);
                 var hValue = HeuristicFunction.Value(Settings, possibleTraverse.Destination, time + possibleTraverse.Cost);
-                return (possibleTraverse, hValue);
+                return (possibleTraverse, hValue + travelTime + possibleTraverse.Cost);
             }).ToDictionary(tuple => tuple.Item1, tuple => tuple.Item2);
         }
     }
