@@ -9,8 +9,6 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.AI_Agents
 {
     internal class GreedySearchAgent : AbstractAiAgent
     {
-        double TOLERANCE = 0.0001;
-
         public GreedySearchAgent(int id, ISettings settings, IVertex position) : base(id, settings, position)
         {
             HeuristicFunction = new UnreachablePeopleFunction();
@@ -29,7 +27,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.AI_Agents
         private Dictionary<IAction, double> FindMinimalHValues(IVertex source, double time)
         {
             var minimalHValues = GetHValues(source, time);
-            return minimalHValues.Where(move => Math.Abs(move.Value - minimalHValues.Min(m => m.Value)) < TOLERANCE)
+            return minimalHValues.Where(move => Math.Abs(move.Value - minimalHValues.Min(m => m.Value)) < Tolerance)
                 .ToDictionary(kv => kv.Key, kv => kv.Value);
         }
 

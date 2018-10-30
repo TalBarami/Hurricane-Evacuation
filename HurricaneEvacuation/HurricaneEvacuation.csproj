@@ -72,8 +72,6 @@
     <Compile Include="SimulatorEnvironment\IAction.cs" />
     <Compile Include="SimulatorEnvironment\IHeuristicFunction.cs" />
     <Compile Include="SimulatorEnvironment\Impl\HeuristicFunctions\AbstractHeuristicFunction.cs" />
-    <Compile Include="SimulatorEnvironment\Impl\HeuristicFunctions\AStarFunction.cs" />
-    <Compile Include="SimulatorEnvironment\Impl\HeuristicFunctions\PathAccumulatorFunction.cs" />
     <Compile Include="SimulatorEnvironment\Impl\HeuristicFunctions\UnreachablePeopleFunction.cs" />
     <Compile Include="SimulatorEnvironment\Impl\Settings\AbstractSettings.cs" />
     <Compile Include="SimulatorEnvironment\Impl\Settings\CodeSettings.cs" />

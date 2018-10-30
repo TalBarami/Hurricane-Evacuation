@@ -4,6 +4,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.AI_Agents
 {
     internal abstract class AbstractAiAgent : VehicleAgent
     {
+        protected double Tolerance = 0.0001;
         protected IHeuristicFunction HeuristicFunction { get; set; }
         protected double Score { get; set; }
         protected int SearchExpansion { get; set; }
