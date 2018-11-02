@@ -15,15 +15,15 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Actions
         {
             Agent = agent;
             Edge = edge;
-            Destination = edge.OtherV(agent.Position);
-            CurrentPassengers = agent.Passengers;
-            CurrentPosition = agent.Position;
+            Destination = Edge.OtherV(Agent.Position);
+            CurrentPassengers = Agent.Passengers;
+            CurrentPosition = Agent.Position;
 
             Cost = GraphUtils.TraverseTime(edge.Weight, CurrentPassengers, slowDown);
         }
 
-        public virtual double Cost { get; }
-        public virtual void Approve()
+        public double Cost { get; }
+        public void Approve()
         {
             Console.WriteLine($"{Agent.Id} decided to {this}.");
             Agent.MoveTo(Destination);

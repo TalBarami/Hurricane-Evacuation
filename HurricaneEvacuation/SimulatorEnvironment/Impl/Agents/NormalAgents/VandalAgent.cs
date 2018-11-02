@@ -8,32 +8,38 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.NormalAgents
 {
     internal class VandalAgent : AbstractAgent
     {
-        private int InitialDelay { get; set; }
+        private int InitialDelay { get; }
+        private int timeToPlay;
+        private bool blockNext;
         public VandalAgent(int id, ISettings settings, IVertex position, int initialDelay) : base(id, settings, position)
         {
             InitialDelay = initialDelay;
+            timeToPlay = 0;
+            blockNext = true;
         }
 
         protected override IAction PlayNext(double time)
         {
-            if (InitialDelay > 0)
+            if (timeToPlay < InitialDelay)
             {
                 Console.WriteLine($"{Id} will start causing troubles in {InitialDelay}");
-                InitialDelay--;
+                timeToPlay++;
                 return NoOperation();
             }
             var edges = Position.ValidEdges();
             if (edges.Count == 0)
             {
+                Console.WriteLine($"{Id} couldn't do anything because there are no edges to block / travel.");
                 return NoOperation();
             }
 
             Console.WriteLine($"{Id} is on the loose!");
-            var blockEdge = FindMinimalEdge(edges);
-            edges.Remove(blockEdge);
-            var destinationEdge = FindMinimalEdge(edges);
+            var nextEdge = FindMinimalEdge(edges);
+            var nextAction = blockNext ? Block(nextEdge) : Traverse(nextEdge);
 
-            return BlockingTraverse(destinationEdge, blockEdge);
+            timeToPlay = 0;
+            blockNext = !blockNext;
+            return nextAction;
         }
 
         private IEdge FindMinimalEdge(IList<IEdge> edges)

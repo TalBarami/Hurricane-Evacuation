@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using HurricaneEvacuation.SimulatorEnvironment.Utils;
 
 namespace HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents
 {
@@ -30,6 +31,56 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents
             }
 
             return vertices;
+        }
+
+        public (double, int) TraverseWeight(IList<IVertex> visited, int passengers, double slowDown)
+        {
+            var currentPassengers = passengers;
+            GetPassengers(Source, visited, ref currentPassengers);
+            var weight = 0.0;
+            var currentWeight = Weight;
+            var iterator = Next;
+            while (iterator != null)
+            {
+                var edgeWeight = currentWeight - iterator.Weight;
+                weight += GraphUtils.TraverseTime(edgeWeight, currentPassengers, slowDown);
+
+                GetPassengers(iterator.Source, visited, ref currentPassengers);
+
+                currentWeight = iterator.Weight;
+                iterator = iterator.Next;
+            }
+            return (weight, currentPassengers);
+        }
+
+        public (double, int) TraverseWeight(int passengers, double slowDown)
+        {
+            return TraverseWeight(new List<IVertex>(), passengers, slowDown);
+        }
+        public IPath Reverse()
+        {
+            var currentNode = new Path(Source, null, 0);
+            var currentWeight = Weight;
+            var iterator = Next;
+
+            while (iterator != null)
+            {
+                currentNode = new Path(iterator.Source, currentNode, currentWeight - iterator.Weight);
+                iterator = iterator.Next;
+            }
+
+            return currentNode;
+        }
+
+        private void GetPassengers(IVertex v, IList<IVertex> visited, ref int currentPassengers)
+        {
+            if (!visited.Contains(v) && v is EvacuationVertex ev)
+            {
+                currentPassengers += ev.PeopleCount;
+            } else if (v is ShelterVertex)
+            {
+                currentPassengers = 0;
+            }
         }
 
         public override string ToString()

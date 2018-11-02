@@ -6,7 +6,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
 {
     internal abstract class AbstractAgent : IAgent
     {
-        protected ISettings Settings { get; set; }
+        public ISettings Settings { get; protected set; }
         public string Id { get; protected set; }
         public IVertex Position { get; protected set; }
         public int Passengers { get; protected set; }
@@ -51,9 +51,9 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
             return new Traverse(this, edge, Settings.SlowDown);
         }
 
-        protected IAction BlockingTraverse(IEdge destination, IEdge blockEdge)
+        protected IAction Block(IEdge edge)
         {
-            return new BlockingTraverse(this, destination, blockEdge, Settings.SlowDown);
+            return new Block(this, edge);
         }
 
         public virtual void Visit(EvacuationVertex v) { }

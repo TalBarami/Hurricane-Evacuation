@@ -50,7 +50,7 @@
     <Compile Include="SimulatorEnvironment\IAgent.cs" />
     <Compile Include="SimulatorEnvironment\IEdge.cs" />
     <Compile Include="SimulatorEnvironment\IGraph.cs" />
-    <Compile Include="SimulatorEnvironment\Impl\Actions\BlockingTraverse.cs" />
+    <Compile Include="SimulatorEnvironment\Impl\Actions\Block.cs" />
     <Compile Include="SimulatorEnvironment\Impl\Actions\NoOperation.cs" />
     <Compile Include="SimulatorEnvironment\Impl\Actions\Traverse.cs" />
     <Compile Include="SimulatorEnvironment\Impl\Agents\AbstractAgent.cs" />
@@ -72,6 +72,7 @@
     <Compile Include="SimulatorEnvironment\IAction.cs" />
     <Compile Include="SimulatorEnvironment\IHeuristicFunction.cs" />
     <Compile Include="SimulatorEnvironment\Impl\HeuristicFunctions\AbstractHeuristicFunction.cs" />
+    <Compile Include="SimulatorEnvironment\Impl\HeuristicFunctions\HeuristicResult.cs" />
     <Compile Include="SimulatorEnvironment\Impl\HeuristicFunctions\UnreachablePeopleFunction.cs" />
     <Compile Include="SimulatorEnvironment\Impl\Settings\AbstractSettings.cs" />
     <Compile Include="SimulatorEnvironment\Impl\Settings\CodeSettings.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimulatorEnvironment\Impl\GraphComponents\Edge.cs" />
+    <Compile Include="SimulatorEnvironment\Tests\ManualTests.cs" />
     <Compile Include="SimulatorEnvironment\Utils\GraphUtils.cs" />
     <Compile Include="SimulatorEnvironment\Utils\GraphAlgorithms.cs" />
     <Compile Include="SimulatorEnvironment\Utils\ListUtils.cs" />

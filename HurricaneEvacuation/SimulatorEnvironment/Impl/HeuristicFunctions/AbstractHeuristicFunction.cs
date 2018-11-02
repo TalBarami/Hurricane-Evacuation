@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HurricaneEvacuation.SimulatorEnvironment.Impl.Actions;
 
 namespace HurricaneEvacuation.SimulatorEnvironment.Impl.HeuristicFunctions
 {
@@ -13,6 +14,6 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.HeuristicFunctions
         {
         }
 
-        public abstract double Value(ISettings settings, IVertex source, double time);
+        public abstract HeuristicResult Apply(IAgent agent, Traverse move, double time);
     }
 }

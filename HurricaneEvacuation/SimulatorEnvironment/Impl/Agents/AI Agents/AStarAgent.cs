@@ -16,27 +16,14 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.AI_Agents
 
         protected override IAction PlayNext(double time)
         {
-            var actions = FindMinimalHValues(Position, time);
-            var selectedAction = actions.Keys.First();
-            travelTime += selectedAction.Cost;
-            return selectedAction;
-        }
-
-        private Dictionary<IAction, double> FindMinimalHValues(IVertex source, double time)
-        {
-            var minimalHValues = GetHValues(source, time);
-            return minimalHValues.Where(move => Math.Abs(move.Value - minimalHValues.Min(m => m.Value)) < Tolerance)
-                .ToDictionary(kv => kv.Key, kv => kv.Value);
-        }
-
-        private Dictionary<IAction, double> GetHValues(IVertex source, double time)
-        {
-            return source.ValidEdges().Select(e =>
-            {
-                var possibleTraverse = Traverse(e);
-                var hValue = HeuristicFunction.Value(Settings, possibleTraverse.Destination, time + possibleTraverse.Cost);
-                return (possibleTraverse, hValue + travelTime + possibleTraverse.Cost);
-            }).ToDictionary(tuple => tuple.Item1, tuple => tuple.Item2);
+            var hValues = GetHValues(Position, time);
+            var minimal = hValues.Where(hResult => Math.Abs(hResult.FValue(travelTime) - hValues.Min(h => h.FValue(travelTime))) < Tolerance).ToList();
+            //Console.WriteLine($"Real values: {hValues.Aggregate("", (cur, agg) => $"{cur} {agg}")}");
+            Console.WriteLine($"H Returned: {hValues.Aggregate("", (cur, agg) => $"{cur} {agg.HValueToString()}")}");
+            Console.WriteLine($"F Returned: {hValues.Aggregate("", (cur, agg) => $"{cur} {agg.FValueToString(travelTime)}")}");
+            var selected = PickBest(minimal);
+            travelTime += selected.Cost;
+            return selected;
         }
     }
 }
