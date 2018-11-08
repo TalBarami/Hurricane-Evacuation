@@ -4,7 +4,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Settings
 {
     internal class CodeSettings : AbstractSettings
     {
-        public CodeSettings(IGraph world, IList<IAgent> agents, int deadline, double slowDown, double weightConstant)
+        public CodeSettings(IGraph world, IList<IAgent> agents, int deadline, double slowDown, int weightConstant)
         {
             Graph = world;
             Agents = agents;

@@ -12,6 +12,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
         public int Passengers { get; protected set; }
         public int PeopleSaved { get; protected set; }
         public int ActionsPerformed { get; protected set; }
+        public abstract double Score { get; }
 
         protected AbstractAgent(int id, ISettings settings, IVertex position)
         {
@@ -67,6 +68,11 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
             ActionsPerformed++;
             Position = destination;
             Position.Accept(this);
+        }
+
+        public override string ToString()
+        {
+            return $"{Id} at {Position}";
         }
     }
 }

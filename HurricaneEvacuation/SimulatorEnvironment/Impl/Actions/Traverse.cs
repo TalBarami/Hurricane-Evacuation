@@ -1,5 +1,4 @@
 ﻿using System;
-using HurricaneEvacuation.SimulatorEnvironment.Impl.Settings;
 using HurricaneEvacuation.SimulatorEnvironment.Utils;
 
 namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Actions
@@ -7,8 +6,8 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Actions
     internal class Traverse : IAction
     {
         public IVertex Destination { get; }
+        public readonly IEdge Edge;
         protected readonly IAgent Agent;
-        protected readonly IEdge Edge;
         protected readonly int CurrentPassengers;
         protected readonly IVertex CurrentPosition;
         public Traverse(IAgent agent, IEdge edge, double slowDown)

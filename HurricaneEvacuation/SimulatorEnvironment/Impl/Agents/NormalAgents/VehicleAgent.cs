@@ -5,6 +5,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.NormalAgents
 {
     abstract class VehicleAgent : AbstractAgent
     {
+        public override double Score => PeopleSaved;
         protected VehicleAgent(int id, ISettings settings, IVertex position) : base(id, settings, position)
         {
         }

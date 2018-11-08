@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using HurricaneEvacuation.SimulatorEnvironment.Impl.Actions;
 using HurricaneEvacuation.SimulatorEnvironment.Utils;
 
 namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.NormalAgents

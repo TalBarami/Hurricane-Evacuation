@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HurricaneEvacuation.SimulatorEnvironment.Impl.Actions;
+﻿using HurricaneEvacuation.SimulatorEnvironment.Impl.Actions;
 
 namespace HurricaneEvacuation.SimulatorEnvironment.Impl.HeuristicFunctions
 {
@@ -12,8 +7,10 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.HeuristicFunctions
 
         protected AbstractHeuristicFunction()
         {
+            SearchExpansions = 0;
         }
 
+        public int SearchExpansions { get; protected set; }
         public abstract HeuristicResult Apply(IAgent agent, Traverse move, double time);
     }
 }

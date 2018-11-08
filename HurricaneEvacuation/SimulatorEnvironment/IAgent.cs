@@ -10,6 +10,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment
         int Passengers { get; }
         int PeopleSaved { get; }
         int ActionsPerformed { get; }
+        double Score { get; }
 
 
         double PerformStep(double time);

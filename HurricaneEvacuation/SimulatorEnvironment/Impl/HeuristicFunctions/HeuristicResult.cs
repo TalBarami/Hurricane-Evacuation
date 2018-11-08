@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HurricaneEvacuation.SimulatorEnvironment.Impl.Actions;
+﻿using HurricaneEvacuation.SimulatorEnvironment.Impl.Actions;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents;
 
 namespace HurricaneEvacuation.SimulatorEnvironment.Impl.HeuristicFunctions
@@ -16,6 +11,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.HeuristicFunctions
         private double Deadline { get; }
         public int Passengers { get; }
         public bool Shelter => Action.Destination is ShelterVertex;
+        public double TravelTime { private get; set; }
 
         public HeuristicResult(Traverse action, double value, int passengers, double time, double deadline)
         {
@@ -24,34 +20,17 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.HeuristicFunctions
             Passengers = passengers;
             Time = time;
             Deadline = deadline;
+            TravelTime = 0;
         }
 
         public bool GoalReached => Time >= Deadline;
         public double HValue => GoalReached ? 0 : Value;
-
-        public double FValue(double travelTime)
-        {
-            return Value + Action.Cost + travelTime;
-        }
+        public double FValue => Value + Action.Cost + TravelTime;
+        public double GValue => TravelTime + Action.Cost;
 
         public override string ToString()
         {
-            return GetString(Value);
-        }
-
-        public string FValueToString(double travelTime)
-        {
-            return GetString(FValue(travelTime));
-        }
-
-        public string HValueToString()
-        {
-            return GetString(HValue);
-        }
-
-        private string GetString(double val)
-        {
-            return $"({Action.Destination},{val})";
+            return $"({Action.Destination}, cost={Action.Cost}, value={Value}, h={HValue}, g={GValue}, f={FValue})";
         }
     }
 }

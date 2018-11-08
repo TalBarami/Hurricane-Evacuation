@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using HurricaneEvacuation.SimulatorEnvironment.Impl.Actions;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.HeuristicFunctions;
 using HurricaneEvacuation.SimulatorEnvironment.Utils;
 
@@ -18,8 +16,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.AI_Agents
         {
             var hValues = GetHValues(Position, time);
             var minimal = hValues.Where(hResult => Math.Abs(hResult.HValue - hValues.Min(h => h.HValue)) < Tolerance).ToList();
-            //Console.WriteLine($"Function values: {hValues.Aggregate("", (cur, agg) => $"{cur} {agg}")}");
-            Console.WriteLine($"H Returned: {hValues.Aggregate("", (cur, agg) => $"{cur} {agg.HValueToString()}")}");
+            Console.WriteLine($"\tH Returned:\n\t\t{hValues.ListToString().Replace(" ; ", "\n\t\t")}");
             return PickBest(minimal);
         }
     }

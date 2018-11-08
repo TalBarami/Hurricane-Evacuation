@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.HeuristicFunctions;
+using HurricaneEvacuation.SimulatorEnvironment.Utils;
 
 namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.AI_Agents
 {
@@ -17,10 +17,12 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.AI_Agents
         protected override IAction PlayNext(double time)
         {
             var hValues = GetHValues(Position, time);
-            var minimal = hValues.Where(hResult => Math.Abs(hResult.FValue(travelTime) - hValues.Min(h => h.FValue(travelTime))) < Tolerance).ToList();
-            //Console.WriteLine($"Real values: {hValues.Aggregate("", (cur, agg) => $"{cur} {agg}")}");
-            Console.WriteLine($"H Returned: {hValues.Aggregate("", (cur, agg) => $"{cur} {agg.HValueToString()}")}");
-            Console.WriteLine($"F Returned: {hValues.Aggregate("", (cur, agg) => $"{cur} {agg.FValueToString(travelTime)}")}");
+            foreach (var hr in hValues)
+            {
+                hr.TravelTime = travelTime;
+            }
+            var minimal = hValues.Where(hResult => Math.Abs(hResult.FValue - hValues.Min(h => h.FValue)) < Tolerance).ToList();
+            Console.WriteLine($"\tF Returned:\n\t\t{hValues.ListToString().Replace(" ; ", "\n\t\t")}");
             var selected = PickBest(minimal);
             travelTime += selected.Cost;
             return selected;

@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
-using System.Text;
-using System.Threading.Tasks;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.Actions;
+using HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.NormalAgents;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents;
 using HurricaneEvacuation.SimulatorEnvironment.Utils;
 
@@ -15,17 +12,24 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.HeuristicFunctions
     { 
         public override HeuristicResult Apply(IAgent agent, Traverse move, double time)
         {
+            SearchExpansions++;
+
             var graph = agent.Settings.Graph;
             var deadline = agent.Settings.Deadline;
             var totalTime = move.Cost + time;
 
+            var vandalAgents = agent.Settings.Agents.OfType<VandalAgent>();
+            if (vandalAgents.Any(a => a.BlockTimes.ContainsKey(move.Edge) && a.BlockTimes[move.Edge] <= time))
+            {
+                return new HeuristicResult(move, int.MaxValue, agent.Passengers, time, deadline);
+            }
+
             var evacuationVertices = graph.Vertices.OfType<EvacuationVertex>().Where(v => v.PeopleCount > 0).ToList();
             var unreachable = new List<EvacuationVertex>();
 
-            bool reachedAny = false;
+            var reachedAny = false;
             foreach (var evacuationVertex in evacuationVertices)
             {
-                
                 var evacuationPaths = GraphAlgorithms.Dijkstra(graph, evacuationVertex);
                 var sourcePaths = GraphAlgorithms.Dijkstra(graph, move.Destination);
 
@@ -91,7 +95,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.HeuristicFunctions
                 passengers += ev.PeopleCount;
             }
 
-            return new HeuristicResult(move, unreachablePeople * 100/*graph.Edges.Max(e => e.Weight) * 10*/, passengers, totalTime, deadline);
+            return new HeuristicResult(move, unreachablePeople * (Math.Ceiling(graph.Edges.Max(e => e.Weight)/100d) * 100), passengers, totalTime, deadline);
         }
 
         private IPath ShortestPathToShelter(IList<IPath> paths)

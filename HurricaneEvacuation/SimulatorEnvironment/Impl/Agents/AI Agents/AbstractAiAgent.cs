@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.Actions;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.NormalAgents;
@@ -11,9 +10,8 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.AI_Agents
     {
         protected double Tolerance = 0.0001;
         protected IHeuristicFunction HeuristicFunction { get; set; }
-        protected double Score { get; set; }
-        protected int SearchExpansion { get; set; }
-
+        protected double Performance => Settings.WeightConstant * PeopleSaved + HeuristicFunction.SearchExpansions;
+        public override double Score => Performance;
         protected AbstractAiAgent(int id, ISettings settings, IVertex position) : base(id, settings, position)
         {
         }

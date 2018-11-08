@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.AI_Agents;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.NormalAgents;
 
