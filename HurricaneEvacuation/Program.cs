@@ -8,7 +8,7 @@ namespace HurricaneEvacuation
         {
             var tests = new ManualTests();
 
-            tests.TestVandal();
+            tests.TestAStarLargerGraph();
         }
     }
 }

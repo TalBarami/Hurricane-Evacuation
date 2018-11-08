@@ -27,5 +27,6 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.AI_Agents
             travelTime += selected.Cost;
             return selected;
         }
+        
     }
 }

@@ -27,7 +27,8 @@ namespace HurricaneEvacuation
                 Console.WriteLine($"Agents state:\n\t{settings.Agents.ListToString()}");
                 Time = currentAgent.PerformStep(Time);
                 i = (i + 1) % settings.Agents.Count;
-                Thread.Sleep(2000);
+                //Thread.Sleep(2000);
+                Console.ReadKey(true);
                 Console.WriteLine();
             }
 

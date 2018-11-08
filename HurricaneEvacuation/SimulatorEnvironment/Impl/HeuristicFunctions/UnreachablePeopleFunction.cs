@@ -13,12 +13,13 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.HeuristicFunctions
         public override HeuristicResult Apply(IAgent agent, Traverse move, double time)
         {
             SearchExpansions++;
+            var settings = agent.Settings;
 
-            var graph = agent.Settings.Graph;
-            var deadline = agent.Settings.Deadline;
+            var graph = settings.Graph;
+            var deadline = settings.Deadline;
             var totalTime = move.Cost + time;
 
-            var vandalAgents = agent.Settings.Agents.OfType<VandalAgent>();
+            var vandalAgents = settings.Agents.OfType<VandalAgent>();
             if (vandalAgents.Any(a => a.BlockTimes.ContainsKey(move.Edge) && a.BlockTimes[move.Edge] <= time))
             {
                 return new HeuristicResult(move, int.MaxValue, agent.Passengers, time, deadline);
@@ -30,11 +31,22 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.HeuristicFunctions
             var reachedAny = false;
             foreach (var evacuationVertex in evacuationVertices)
             {
+                var traversePassengers = agent.Passengers;
+                if (evacuationVertex == move.Destination)
+                {
+                    traversePassengers += evacuationVertex.PeopleCount;
+                }
+
                 var evacuationPaths = GraphAlgorithms.Dijkstra(graph, evacuationVertex);
                 var sourcePaths = GraphAlgorithms.Dijkstra(graph, move.Destination);
 
                 // From our possible source to evacuation vertex:
-                var sourceToEvacuation = evacuationPaths.FirstOrDefault(p => p.Source.Equals(move.Destination));
+                var sourceEvacuationPaths = evacuationPaths.Where(p => p.Source.Equals(move.Destination)).ToList();
+                var sourceToEvacuation = sourceEvacuationPaths.FirstOrDefault(p =>
+                    Math.Abs(p.TraverseWeight(traversePassengers, settings.SlowDown).Item1 -
+                             sourceEvacuationPaths.Min(p2 =>
+                                 p2.TraverseWeight(traversePassengers, settings.SlowDown).Item1)) < 0.01);
+
                 // If can't reach
                 if (sourceToEvacuation == null || sourceToEvacuation.Weight == int.MaxValue)
                 {
@@ -43,28 +55,33 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.HeuristicFunctions
                 }
 
                 reachedAny = true;
-
                 // From evacuation vertex to shelter:
                 var evacuationToShelter = ShortestPathToShelter(evacuationPaths).Reverse();
 
-                var (wSourceToEvacuation, pSourceToEvacuation) = sourceToEvacuation.TraverseWeight(agent.Passengers, agent.Settings.SlowDown);
+                var (wSourceToEvacuation, pSourceToEvacuation) = sourceToEvacuation.TraverseWeight(traversePassengers, settings.SlowDown);
                 var (wEvacuationToShelter, _) = evacuationToShelter.TraverseWeight(sourceToEvacuation.GetVertices(), pSourceToEvacuation, agent.Settings.SlowDown);
                 var wSourceEvacuationShelter = wSourceToEvacuation + wEvacuationToShelter;
 
                 // From source to shelter to evacuation to shelter:
                 var sourceToShelter = ShortestPathToShelter(sourcePaths);
-                var shelterToEvacuation = evacuationPaths.FirstOrDefault(p => p.Source.Equals(sourceToShelter.Source));
+                var shelterEvacuationPaths =
+                    evacuationPaths.Where(p => p.Source.Equals(sourceToShelter.Source)).ToList();
+                var shelterToEvacuation = shelterEvacuationPaths.FirstOrDefault(p =>
+                                          Math.Abs(p.TraverseWeight(traversePassengers, settings.SlowDown).Item1 -
+                                                   shelterEvacuationPaths.Min(p2 =>
+                                                       p2.TraverseWeight(traversePassengers, settings.SlowDown).Item1)) < 0.01);
+                sourceToShelter = sourceToShelter.Reverse();
 
                 var wSourceToShelterToEvacuationToShelter = double.MaxValue;
                 if (shelterToEvacuation != null)
                 {
-                    var (wSourceToShelter, _) = sourceToShelter.TraverseWeight(agent.Passengers,
-                        agent.Settings.SlowDown);
+                    var (wSourceToShelter, _) = sourceToShelter.TraverseWeight(traversePassengers,
+                        settings.SlowDown);
                     var (wShelterToEvacuation, pShelterToEvacuation) =
-                        shelterToEvacuation.TraverseWeight(sourceToShelter.GetVertices(), 0, agent.Settings.SlowDown);
+                        shelterToEvacuation.TraverseWeight(sourceToShelter.GetVertices(), 0, settings.SlowDown);
                     var (wLongerEvacuationToShelter, _) = evacuationToShelter.TraverseWeight(
                         shelterToEvacuation.GetVertices().Union(sourceToShelter.GetVertices()).ToList(), pShelterToEvacuation,
-                        agent.Settings.SlowDown);
+                        settings.SlowDown);
 
                     wSourceToShelterToEvacuationToShelter =
                         wSourceToShelter + wShelterToEvacuation + wLongerEvacuationToShelter;
@@ -81,7 +98,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.HeuristicFunctions
             {
                 var destinationPaths = GraphAlgorithms.Dijkstra(graph, move.Destination);
                 var positionToShelter = ShortestPathToShelter(destinationPaths).Reverse();
-                var (weight, _) = positionToShelter.TraverseWeight(agent.Passengers, agent.Settings.SlowDown);
+                var (weight, _) = positionToShelter.TraverseWeight(agent.Passengers, settings.SlowDown);
                 if (totalTime + weight >= deadline)
                 {
                     unreachable.Add(new EvacuationVertex(-1, agent.Passengers));
@@ -100,8 +117,9 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.HeuristicFunctions
 
         private IPath ShortestPathToShelter(IList<IPath> paths)
         {
-            return paths.Where(p => p.Source is ShelterVertex)
-                .Aggregate(paths[0], (minWeight, newWeight) =>
+            var pathsToShelter = paths.Where(p => p.Source is ShelterVertex).ToList();
+
+            return pathsToShelter.Aggregate(pathsToShelter[0], (minWeight, newWeight) =>
                     newWeight.Weight < minWeight.Weight ? newWeight : minWeight);
         }
     }

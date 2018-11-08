@@ -9,7 +9,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Tests
 {
     class ManualTests
     {
-        private string originalExample =
+        private const string originalExample =
             "#V 4    ; number of vertices n in graph (from 1 to n)\n" +
             "#E 1 2 W1                 ; Edge from vertex 1 to vertex 2, weight 1\n" +
             "#E 3 4 W1                 ; Edge from vertex 3 to vertex 4, weight 1\n" +
@@ -20,6 +20,24 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Tests
             "#V 1 S                    ; Vertex 1 contains a hurricane shelter (a \"goal vertex\" - there may be more than one)\n" +
             "#V 4 P 2                  ; Vertex 4 initially contains 2 persons to be rescued\n" +
             "#D 16                     ; Deadline is at time 10";
+
+        private const string largerExample =
+            "#V 9               \n" +
+
+            "#E 1 2 W1          \n" + "#E 1 3 W5          \n" + "#E 1 4 W2          \n" +
+            "#E 2 3 W1          \n" + "#E 2 5 W2          \n" +
+            "#E 3 5 W5          \n" + "#E 3 4 W1          \n" +
+            "#E 4 5 W1          \n" +
+            "#E 5 6 W1          \n" + "#E 5 8 W1          \n" +
+            "#E 8 7 W1          \n" + "#E 8 9 W5          \n" +
+            "#E 7 9 W1          \n" +
+
+            "#V 2 P 3           \n" +
+            "#V 4 P 3           \n" +
+            "#V 6 P 5           \n" +
+            "#V 8 P 1           \n" +
+            "#V 9 S             \n" +
+            "#D 68             ";
 
         private IList<IAgent> a;
         private IGraph g;
@@ -48,7 +66,6 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Tests
 
         public void TestRtaStar()
         {
-
             (g, d) = new GraphParser().CreateGraphFromString(originalExample);
             k = 1;
             f = -1;
@@ -88,6 +105,21 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Tests
             s = new CodeSettings(g, a, d, k, f);
 
             a.Add(new VandalAgent(2, s, g.Vertices[3], 3));
+
+            var sim = new Simulator(s);
+            sim.Start();
+            Console.ReadLine();
+        }
+
+        public void TestAStarLargerGraph()
+        {
+            (g, d) = new GraphParser().CreateGraphFromString(largerExample);
+            k = 1;
+            f = -1;
+            a = new List<IAgent>();
+            s = new CodeSettings(g, a, d, k, f);
+
+            a.Add(new AStarAgent(1, s, g.Vertices[0]));
 
             var sim = new Simulator(s);
             sim.Start();

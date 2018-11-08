@@ -12,8 +12,12 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.AI_Agents
         protected IHeuristicFunction HeuristicFunction { get; set; }
         protected double Performance => Settings.WeightConstant * PeopleSaved + HeuristicFunction.SearchExpansions;
         public override double Score => Performance;
+
+        private Dictionary<IVertex, int> visited;
         protected AbstractAiAgent(int id, ISettings settings, IVertex position) : base(id, settings, position)
         {
+            visited = settings.Graph.Vertices.ToDictionary((k => k), (k => 0));
+            visited[Position]++;
         }
 
         protected IList<HeuristicResult> GetHValues(IVertex source, double time)
@@ -29,13 +33,20 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.AI_Agents
             IList<HeuristicResult> bestPicks = results.Where(hr => hr.Passengers > 0 && hr.Shelter).ToList();
             if (!bestPicks.Any())
             {
-                bestPicks = results.Where(hr => hr.Passengers > 0).ToList();
+                /*bestPicks = results.Where(hr => hr.Passengers > 0).ToList();
                 if (!bestPicks.Any())
-                {
-                    bestPicks = results;
-                }
+                {*/
+                    bestPicks = results.Where(hr =>
+                        visited[hr.Action.Destination] == results.Min(h => visited[h.Action.Destination])).ToList();
+                    if (!bestPicks.Any())
+                    {
+                        bestPicks = results;
+                    }
+                /*}*/
             }
-            return bestPicks.First(hr => hr.Passengers == bestPicks.Max(r => r.Passengers)).Action;
+            var nextMove = bestPicks.First(hr => hr.Passengers == bestPicks.Max(r => r.Passengers)).Action;
+            visited[nextMove.Destination]++;
+            return nextMove;
         }
     }
 }
