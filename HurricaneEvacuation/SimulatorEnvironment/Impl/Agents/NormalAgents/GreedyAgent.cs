@@ -14,7 +14,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.NormalAgents
 
         protected override IAction PlayNext(double time)
         {
-            var paths = GraphAlgorithms.Dijkstra(Settings.Graph, Position);
+            var paths = GraphAlgorithms.Dijkstra(Settings.Graph, Position, Settings.Agents.OfType<VandalAgent>().ToList(), Passengers, time, Settings.SlowDown);
 
             var selectedPath = Passengers > 0 ? FindShelter(paths) : FindPeople(paths);
 

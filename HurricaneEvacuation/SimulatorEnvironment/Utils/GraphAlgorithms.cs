@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using HurricaneEvacuation.SimulatorEnvironment.Impl.Actions;
+using HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.NormalAgents;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents;
 
 namespace HurricaneEvacuation.SimulatorEnvironment.Utils
 {
     internal static class GraphAlgorithms
     {
-        public static IList<IPath> Dijkstra(IGraph g, IVertex s)
+        public static IList<IPath> Dijkstra(IGraph g, IVertex s, IList<VandalAgent> vandalAgents, int passengers, double time, double slowDown)
         {
             var paths = new Dictionary<IVertex, IPath>();
             var flags = new Dictionary<IVertex, bool>();
@@ -23,7 +26,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Utils
                 IPath least = new Path(unreachable, null, int.MaxValue);
                 foreach (var v in vertices)
                 {
-                    if (!flags[v] && paths[v].Weight < least.Weight)
+                    if (!flags[v] && !paths[v].Blocked(vandalAgents, passengers, time, slowDown) && paths[v].Weight < least.Weight)
                     {
                         least = paths[v];
                     }

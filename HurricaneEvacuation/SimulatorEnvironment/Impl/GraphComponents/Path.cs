@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.NormalAgents;
 using HurricaneEvacuation.SimulatorEnvironment.Utils;
 
 namespace HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents
@@ -69,6 +71,34 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents
             }
 
             return currentNode;
+        }
+
+        public bool Blocked(IList<VandalAgent> vandalAgents, int passengers, double time, double slowDown)
+        {
+            var current = Source;
+            var iterator = Next;
+            var reachTime = time;
+
+            while (iterator != null)
+            {
+                var nextEdge = current.Neighbors.First(e => e.OtherV(current).Id == iterator.Source.Id);
+                var nextVertex = nextEdge.OtherV(current);
+
+                reachTime += GraphUtils.TraverseTime(nextEdge.Weight, passengers, slowDown);
+                if (nextVertex is EvacuationVertex ev)
+                {
+                    passengers += ev.PeopleCount;
+                }
+                if (vandalAgents.Any(va => va.BlockTimes.ContainsKey(nextEdge) && va.BlockTimes[nextEdge] <= reachTime))
+                {
+                    return true;
+                }
+
+                current = iterator.Source;
+                iterator = iterator.Next;
+            }
+
+            return false;
         }
 
         private void GetPassengers(IVertex v, IList<IVertex> visited, ref int currentPassengers)

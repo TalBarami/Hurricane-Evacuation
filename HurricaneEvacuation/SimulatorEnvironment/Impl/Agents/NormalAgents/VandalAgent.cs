@@ -22,12 +22,12 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.NormalAgents
             blockNext = true;
 
             Path = null;
-            BlockTimes = null;
+            BlockTimes = new Dictionary<IEdge, double>();
         }
 
         protected override IAction PlayNext(double time)
         {
-            if (Path == null || BlockTimes == null)
+            if (Path == null)
             {
                 (Path, BlockTimes) = GetPath(time);
             }

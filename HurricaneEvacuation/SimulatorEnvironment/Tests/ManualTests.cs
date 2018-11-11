@@ -125,5 +125,21 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Tests
             sim.Start();
             Console.ReadLine();
         }
+
+        public void TestAStarVandal()
+        {
+            (g, d) = new GraphParser().CreateGraphFromString(largerExample);
+            k = 1;
+            f = -1;
+            a = new List<IAgent>();
+            s = new CodeSettings(g, a, d, k, f);
+
+            a.Add(new VandalAgent(1, s, g.Vertices[2], 0));
+            a.Add(new AStarAgent(2, s, g.Vertices[0]));
+
+            var sim = new Simulator(s);
+            sim.Start();
+            Console.ReadLine();
+        }
     }
 }
