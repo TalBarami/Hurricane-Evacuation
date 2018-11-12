@@ -49,7 +49,12 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
 
         protected IAction Traverse(IEdge edge)
         {
-            return new Traverse(this, edge, Settings.SlowDown);
+            return Traverse(edge, edge.OtherV(Position), Passengers);
+        }
+
+        protected IAction Traverse(IEdge edge, IVertex dst, int passengers)
+        {
+            return new Traverse(this, edge, dst, passengers, Settings.SlowDown);
         }
 
         protected IAction Block(IEdge edge)

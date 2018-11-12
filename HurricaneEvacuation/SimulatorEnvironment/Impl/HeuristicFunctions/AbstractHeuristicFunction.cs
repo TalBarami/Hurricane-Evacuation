@@ -11,6 +11,6 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.HeuristicFunctions
         }
 
         public int SearchExpansions { get; protected set; }
-        public abstract HeuristicResult Apply(IAgent agent, Traverse move, double time);
+        public abstract HeuristicResult Apply(IState state);
     }
 }

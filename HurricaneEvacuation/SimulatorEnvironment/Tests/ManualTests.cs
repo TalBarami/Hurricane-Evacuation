@@ -72,7 +72,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Tests
             a = new List<IAgent>();
             s = new CodeSettings(g, a, d, k, f);
 
-            a.Add(new RtaStarAgent(1, s, g.Vertices[0]));
+            a.Add(new RtaStarAgent(1, s, g.Vertices[0], 100));
 
             var sim = new Simulator(s);
             sim.Start();
@@ -114,6 +114,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Tests
         public void TestAStarLargerGraph()
         {
             (g, d) = new GraphParser().CreateGraphFromString(largerExample);
+            d = 50;
             k = 1;
             f = -1;
             a = new List<IAgent>();

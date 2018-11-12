@@ -6,12 +6,13 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.HeuristicFunctions
     class HeuristicResult
     {
         public Traverse Action { get; }
-        private double Value { get; }
-        private double Time { get; }
-        private double Deadline { get; }
+        public double Time { get; }
         public int Passengers { get; }
         public bool Shelter => Action.Destination is ShelterVertex;
-        public double TravelTime { private get; set; }
+
+        private double Value { get; }
+        private double Deadline { get; }
+        public double TravelTime { get; set; }
 
         public HeuristicResult(Traverse action, double value, int passengers, double time, double deadline)
         {

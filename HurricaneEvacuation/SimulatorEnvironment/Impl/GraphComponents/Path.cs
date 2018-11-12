@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.NormalAgents;
+using HurricaneEvacuation.SimulatorEnvironment.Impl.HeuristicFunctions;
 using HurricaneEvacuation.SimulatorEnvironment.Utils;
 
 namespace HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents
@@ -73,18 +74,20 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents
             return currentNode;
         }
 
-        public bool Blocked(IList<VandalAgent> vandalAgents, int passengers, double time, double slowDown)
+        public bool Blocked(IState state)
         {
             var current = Source;
             var iterator = Next;
-            var reachTime = time;
+            var reachTime = state.Time;
+            var passengers = state.Passengers;
+            var vandalAgents = state.Settings.Agents.OfType<VandalAgent>().ToList();
 
             while (iterator != null)
             {
                 var nextEdge = current.Neighbors.First(e => e.OtherV(current).Id == iterator.Source.Id);
                 var nextVertex = nextEdge.OtherV(current);
 
-                reachTime += GraphUtils.TraverseTime(nextEdge.Weight, passengers, slowDown);
+                reachTime += GraphUtils.TraverseTime(nextEdge.Weight, passengers, state.Settings.SlowDown);
                 if (nextVertex is EvacuationVertex ev)
                 {
                     passengers += ev.PeopleCount;

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using HurricaneEvacuation.SimulatorEnvironment.Impl.Actions;
-using HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.NormalAgents;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents;
 using HurricaneEvacuation.SimulatorEnvironment.Utils;
 
@@ -10,33 +8,33 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.HeuristicFunctions
 {
     class UnreachablePeopleFunction : AbstractHeuristicFunction
     { 
-        public override HeuristicResult Apply(IAgent agent, Traverse move, double time)
+        public override HeuristicResult Apply(IState state)
         {
             SearchExpansions++;
-            var settings = agent.Settings;
+            var settings = state.Settings;
 
             var graph = settings.Graph;
             var deadline = settings.Deadline;
-            var totalTime = move.Cost + time;
-
-            var vandalAgents = settings.Agents.OfType<VandalAgent>().ToList();
-
+            var totalTime = state.Action.Cost + state.Time;
+            var dst = state.Action.Destination;
+            
             var evacuationVertices = graph.Vertices.OfType<EvacuationVertex>().Where(v => v.PeopleCount > 0).ToList();
             var unreachable = new List<EvacuationVertex>();
             
             foreach (var evacuationVertex in evacuationVertices)
             {
-                var traversePassengers = agent.Passengers;
-                if (evacuationVertex == move.Destination)
+                var traversePassengers = state.Passengers;
+                if (evacuationVertex == dst)
                 {
                     traversePassengers += evacuationVertex.PeopleCount;
                 }
 
-                var evacuationPaths = GraphAlgorithms.Dijkstra(graph, evacuationVertex, vandalAgents, traversePassengers, totalTime, settings.SlowDown).ToList();
-                var sourcePaths = GraphAlgorithms.Dijkstra(graph, move.Destination, vandalAgents, traversePassengers, totalTime, settings.SlowDown).ToList();
+                var newState = new State(state, traversePassengers, totalTime);
+                var evacuationPaths = GraphAlgorithms.Dijkstra(evacuationVertex, newState).ToList();
+                var sourcePaths = GraphAlgorithms.Dijkstra(dst, newState).ToList();
 
                 // From our possible source to evacuation vertex:
-                var sourceEvacuationPaths = evacuationPaths.Where(p => p.Source.Equals(move.Destination)).ToList();
+                var sourceEvacuationPaths = evacuationPaths.Where(p => p.Source.Equals(dst)).ToList();
                 var sourceToEvacuation = sourceEvacuationPaths.FirstOrDefault(p =>
                     Math.Abs(p.TraverseWeight(traversePassengers, settings.SlowDown).Item1 -
                              sourceEvacuationPaths.Min(p2 =>
@@ -53,7 +51,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.HeuristicFunctions
                 var evacuationToShelter = ShortestPathToShelter(evacuationPaths).Reverse();
 
                 var (wSourceToEvacuation, pSourceToEvacuation) = sourceToEvacuation.TraverseWeight(traversePassengers, settings.SlowDown);
-                var (wEvacuationToShelter, _) = evacuationToShelter.TraverseWeight(sourceToEvacuation.GetVertices(), pSourceToEvacuation, agent.Settings.SlowDown);
+                var (wEvacuationToShelter, _) = evacuationToShelter.TraverseWeight(sourceToEvacuation.GetVertices(), pSourceToEvacuation, settings.SlowDown);
                 var wSourceEvacuationShelter = wSourceToEvacuation + wEvacuationToShelter;
 
                 // From source to shelter to evacuation to shelter:
@@ -88,26 +86,26 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.HeuristicFunctions
                 }
             }
 
-            if (agent.Passengers > 0) // Verify that the agent got enough time to return to the shelter
+            if (state.Passengers > 0) // Verify that the agent got enough time to return to the shelter
             {
-                var destinationPaths = GraphAlgorithms.Dijkstra(graph, move.Destination, vandalAgents, agent.Passengers, totalTime, settings.SlowDown).ToList();
+                var destinationPaths = GraphAlgorithms.Dijkstra(dst, new State(state, state.Passengers, totalTime)).ToList();
                 var positionToShelter = ShortestPathToShelter(destinationPaths).Reverse();
 
-                var (weight, _) = positionToShelter.TraverseWeight(agent.Passengers, settings.SlowDown);
-                if ((positionToShelter.Weight == 0 && positionToShelter.Source.Id != move.Destination.Id) || totalTime + weight >= deadline)
+                var (weight, _) = positionToShelter.TraverseWeight(state.Passengers, settings.SlowDown);
+                if ((positionToShelter.Weight == 0 && positionToShelter.Source.Id != dst.Id) || totalTime + weight >= deadline)
                 {
-                    unreachable.Add(new EvacuationVertex(-1, agent.Passengers));
+                    unreachable.Add(new EvacuationVertex(-1, state.Passengers));
                 }
             }
 
             var unreachablePeople = unreachable.Aggregate(0, (sum, agg) => sum + agg.PeopleCount);
-            var passengers = agent.Passengers;
-            if (move.Destination is EvacuationVertex ev)
+            var passengers = state.Passengers;
+            if (dst is EvacuationVertex ev)
             {
                 passengers += ev.PeopleCount;
             }
 
-            return new HeuristicResult(move, unreachablePeople * (Math.Ceiling(graph.Edges.Max(e => e.Weight)/100d) * 100), passengers, totalTime, deadline);
+            return new HeuristicResult(state.Action, unreachablePeople * (Math.Ceiling(graph.Edges.Max(e => e.Weight)/100d) * 100), passengers, totalTime, deadline);
         }
 
         private IPath ShortestPathToShelter(IList<IPath> paths)

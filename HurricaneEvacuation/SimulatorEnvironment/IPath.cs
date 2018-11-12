@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.NormalAgents;
+using HurricaneEvacuation.SimulatorEnvironment.Impl.HeuristicFunctions;
 
 namespace HurricaneEvacuation.SimulatorEnvironment
 {
@@ -14,6 +15,6 @@ namespace HurricaneEvacuation.SimulatorEnvironment
         (double, int) TraverseWeight(int passengers, double slowDown);
         IPath Reverse();
 
-        bool Blocked(IList<VandalAgent> vandalAgents, int passengers, double time, double slowDown);
+        bool Blocked(IState state);
     }
 }

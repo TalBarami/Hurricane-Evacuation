@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents;
+using HurricaneEvacuation.SimulatorEnvironment.Impl.HeuristicFunctions;
 using HurricaneEvacuation.SimulatorEnvironment.Utils;
 
 namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.NormalAgents
@@ -14,7 +15,8 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.NormalAgents
 
         protected override IAction PlayNext(double time)
         {
-            var paths = GraphAlgorithms.Dijkstra(Settings.Graph, Position, Settings.Agents.OfType<VandalAgent>().ToList(), Passengers, time, Settings.SlowDown);
+            var state = new State(Settings, null, Passengers, time);
+            var paths = GraphAlgorithms.Dijkstra(Position, state);
 
             var selectedPath = Passengers > 0 ? FindShelter(paths) : FindPeople(paths);
 

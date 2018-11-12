@@ -10,15 +10,15 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Actions
         protected readonly IAgent Agent;
         protected readonly int CurrentPassengers;
         protected readonly IVertex CurrentPosition;
-        public Traverse(IAgent agent, IEdge edge, double slowDown)
+        public Traverse(IAgent agent, IEdge edge, IVertex destination, int passengers, double slowDown)
         {
             Agent = agent;
             Edge = edge;
-            Destination = Edge.OtherV(Agent.Position);
-            CurrentPassengers = Agent.Passengers;
+            Destination = destination;
+            CurrentPassengers = passengers;
             CurrentPosition = Agent.Position;
 
-            Cost = GraphUtils.TraverseTime(edge.Weight, CurrentPassengers, slowDown);
+            Cost = GraphUtils.TraverseTime(edge.Weight, passengers, slowDown);
         }
 
         public double Cost { get; }

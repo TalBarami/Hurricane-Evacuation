@@ -21,6 +21,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents
         {
             return Neighbors.Where(e => !e.Blocked).ToList();
         }
+
         public IList<IVertex> ValidNeighbors()
         {
             return ValidEdges().Select(e => e.OtherV(this)).ToList();

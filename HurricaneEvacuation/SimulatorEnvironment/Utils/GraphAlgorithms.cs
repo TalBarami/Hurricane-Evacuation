@@ -1,22 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using HurricaneEvacuation.SimulatorEnvironment.Impl.Actions;
-using HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.NormalAgents;
+﻿using System.Collections.Generic;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents;
+using HurricaneEvacuation.SimulatorEnvironment.Impl.HeuristicFunctions;
 
 namespace HurricaneEvacuation.SimulatorEnvironment.Utils
 {
     internal static class GraphAlgorithms
     {
-        public static IList<IPath> Dijkstra(IGraph g, IVertex s, IList<VandalAgent> vandalAgents, int passengers, double time, double slowDown)
+        public static IList<IPath> Dijkstra(IVertex source, IState state)
         {
+            var g = state.Settings.Graph;
             var paths = new Dictionary<IVertex, IPath>();
             var flags = new Dictionary<IVertex, bool>();
 
             var vertices = new List<IVertex>(g.Vertices);
             foreach (var v in vertices)
             {
-                paths[v] = new Path(v, null, v == s ? 0 : int.MaxValue);
+                paths[v] = new Path(v, null, v == source ? 0 : int.MaxValue);
                 flags[v] = false;
             }
 
@@ -26,7 +25,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Utils
                 IPath least = new Path(unreachable, null, int.MaxValue);
                 foreach (var v in vertices)
                 {
-                    if (!flags[v] && !paths[v].Blocked(vandalAgents, passengers, time, slowDown) && paths[v].Weight < least.Weight)
+                    if (!flags[v] && !paths[v].Blocked(state) && paths[v].Weight < least.Weight)
                     {
                         least = paths[v];
                     }
