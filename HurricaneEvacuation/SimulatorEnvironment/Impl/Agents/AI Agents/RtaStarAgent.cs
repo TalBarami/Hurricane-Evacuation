@@ -41,7 +41,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.AI_Agents
 
             while (!current.GoalReached)
             {
-                var hValues = GetHValues(current.Action.Destination, current.Passengers, current.Time);
+                var hValues = GetHValues(current.Action.Destination, node.Visited, current.Passengers, current.Time);
                 hValues.ForEach(hr => hr.TravelTime = current.TravelTime + hr.Action.Cost);
                 foreach (var hv in hValues)
                 {

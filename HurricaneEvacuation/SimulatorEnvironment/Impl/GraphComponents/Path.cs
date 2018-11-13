@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.NormalAgents;
+using HurricaneEvacuation.SimulatorEnvironment.Impl.Agents;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.HeuristicFunctions;
 using HurricaneEvacuation.SimulatorEnvironment.Utils;
 

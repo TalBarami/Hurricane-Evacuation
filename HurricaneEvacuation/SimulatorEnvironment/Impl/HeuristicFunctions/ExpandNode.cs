@@ -11,6 +11,22 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.HeuristicFunctions
         public HeuristicResult result;
         public ExpandNode root;
         public IList<ExpandNode> children;
+        public IList<IVertex> Visited
+        {
+            get
+            {
+                var visited = new List<IVertex>() {result.Action.Destination};
+                var node = root;
+
+                while (node != null)
+                {
+                    visited.Add(node.result.Action.Destination);
+                    node = node.root;
+                }
+
+                return visited;
+            }
+        }
 
         public ExpandNode(HeuristicResult result, ExpandNode root = null)
         {

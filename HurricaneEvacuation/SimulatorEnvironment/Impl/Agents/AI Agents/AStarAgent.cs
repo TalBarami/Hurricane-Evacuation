@@ -47,7 +47,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.AI_Agents
 
             while (!current.GoalReached)
             {
-                var hValues = GetHValues(current.Action.Destination, current.Passengers, current.Time);
+                var hValues = GetHValues(current.Action.Destination, node.Visited, current.Passengers, current.Time);
                 hValues.ForEach(hr => hr.TravelTime = current.TravelTime + hr.Action.Cost);
                 foreach (var hv in hValues)
                 {
@@ -60,7 +60,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.AI_Agents
                 possibleResults.Remove(current);
 
                 expands++;
-                if (!(expands <= Math.Pow(Settings.Graph.Edges.Count, 2))) continue;
+                if (expands <= Math.Pow(Settings.Graph.Edges.Count, 2)) continue;
                 var results = root.children.Select(child => child.result).ToList();
                 var minimal = results.Where(hResult => Math.Abs(hResult.FValue - results.Min(h => h.FValue)) < Tolerance).ToList();
                 Console.WriteLine($"\tF Returned:\n\t\t{results.ListToString().Replace(" ; ", "\n\t\t")}");
@@ -69,11 +69,14 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.AI_Agents
                 return selected;
             }
 
+            var path = new Path(node.result.Action.Destination, null, 0);
             while (node.root.result != initial)
             {
+                path = new Path(node.root.result.Action.Destination, path, 0);
                 node = node.root;
             }
-            
+            Console.WriteLine(path);
+
             return node.result.Action;
         }
     }

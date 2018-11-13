@@ -24,7 +24,6 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
 
         public double PerformStep(double time)
         {
-            Console.WriteLine($"{Id} is playing from vertex {Position}.");
             var action = PlayNext(time);
             var newTime = time + action.Cost;
             if (newTime > Settings.Deadline)

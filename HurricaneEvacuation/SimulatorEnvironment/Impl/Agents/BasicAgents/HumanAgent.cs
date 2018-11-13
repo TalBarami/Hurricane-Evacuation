@@ -2,7 +2,7 @@
 using System.Linq;
 using HurricaneEvacuation.SimulatorEnvironment.Utils;
 
-namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.NormalAgents
+namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.BasicAgents
 {
     internal class HumanAgent : VehicleAgent
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.AI_Agents;
-using HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.NormalAgents;
+using HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.BasicAgents;
 
 namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
 {
@@ -69,7 +69,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
 
         private IAgent CreateRtaStarAgent()
         {
-            return new RtaStarAgent(id++, settings, initialPosition);
+            return new RtaStarAgent(id++, settings, initialPosition, 50);
         }
     }
 }

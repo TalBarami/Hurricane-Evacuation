@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using HurricaneEvacuation.SimulatorEnvironment.Impl.Agents;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.AI_Agents;
-using HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.NormalAgents;
+using HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.BasicAgents;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.Settings;
 
@@ -38,6 +39,18 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Tests
             "#V 8 P 1           \n" +
             "#V 9 S             \n" +
             "#D 68             ";
+
+        private const string classExample =
+            "#V 4               \n" +
+            "#E 1 2 W1          \n" +
+            "#E 1 3 W2          \n" +
+            "#E 2 3 W5          \n" +
+            "#E 2 4 W1          \n" +
+            "#E 3 4 W1          \n" +
+            "#V 3 S             \n" +
+            "#V 2 P 3           \n" +
+            "#V 4 P 1           \n" +
+            "#D 5               ";
 
         private IList<IAgent> a;
         private IGraph g;
@@ -137,6 +150,22 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Tests
 
             a.Add(new VandalAgent(1, s, g.Vertices[2], 0));
             a.Add(new AStarAgent(2, s, g.Vertices[0]));
+
+            var sim = new Simulator(s);
+            sim.Start();
+            Console.ReadLine();
+        }
+
+        public void TestClass()
+        {
+            (g, d) = new GraphParser().CreateGraphFromString(classExample);
+            k = 1;
+            f = -1;
+            a = new List<IAgent>();
+            s = new CodeSettings(g, a, d, k, f);
+
+            //a.Add(new VandalAgent(1, s, g.Vertices[2], 0));
+            a.Add(new AStarAgent(1, s, g.Vertices[0]));
 
             var sim = new Simulator(s);
             sim.Start();

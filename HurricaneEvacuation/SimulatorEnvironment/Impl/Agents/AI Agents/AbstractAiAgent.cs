@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.Actions;
-using HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.NormalAgents;
+using HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.BasicAgents;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.HeuristicFunctions;
 
 namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.AI_Agents
@@ -20,7 +20,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.AI_Agents
             visited[Position]++;
         }
 
-        protected List<HeuristicResult> GetHValues(IVertex source, int passengers, double time)
+        protected List<HeuristicResult> GetHValues(IVertex source, IList<IVertex> visited, int passengers, double time)
         {
             var vandalAgents = Settings.Agents.OfType<VandalAgent>();
             return source.ValidEdges()
@@ -28,7 +28,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.AI_Agents
                 .Select(e =>
             {
                 var possibleTraverse = Traverse(e, e.OtherV(source), passengers);
-                var state = new State(Settings, possibleTraverse as Traverse, passengers, time);
+                var state = new State(Settings, visited, possibleTraverse as Traverse, passengers, time);
                 return HeuristicFunction.Apply(state);
             }).ToList();
         }

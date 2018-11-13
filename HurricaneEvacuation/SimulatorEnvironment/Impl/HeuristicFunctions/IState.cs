@@ -10,6 +10,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.HeuristicFunctions
     interface IState
     {
         ISettings Settings { get; }
+        IList<IVertex> Visited { get; }
         Traverse Action { get; }
         int Passengers { get; }
         double Time { get; }

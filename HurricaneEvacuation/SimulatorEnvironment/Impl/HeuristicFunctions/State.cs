@@ -10,13 +10,15 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.HeuristicFunctions
     class State : IState
     {
         public ISettings Settings { get; }
+        public IList<IVertex> Visited { get; }
         public int Passengers { get; }
         public double Time { get; }
         public Traverse Action { get;  }
 
-        public State(ISettings settings, Traverse action, int passengers, double time)
+        public State(ISettings settings, IList<IVertex> visited, Traverse action, int passengers, double time)
         {
             Settings = settings;
+            Visited = visited;
             Action = action;
             Passengers = passengers;
             Time = time;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents;
 
-namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.NormalAgents
+namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents
 {
     internal class VandalAgent : AbstractAgent
     {

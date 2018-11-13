@@ -17,17 +17,17 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.HeuristicFunctions
             var deadline = settings.Deadline;
             var totalTime = state.Action.Cost + state.Time;
             var dst = state.Action.Destination;
-            
-            var evacuationVertices = graph.Vertices.OfType<EvacuationVertex>().Where(v => v.PeopleCount > 0).ToList();
+
+            var evacuationVertices = graph.Vertices.OfType<EvacuationVertex>().Where(v => !state.Visited.Contains(v) && v.PeopleCount > 0).ToList();
             var unreachable = new List<EvacuationVertex>();
             
             foreach (var evacuationVertex in evacuationVertices)
             {
                 var traversePassengers = state.Passengers;
-                if (evacuationVertex == dst)
+                /*if (evacuationVertex == dst)
                 {
                     traversePassengers += evacuationVertex.PeopleCount;
-                }
+                }*/
 
                 var newState = new State(state, traversePassengers, totalTime);
                 var evacuationPaths = GraphAlgorithms.Dijkstra(evacuationVertex, newState).ToList();
@@ -80,7 +80,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.HeuristicFunctions
                 }
                 
 
-                if (totalTime + Math.Min(wSourceEvacuationShelter, wSourceToShelterToEvacuationToShelter) >= deadline)
+                if (totalTime + Math.Min(wSourceEvacuationShelter, wSourceToShelterToEvacuationToShelter) > deadline)
                 {
                     unreachable.Add(evacuationVertex);
                 }
@@ -92,7 +92,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.HeuristicFunctions
                 var positionToShelter = ShortestPathToShelter(destinationPaths).Reverse();
 
                 var (weight, _) = positionToShelter.TraverseWeight(state.Passengers, settings.SlowDown);
-                if ((positionToShelter.Weight == 0 && positionToShelter.Source.Id != dst.Id) || totalTime + weight >= deadline)
+                if ((positionToShelter.Weight == 0 && positionToShelter.Source.Id != dst.Id) || totalTime + weight > deadline)
                 {
                     unreachable.Add(new EvacuationVertex(-1, state.Passengers));
                 }
@@ -100,9 +100,14 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.HeuristicFunctions
 
             var unreachablePeople = unreachable.Aggregate(0, (sum, agg) => sum + agg.PeopleCount);
             var passengers = state.Passengers;
-            if (dst is EvacuationVertex ev)
+            switch (dst)
             {
-                passengers += ev.PeopleCount;
+                case EvacuationVertex ev:
+                    passengers += ev.PeopleCount;
+                    break;
+                case ShelterVertex _:
+                    passengers = 0;
+                    break;
             }
 
             return new HeuristicResult(state.Action, unreachablePeople * (Math.Ceiling(graph.Edges.Max(e => e.Weight)/100d) * 100), passengers, totalTime, deadline);

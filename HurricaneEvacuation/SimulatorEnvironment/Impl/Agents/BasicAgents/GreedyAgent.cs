@@ -5,7 +5,7 @@ using HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.HeuristicFunctions;
 using HurricaneEvacuation.SimulatorEnvironment.Utils;
 
-namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.NormalAgents
+namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.BasicAgents
 {
     internal class GreedyAgent : VehicleAgent
     {
@@ -15,7 +15,7 @@ namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.NormalAgents
 
         protected override IAction PlayNext(double time)
         {
-            var state = new State(Settings, null, Passengers, time);
+            var state = new State(Settings, new List<IVertex>(), null, Passengers, time);
             var paths = GraphAlgorithms.Dijkstra(Position, state);
 
             var selectedPath = Passengers > 0 ? FindShelter(paths) : FindPeople(paths);

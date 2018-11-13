@@ -57,12 +57,12 @@
     <Compile Include="SimulatorEnvironment\Impl\Agents\AgentsFactory.cs" />
     <Compile Include="SimulatorEnvironment\Impl\Agents\AI Agents\AbstractAiAgent.cs" />
     <Compile Include="SimulatorEnvironment\Impl\Agents\AI Agents\AStarAgent.cs" />
-    <Compile Include="SimulatorEnvironment\Impl\Agents\NormalAgents\GreedyAgent.cs" />
+    <Compile Include="SimulatorEnvironment\Impl\Agents\BasicAgents\GreedyAgent.cs" />
     <Compile Include="SimulatorEnvironment\Impl\Agents\AI Agents\GreedySearchAgent.cs" />
-    <Compile Include="SimulatorEnvironment\Impl\Agents\NormalAgents\HumanAgent.cs" />
+    <Compile Include="SimulatorEnvironment\Impl\Agents\BasicAgents\HumanAgent.cs" />
     <Compile Include="SimulatorEnvironment\Impl\Agents\AI Agents\RtaStarAgent.cs" />
-    <Compile Include="SimulatorEnvironment\Impl\Agents\NormalAgents\VandalAgent.cs" />
-    <Compile Include="SimulatorEnvironment\Impl\Agents\NormalAgents\VehicleAgent.cs" />
+    <Compile Include="SimulatorEnvironment\Impl\Agents\VandalAgent.cs" />
+    <Compile Include="SimulatorEnvironment\Impl\Agents\BasicAgents\VehicleAgent.cs" />
     <Compile Include="SimulatorEnvironment\Impl\GraphComponents\AbstractVertex.cs" />
     <Compile Include="SimulatorEnvironment\Impl\GraphComponents\EmptyVertex.cs" />
     <Compile Include="SimulatorEnvironment\Impl\GraphComponents\EvacuationVertex.cs" />

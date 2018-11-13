@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.NormalAgents;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.HeuristicFunctions;
 
 namespace HurricaneEvacuation.SimulatorEnvironment

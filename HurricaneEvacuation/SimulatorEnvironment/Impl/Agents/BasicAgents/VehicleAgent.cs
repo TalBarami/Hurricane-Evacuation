@@ -1,7 +1,7 @@
 ﻿using System;
 using HurricaneEvacuation.SimulatorEnvironment.Impl.GraphComponents;
 
-namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.NormalAgents
+namespace HurricaneEvacuation.SimulatorEnvironment.Impl.Agents.BasicAgents
 {
     abstract class VehicleAgent : AbstractAgent
     {

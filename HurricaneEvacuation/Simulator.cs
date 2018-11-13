@@ -25,6 +25,7 @@ namespace HurricaneEvacuation
                 Console.WriteLine($"Time to world's end: {Time}/{settings.Deadline}.");
                 Console.WriteLine($"World state:\n{settings.Graph}");
                 Console.WriteLine($"Agents state:\n\t{settings.Agents.ListToString()}");
+                Console.WriteLine($"{currentAgent.Id} is playing from vertex {currentAgent.Position}.");
                 Time = currentAgent.PerformStep(Time);
                 i = (i + 1) % settings.Agents.Count;
                 //Thread.Sleep(2000);
