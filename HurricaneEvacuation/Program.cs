@@ -1,4 +1,7 @@
-﻿using HurricaneEvacuation.SimulatorEnvironment.Tests;
+﻿using System;
+using System.IO;
+using HurricaneEvacuation.Environment;
+using HurricaneEvacuation.Tests;
 
 namespace HurricaneEvacuation
 {
@@ -6,9 +9,14 @@ namespace HurricaneEvacuation
     {
         private static void Main(string[] args)
         {
-            var tests = new ManualTests();
+            /*var graph = File.ReadAllText(args[1]);
 
-            tests.TestAStarVandal();
+            var initializer = new CommandLineInitializer(graph);
+            var simulator = new Simulator(initializer.initialState);
+            simulator.Start();*/
+
+            ManualTests m = new ManualTests();
+            m.MultiAgentBasic();
         }
     }
 }

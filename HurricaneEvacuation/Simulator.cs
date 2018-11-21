@@ -1,39 +1,42 @@
 ﻿using System;
-using System.Threading;
-using HurricaneEvacuation.SimulatorEnvironment;
-using HurricaneEvacuation.SimulatorEnvironment.Utils;
+using System.Linq;
+using HurricaneEvacuation.Environment;
 
 namespace HurricaneEvacuation
 {
-    internal class Simulator
+    public class Simulator
     {
-        private readonly ISettings settings;
-        private double Time { get; set; }
+        private IState world;
 
-        public Simulator(ISettings settings)
+        public Simulator(IState initialState)
         {
-            this.settings = settings;
-            Time = 0;
+            world = initialState;
         }
 
         public void Start()
         {
-            var i = 0;
-            while (Time < settings.Deadline)
+            while (world.Time < Constants.Deadline)
             {
-                var currentAgent = settings.Agents[i];
-                Console.WriteLine($"Time to world's end: {Time}/{settings.Deadline}.");
-                Console.WriteLine($"World state:\n{settings.Graph}");
-                Console.WriteLine($"Agents state:\n\t{settings.Agents.ListToString()}");
-                Console.WriteLine($"{currentAgent.Id} is playing from vertex {currentAgent.Position}.");
-                Time = currentAgent.PerformStep(Time);
-                i = (i + 1) % settings.Agents.Count;
-                //Thread.Sleep(2000);
-                Console.ReadKey(true);
-                Console.WriteLine();
-            }
+                Console.WriteLine(world);
 
-            Console.WriteLine("\nALL YOUR BASE ARE BELONG TO US.");
+                var action = world.Agents[world.CurrentAgent].NextStep(world);
+                Console.WriteLine(action);
+                if (action.NewState.Time > Constants.Deadline)
+                {
+                    Console.WriteLine($"There was not enough time for {action.Performer.Name} to complete his action.");
+                    break;
+                }
+
+                world = action.NewState.Clone();
+
+                Console.WriteLine();
+                Console.ReadKey(true);
+            }
+            Console.WriteLine(world);
+            Console.WriteLine("--- All your base are belong to us. ---");
+            Console.WriteLine($"Final score:\n\t\t{string.Join("\n\t\t", world.Agents.Select(a => $"{a.Name}: {a.Score}"))}");
+            Console.ReadKey(true);
         }
+
     }
 }

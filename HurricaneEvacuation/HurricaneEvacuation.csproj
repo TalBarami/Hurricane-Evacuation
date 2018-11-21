@@ -44,57 +44,57 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Simulator.cs" />
-    <Compile Include="SimulatorEnvironment\Exceptions\InvalidAgentException.cs" />
-    <Compile Include="SimulatorEnvironment\Exceptions\ParseException.cs" />
-    <Compile Include="SimulatorEnvironment\IAgent.cs" />
-    <Compile Include="SimulatorEnvironment\IEdge.cs" />
-    <Compile Include="SimulatorEnvironment\IGraph.cs" />
-    <Compile Include="SimulatorEnvironment\Impl\Actions\Block.cs" />
-    <Compile Include="SimulatorEnvironment\Impl\Actions\NoOperation.cs" />
-    <Compile Include="SimulatorEnvironment\Impl\Actions\Traverse.cs" />
-    <Compile Include="SimulatorEnvironment\Impl\Agents\AbstractAgent.cs" />
-    <Compile Include="SimulatorEnvironment\Impl\Agents\AgentsFactory.cs" />
-    <Compile Include="SimulatorEnvironment\Impl\Agents\AI Agents\AbstractAiAgent.cs" />
-    <Compile Include="SimulatorEnvironment\Impl\Agents\AI Agents\AStarAgent.cs" />
-    <Compile Include="SimulatorEnvironment\Impl\Agents\BasicAgents\GreedyAgent.cs" />
-    <Compile Include="SimulatorEnvironment\Impl\Agents\AI Agents\GreedySearchAgent.cs" />
-    <Compile Include="SimulatorEnvironment\Impl\Agents\BasicAgents\HumanAgent.cs" />
-    <Compile Include="SimulatorEnvironment\Impl\Agents\AI Agents\RtaStarAgent.cs" />
-    <Compile Include="SimulatorEnvironment\Impl\Agents\VandalAgent.cs" />
-    <Compile Include="SimulatorEnvironment\Impl\Agents\BasicAgents\VehicleAgent.cs" />
-    <Compile Include="SimulatorEnvironment\Impl\GraphComponents\AbstractVertex.cs" />
-    <Compile Include="SimulatorEnvironment\Impl\GraphComponents\EmptyVertex.cs" />
-    <Compile Include="SimulatorEnvironment\Impl\GraphComponents\EvacuationVertex.cs" />
-    <Compile Include="SimulatorEnvironment\Impl\GraphComponents\Graph.cs" />
-    <Compile Include="SimulatorEnvironment\Impl\GraphComponents\Path.cs" />
-    <Compile Include="SimulatorEnvironment\Impl\GraphComponents\ShelterVertex.cs" />
-    <Compile Include="SimulatorEnvironment\IAction.cs" />
-    <Compile Include="SimulatorEnvironment\IHeuristicFunction.cs" />
-    <Compile Include="SimulatorEnvironment\Impl\HeuristicFunctions\AbstractHeuristicFunction.cs" />
-    <Compile Include="SimulatorEnvironment\Impl\HeuristicFunctions\ExpandNode.cs" />
-    <Compile Include="SimulatorEnvironment\Impl\HeuristicFunctions\HeuristicResult.cs" />
-    <Compile Include="SimulatorEnvironment\Impl\HeuristicFunctions\IState.cs" />
-    <Compile Include="SimulatorEnvironment\Impl\HeuristicFunctions\State.cs" />
-    <Compile Include="SimulatorEnvironment\Impl\HeuristicFunctions\UnreachablePeopleFunction.cs" />
-    <Compile Include="SimulatorEnvironment\Impl\Settings\AbstractSettings.cs" />
-    <Compile Include="SimulatorEnvironment\Impl\Settings\CodeSettings.cs" />
-    <Compile Include="SimulatorEnvironment\Impl\Settings\ConsoleSettings.cs" />
-    <Compile Include="SimulatorEnvironment\IPath.cs" />
-    <Compile Include="SimulatorEnvironment\ISettings.cs" />
-    <Compile Include="SimulatorEnvironment\IVertex.cs" />
-    <Compile Include="SimulatorEnvironment\Impl\GraphComponents\GraphParser.cs" />
+    <Compile Include="Actions\AbstractAction.cs" />
+    <Compile Include="Actions\Block.cs" />
+    <Compile Include="Actions\IAction.cs" />
+    <Compile Include="Actions\NoOp.cs" />
+    <Compile Include="Actions\Traverse.cs" />
+    <Compile Include="Agents\AbstractAgent.cs" />
+    <Compile Include="Agents\AbstractHelpfulAgent.cs" />
+    <Compile Include="Agents\AbstractHeuristicAgent.cs" />
+    <Compile Include="Agents\AgentsFactory.cs" />
+    <Compile Include="Agents\AI Agents\AbstractAIAgent.cs" />
+    <Compile Include="Agents\AI Agents\AStarAgent.cs" />
+    <Compile Include="Agents\AI Agents\ExpandTree.cs" />
+    <Compile Include="Agents\AI Agents\GreedySearchAgent.cs" />
+    <Compile Include="Agents\AI Agents\HeuristicResult.cs" />
+    <Compile Include="Agents\AI Agents\RTAStarAgent.cs" />
+    <Compile Include="Agents\Basic Agents\GreedyAgent.cs" />
+    <Compile Include="Agents\Basic Agents\HumanAgent.cs" />
+    <Compile Include="Agents\Basic Agents\VandalAgent.cs" />
+    <Compile Include="Agents\IAgent.cs" />
+    <Compile Include="Agents\Multi Agents\AbstractMultiAgent.cs" />
+    <Compile Include="Agents\Multi Agents\AdversarialAgent.cs" />
+    <Compile Include="Agents\Multi Agents\CoOpAgent.cs" />
+    <Compile Include="Agents\Multi Agents\MinimaxTree.cs" />
+    <Compile Include="Agents\Multi Agents\SemiCoOpAgent.cs" />
+    <Compile Include="Environment\CommandLineInitializer.cs" />
+    <Compile Include="Environment\Constants.cs" />
+    <Compile Include="Environment\IState.cs" />
+    <Compile Include="Environment\State.cs" />
+    <Compile Include="GraphComponents\Edge.cs" />
+    <Compile Include="GraphComponents\Graph.cs" />
+    <Compile Include="GraphComponents\GraphParser.cs" />
+    <Compile Include="GraphComponents\IGraph.cs" />
+    <Compile Include="GraphComponents\Path.cs" />
+    <Compile Include="GraphComponents\PathBuilder.cs" />
+    <Compile Include="GraphComponents\Vertices\EvacuationVertex.cs" />
+    <Compile Include="GraphComponents\Vertices\IVertex.cs" />
+    <Compile Include="GraphComponents\Vertices\ShelterVertex.cs" />
+    <Compile Include="GraphComponents\Vertices\Vertex.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SimulatorEnvironment\Impl\GraphComponents\Edge.cs" />
-    <Compile Include="SimulatorEnvironment\Tests\ManualTests.cs" />
-    <Compile Include="SimulatorEnvironment\Utils\GraphUtils.cs" />
-    <Compile Include="SimulatorEnvironment\Utils\GraphAlgorithms.cs" />
-    <Compile Include="SimulatorEnvironment\Utils\ListUtils.cs" />
+    <Compile Include="Simulator.cs" />
+    <Compile Include="Tests\ManualTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <Content Include="Resources\graph1.txt" />
+    <Content Include="Resources\graph2.txt" />
+    <Content Include="Resources\graph3.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
