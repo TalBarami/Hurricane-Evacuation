@@ -1,6 +1,6 @@
 ﻿namespace HurricaneEvacuation.GraphComponents.Vertices
 {
-    public class EvacuationVertex : Vertex
+    internal class EvacuationVertex : Vertex
     {
         public int PeopleCount { get; set; }
 

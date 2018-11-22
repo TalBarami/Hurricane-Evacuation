@@ -3,7 +3,7 @@ using HurricaneEvacuation.GraphComponents.Vertices;
 
 namespace HurricaneEvacuation.GraphComponents
 {
-    public interface IGraph
+    internal interface IGraph
     {
         List<IVertex> Vertices { get;  }
         List<Edge> Edges { get; }

@@ -96,7 +96,7 @@ namespace HurricaneEvacuation.GraphComponents
             return lst;
         }
 
-        public class QueueItem
+        internal class QueueItem
         {
 
             public IVertex Node { get; private set; }

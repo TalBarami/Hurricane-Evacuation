@@ -1,6 +1,6 @@
 ﻿namespace HurricaneEvacuation.GraphComponents.Vertices
 {
-    public class ShelterVertex : Vertex
+    internal class ShelterVertex : Vertex
     {
         public ShelterVertex(int id) : base(id)
         {

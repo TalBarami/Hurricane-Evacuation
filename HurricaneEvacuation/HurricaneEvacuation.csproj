@@ -53,12 +53,16 @@
     <Compile Include="Agents\AbstractHelpfulAgent.cs" />
     <Compile Include="Agents\AbstractHeuristicAgent.cs" />
     <Compile Include="Agents\AgentsFactory.cs" />
-    <Compile Include="Agents\AI Agents\AbstractAIAgent.cs" />
-    <Compile Include="Agents\AI Agents\AStarAgent.cs" />
-    <Compile Include="Agents\AI Agents\ExpandTree.cs" />
-    <Compile Include="Agents\AI Agents\GreedySearchAgent.cs" />
-    <Compile Include="Agents\AI Agents\HeuristicResult.cs" />
-    <Compile Include="Agents\AI Agents\RTAStarAgent.cs" />
+    <Compile Include="Agents\GameTree.cs" />
+    <Compile Include="Agents\Multi Agents\MaximaxTree.cs" />
+    <Compile Include="Agents\Multi Agents\MultiHeuristicResult.cs" />
+    <Compile Include="Agents\Search Agents\AbstractSearchAgent.cs" />
+    <Compile Include="Agents\Search Agents\AStarAgent.cs" />
+    <Compile Include="Agents\Search Agents\SearchHeuristicResult.cs" />
+    <Compile Include="Agents\Search Agents\ExpandTree.cs" />
+    <Compile Include="Agents\Search Agents\GreedySearchAgent.cs" />
+    <Compile Include="Agents\HeuristicResult.cs" />
+    <Compile Include="Agents\Search Agents\RTAStarAgent.cs" />
     <Compile Include="Agents\Basic Agents\GreedyAgent.cs" />
     <Compile Include="Agents\Basic Agents\HumanAgent.cs" />
     <Compile Include="Agents\Basic Agents\VandalAgent.cs" />
@@ -68,6 +72,7 @@
     <Compile Include="Agents\Multi Agents\CoOpAgent.cs" />
     <Compile Include="Agents\Multi Agents\MinimaxTree.cs" />
     <Compile Include="Agents\Multi Agents\SemiCoOpAgent.cs" />
+    <Compile Include="Agents\TreeNode.cs" />
     <Compile Include="Environment\CommandLineInitializer.cs" />
     <Compile Include="Environment\Constants.cs" />
     <Compile Include="Environment\IState.cs" />
@@ -95,6 +100,7 @@
     <Content Include="Resources\graph1.txt" />
     <Content Include="Resources\graph2.txt" />
     <Content Include="Resources\graph3.txt" />
+    <Content Include="Resources\graph4.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

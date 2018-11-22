@@ -16,7 +16,7 @@ namespace HurricaneEvacuation
             simulator.Start();*/
 
             ManualTests m = new ManualTests();
-            m.MultiAgentBasic();
+            m.CoOpBasic();
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace HurricaneEvacuation.GraphComponents.Vertices
 {
-    public class Vertex : IVertex
+    internal class Vertex : IVertex
     {
         public int Id { get; }
         public IGraph Graph { get; set; }

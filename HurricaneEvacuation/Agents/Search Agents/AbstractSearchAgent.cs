@@ -6,19 +6,19 @@ using HurricaneEvacuation.Environment;
 using HurricaneEvacuation.GraphComponents;
 using HurricaneEvacuation.GraphComponents.Vertices;
 
-namespace HurricaneEvacuation.Agents.AI_Agents
+namespace HurricaneEvacuation.Agents.Search_Agents
 {
-    internal abstract class AbstractAIAgent : AbstractHeuristicAgent
+    internal abstract class AbstractSearchAgent : AbstractHeuristicAgent
     {
         protected int SearchExpansions { get; set; }
         protected double Performance => Constants.WeightConstant * PeopleSaved + SearchExpansions;
         public override double Score => Performance;
 
-        protected AbstractAIAgent(int id, int position) : base(id, position)
+        protected AbstractSearchAgent(int id, int position) : base(id, position)
         {
         }
 
-        protected AbstractAIAgent(int id, int position, int passengers, int peopleSaved, int searchExpansions) : base(id, position, passengers, peopleSaved)
+        protected AbstractSearchAgent(int id, int position, int passengers, int peopleSaved, int searchExpansions) : base(id, position, passengers, peopleSaved)
         {
             SearchExpansions = searchExpansions;
         }
@@ -30,7 +30,7 @@ namespace HurricaneEvacuation.Agents.AI_Agents
             var tree = CreateTree(oldState);
             var action = tree.Result.Action;
 
-            if (!(action.Performer.Clone() is AbstractAIAgent newAgent)) throw new Exception("Expand on non-AI agent.");
+            if (!(action.Performer.Clone() is AbstractSearchAgent newAgent)) throw new Exception("Expand on non-AI agent.");
 
             newAgent.SearchExpansions += tree.Expands;
             action.NewState.UpdateAgent(newAgent);
@@ -49,7 +49,7 @@ namespace HurricaneEvacuation.Agents.AI_Agents
 
             var unreachable = new List<EvacuationVertex>();
 
-            if (action.Performer is AbstractAIAgent performer && performer.Passengers > 0)
+            if (action.Performer is AbstractSearchAgent performer && performer.Passengers > 0)
             {
                 var sourceShelter = new List<Path>();
                 shelterVertices.ForEach(shelter => sourceShelter.AddRange(graph.Dfs(source, shelter)));
@@ -60,17 +60,7 @@ namespace HurricaneEvacuation.Agents.AI_Agents
 
                     if (finalState.Time > Constants.Deadline)
                     {
-                        /*if (graph.Vertex(performer.Position) is ShelterVertex)
-                        {
-                            if (action.OldState.Agents[Id] is AIAgent oldAgent)
-                            {
-                                unreachable.Add(new EvacuationVertex(-1, oldAgent.Passengers));
-                            }
-                        }
-                        else
-                        {*/
-                            unreachable.Add(new EvacuationVertex(-1, performer.Passengers));
-                        /*}*/
+                        unreachable.Add(new EvacuationVertex(-1, performer.Passengers));
                     }
                 }
                 else
@@ -90,12 +80,6 @@ namespace HurricaneEvacuation.Agents.AI_Agents
                     continue;
                 }
                 var sourceToEvacuation = MinimalState(simulatedSourceEvacuation);
-                /*var sourceToEvacuation = Path.ShortestTraversePath(sourceEvacuationPaths, state, Id);
-                if (sourceToEvacuation.Vertices.Count <= 0)
-                {
-                    unreachable.Add(evacuationVertex);
-                    continue;
-                }*/
 
                 var evacuationShelterPaths = new List<Path>();
                 shelterVertices.ForEach(shelter => evacuationShelterPaths.AddRange(graph.Dfs(evacuationVertex, shelter)));
@@ -107,12 +91,6 @@ namespace HurricaneEvacuation.Agents.AI_Agents
                     continue;
                 }
                 var evacuationToShelter = MinimalState(simulatedEvacuationShelter);
-                /*var evacuationToShelter = Path.ShortestTraversePath(evacuationShelterPaths,
-                    sourceToEvacuation.SimulateTraverse(state, Id), Id);*/
-
-                /*var sourceToEvacuationToShelter = sourceToEvacuation.Append(evacuationToShelter);
-                var finalState = sourceToEvacuationToShelter.SimulateTraverse(state, Id);
-*/
 
                 if (evacuationToShelter.Time > Constants.Deadline)
                 {

@@ -3,7 +3,7 @@ using HurricaneEvacuation.Environment;
 
 namespace HurricaneEvacuation.Actions
 {
-    public interface IAction
+    internal interface IAction
     {
         double Cost { get; }
         IState OldState { get; }

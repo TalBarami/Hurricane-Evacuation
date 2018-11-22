@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using HurricaneEvacuation.Agents.AI_Agents;
 using HurricaneEvacuation.Agents.Basic_Agents;
+using HurricaneEvacuation.Agents.Search_Agents;
 
 namespace HurricaneEvacuation.Agents
 {

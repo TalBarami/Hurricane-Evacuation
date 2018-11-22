@@ -8,7 +8,7 @@ namespace HurricaneEvacuation.Actions
 
         private readonly int v1;
         private readonly int v2;
-        private string visit;
+        private readonly string visit;
 
         public Traverse(IState state, int performer) : base(state, state, performer)
         {

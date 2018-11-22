@@ -2,7 +2,7 @@
 
 namespace HurricaneEvacuation.GraphComponents
 {
-    public class Edge
+    internal class Edge
     {
         public IVertex V1 { get; }
         public IVertex V2 { get; }

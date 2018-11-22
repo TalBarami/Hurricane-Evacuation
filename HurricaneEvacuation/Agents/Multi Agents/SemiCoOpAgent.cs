@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Linq;
 using HurricaneEvacuation.Actions;
-using HurricaneEvacuation.Agents.AI_Agents;
 using HurricaneEvacuation.Environment;
 
 namespace HurricaneEvacuation.Agents.Multi_Agents
@@ -25,6 +25,13 @@ namespace HurricaneEvacuation.Agents.Multi_Agents
             return new SemiCoOpAgent(this);
         }
 
+        protected override IAction CalculateMove(IState state)
+        {
+            var tree = new MinimaxTree(new Traverse(state, Id));
+            tree.Root.PrintPretty("", true);
+            return tree.Result.Action;
+        }
+
         public override HeuristicResult Heuristic(IAction action)
         {
             throw new NotImplementedException();
@@ -32,7 +39,17 @@ namespace HurricaneEvacuation.Agents.Multi_Agents
 
         public override double MultiScore(IState state)
         {
-            return Score;
+            return state.MultiAgents.Where(a => a.Id != Id).Aggregate(0.0, (sum, agent) => sum + agent.Score) > 0
+                ? Score + 0.1
+                : Score;
+        }
+
+        public override double SemiHeuristic(IState state)
+        {
+            var reachable = Reachable(state);
+            var enemyReachable =
+                state.MultiAgents.Where(a => a.Id != Id).Aggregate(0.0, (sum, next) => sum + next.Reachable(state));
+            return enemyReachable > 0 ? reachable + 0.1 : reachable;
         }
     }
 }

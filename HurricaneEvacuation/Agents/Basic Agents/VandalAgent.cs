@@ -5,7 +5,7 @@ using HurricaneEvacuation.GraphComponents.Vertices;
 
 namespace HurricaneEvacuation.Agents.Basic_Agents
 {
-    public class VandalAgent : AbstractAgent
+    internal class VandalAgent : AbstractAgent
     {
         public int Delay { get; }
         public int Waiting { get; set; }

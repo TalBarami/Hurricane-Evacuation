@@ -3,6 +3,8 @@ using System.Linq;
 using System.Text;
 using HurricaneEvacuation.Agents;
 using HurricaneEvacuation.Agents.Basic_Agents;
+using HurricaneEvacuation.Agents.Multi_Agents;
+using HurricaneEvacuation.Agents.Search_Agents;
 using HurricaneEvacuation.GraphComponents;
 using HurricaneEvacuation.GraphComponents.Vertices;
 
@@ -19,6 +21,8 @@ namespace HurricaneEvacuation.Environment
         public int CurrentAgent { get; set; }
         public List<VandalAgent> VandalAgents => Agents.OfType<VandalAgent>().ToList();
         public List<AbstractHelpfulAgent> HelpfulAgents => Agents.OfType<AbstractHelpfulAgent>().ToList();
+        public List<AbstractSearchAgent> SearchAgents => Agents.OfType<AbstractSearchAgent>().ToList();
+        public List<AbstractMultiAgent> MultiAgents => Agents.OfType<AbstractMultiAgent>().ToList();
 
 
         public State(double time, IGraph graph, List<IAgent> agents, int currentAgent)

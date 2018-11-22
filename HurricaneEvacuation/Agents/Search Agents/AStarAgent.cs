@@ -2,9 +2,9 @@
 using HurricaneEvacuation.Actions;
 using HurricaneEvacuation.Environment;
 
-namespace HurricaneEvacuation.Agents.AI_Agents
+namespace HurricaneEvacuation.Agents.Search_Agents
 {
-    internal class AStarAgent : AbstractAIAgent
+    internal class AStarAgent : AbstractSearchAgent
     {
         private double traverseLength;
 
@@ -38,7 +38,7 @@ namespace HurricaneEvacuation.Agents.AI_Agents
             if (!(action.Performer is AStarAgent performer)) throw new Exception("Heuristic for non-AI agent.");
 
             performer.traverseLength += action.Cost;
-            return new HeuristicResult(action, Unreachable(action) + performer.traverseLength);
+            return new SearchHeuristicResult(action, Unreachable(action) + performer.traverseLength);
         }
 
     }

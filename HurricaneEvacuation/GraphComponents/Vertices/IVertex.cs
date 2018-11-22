@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace HurricaneEvacuation.GraphComponents.Vertices
 {
-    public interface IVertex : IComparable<IVertex>
+    internal interface IVertex : IComparable<IVertex>
     {
         int Id { get; }
         IGraph Graph { get; set; }

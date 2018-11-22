@@ -5,7 +5,7 @@ using HurricaneEvacuation.GraphComponents.Vertices;
 
 namespace HurricaneEvacuation.GraphComponents
 {
-    public class GraphParser
+    internal class GraphParser
     {
         private const string Vertex = "#V";
         private const string Edge = "#E";

@@ -1,9 +1,9 @@
 ﻿using HurricaneEvacuation.Actions;
 using HurricaneEvacuation.Environment;
 
-namespace HurricaneEvacuation.Agents.AI_Agents
+namespace HurricaneEvacuation.Agents.Search_Agents
 {
-    internal class GreedySearchAgent : AbstractAIAgent
+    internal class GreedySearchAgent : AbstractSearchAgent
     {
         public GreedySearchAgent(int id, int position) : base(id, position)
         {
@@ -24,7 +24,7 @@ namespace HurricaneEvacuation.Agents.AI_Agents
 
         public override HeuristicResult Heuristic(IAction action)
         {   
-            return new HeuristicResult(action, action.NewState.GoalState ? 0 : Unreachable(action));
+            return new SearchHeuristicResult(action, action.NewState.GoalState ? 0 : Unreachable(action));
         }
 
         public override IAgent Clone()

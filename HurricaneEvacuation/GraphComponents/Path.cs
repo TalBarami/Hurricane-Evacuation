@@ -7,7 +7,7 @@ using HurricaneEvacuation.GraphComponents.Vertices;
 
 namespace HurricaneEvacuation.GraphComponents
 {
-    public class Path
+    internal class Path
     {
         public List<IVertex> Vertices { get; }
         public List<Edge> Edges
@@ -96,7 +96,9 @@ namespace HurricaneEvacuation.GraphComponents
                 while (state.CurrentAgent != performer)
                 {
                     var agent = state.Agents[state.CurrentAgent];
-                    var action = agent is VandalAgent ? agent.NextStep(state) : new NoOp(state, state.Clone(), agent.Id);
+                    var action = agent is VandalAgent
+                        ? agent.NextStep(state)
+                        : new NoOp(state, state.Clone(), agent.Id);
                     state = action.NewState;
                 }
                 var traverse = new Traverse(state, state.Clone(), performer, Vertices[vertex].Id);

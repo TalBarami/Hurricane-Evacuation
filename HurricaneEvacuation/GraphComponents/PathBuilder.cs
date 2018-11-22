@@ -4,7 +4,7 @@ using HurricaneEvacuation.GraphComponents.Vertices;
 
 namespace HurricaneEvacuation.GraphComponents
 {
-    public class PathBuilder
+    internal class PathBuilder
     {
         public IVertex Source { get; }
         public PathBuilder Next { get; }

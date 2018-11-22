@@ -3,7 +3,7 @@ using HurricaneEvacuation.GraphComponents.Vertices;
 
 namespace HurricaneEvacuation.Agents
 {
-    public abstract class AbstractHelpfulAgent : AbstractAgent
+    internal abstract class AbstractHelpfulAgent : AbstractAgent
     {
         public int Passengers { get; set; }
         public int PeopleSaved { get; set; }

@@ -1,24 +1,14 @@
 ﻿using HurricaneEvacuation.Actions;
 using HurricaneEvacuation.Environment;
 
-namespace HurricaneEvacuation.Agents.AI_Agents
+namespace HurricaneEvacuation.Agents.Search_Agents
 {
-    internal class HeuristicResult
+    class SearchHeuristicResult : HeuristicResult
     {
-        public IAction Action { get; }
         public IState SimulatedState { get; private set; }
-        public double Value { get; }
-
-        public HeuristicResult(IAction action, double value)
+        public SearchHeuristicResult(IAction action, double value) : base(action, value)
         {
-            Action = action;
-            Value = value;
             SimulateOtherAgents(action.Performer.Id);
-        }
-
-        public override string ToString()
-        {
-            return $"{Value}->{Action}";
         }
 
         public void SimulateOtherAgents(int performerId)

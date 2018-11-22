@@ -4,7 +4,7 @@ using HurricaneEvacuation.Environment;
 
 namespace HurricaneEvacuation
 {
-    public class Simulator
+    internal class Simulator
     {
         private IState world;
 

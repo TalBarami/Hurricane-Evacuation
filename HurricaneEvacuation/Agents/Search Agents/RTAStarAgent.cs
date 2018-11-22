@@ -2,9 +2,9 @@
 using HurricaneEvacuation.Actions;
 using HurricaneEvacuation.Environment;
 
-namespace HurricaneEvacuation.Agents.AI_Agents
+namespace HurricaneEvacuation.Agents.Search_Agents
 {
-    internal class RTAStarAgent : AbstractAIAgent
+    internal class RTAStarAgent : AbstractSearchAgent
     {
         private readonly int maximumExpands;
         private double traverseLength;
@@ -37,7 +37,7 @@ namespace HurricaneEvacuation.Agents.AI_Agents
             if (!(action.Performer is RTAStarAgent performer)) throw new Exception("Heuristic for non-AI agent.");
 
             performer.traverseLength += action.Cost;
-            return new HeuristicResult(action, Unreachable(action) + performer.traverseLength);
+            return new SearchHeuristicResult(action, Unreachable(action) + performer.traverseLength);
         }
 
         public override IAgent Clone()
