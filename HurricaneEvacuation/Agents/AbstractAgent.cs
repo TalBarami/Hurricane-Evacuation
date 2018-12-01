@@ -25,9 +25,14 @@ namespace HurricaneEvacuation.Agents
 
         public List<IAction> PossibleMoves(IState state)
         {
+            var possibleMoves = new List<IAction>();
+            /*if (state.Time >= Constants.Deadline)
+            {
+                return possibleMoves;
+            }*/
             var neighbors = state.Graph.Vertex(Position).Neighbors;
 
-            var possibleMoves = new List<IAction> { new NoOp(state, state.Clone(), Id) };
+            possibleMoves.Add(new NoOp(state, state.Clone(), Id));
             possibleMoves.AddRange(neighbors.Select(v => new Traverse(state, state.Clone(), Id, v))
                 .Where(act => act.NewState.Time <= Constants.Deadline)
                 .ToList());

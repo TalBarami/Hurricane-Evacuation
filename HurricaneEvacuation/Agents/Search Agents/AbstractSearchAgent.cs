@@ -107,6 +107,7 @@ namespace HurricaneEvacuation.Agents.Search_Agents
         {
             return states.Aggregate(states[0], (min, current) => current.Time < min.Time ? current : min);
         }
-        
+
+        public abstract HeuristicResult Heuristic(IAction action);
     }
 }

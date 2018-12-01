@@ -32,11 +32,6 @@ namespace HurricaneEvacuation.Agents.Multi_Agents
             return tree.Result.Action;
         }
 
-        public override HeuristicResult Heuristic(IAction action)
-        {
-            throw new NotImplementedException();
-        }
-
         public override double MultiScore(IState state)
         {
             return state.MultiAgents.Where(a => a.Id != Id).Aggregate(0.0, (sum, agent) => sum + agent.Score) > 0
@@ -44,12 +39,14 @@ namespace HurricaneEvacuation.Agents.Multi_Agents
                 : Score;
         }
 
-        public override double SemiHeuristic(IState state)
+        public override double Heuristic(IState state)
         {
             var reachable = Reachable(state);
             var enemyReachable =
                 state.MultiAgents.Where(a => a.Id != Id).Aggregate(0.0, (sum, next) => sum + next.Reachable(state));
-            return enemyReachable > 0 ? reachable + 0.1 : reachable;
+            return enemyReachable > 0 
+                ? reachable + 0.1
+                : reachable;
         }
     }
 }

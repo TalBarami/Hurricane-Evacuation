@@ -46,21 +46,25 @@ namespace HurricaneEvacuation.Agents
             var player = state.Agents[state.CurrentAgent];
 
             var moves = player.PossibleMoves(state).Select(move => new MultiHeuristicResult(move, 0)).ToList();
+            if (!moves.Any())
+            {
+                var s = node.Data.Action.NewState;
+                var p = Root.Data.Action.Performer.Id;
+
+                node.Data.Value = s.MultiAgents.First(ma => ma.Id == p).MultiScore(s);
+            }
             return node.AddChildren(moves);
         }
 
         public void CutOff(TreeNode<MultiHeuristicResult> node)
         {
 
-            var data = node.Data;
-            var state = data.Action.NewState;
+            var s = node.Data.Action.NewState;
+            var p = Root.Data.Action.Performer.Id;
 
-            if (!(node.Data.Action.Performer is AbstractMultiAgent agent))
-            {
-                throw new Exception("Cutoff on non-AI agent");
-            }
+            var a = s.MultiAgents.First(ma => ma.Id == p);
 
-            data.Value = agent.MultiScore(state) + agent.SemiHeuristic(state);
+            node.Data.Value = a.MultiScore(s) + a.Heuristic(s);
         }
     }
 }

@@ -27,17 +27,8 @@ namespace HurricaneEvacuation.Agents.Multi_Agents
         protected override IAction CalculateMove(IState state)
         {
             var tree = new MinimaxTree(new Traverse(state, Id));
+            tree.Root.PrintPretty("", true);
             return tree.Result.Action;
-        }
-
-        public override HeuristicResult Heuristic(IAction action)
-        {
-            /*var reachable = Reachable(action.NewState);
-            var enemyReachable =
-                action.NewState.MultiAgents.Where(a => a.Id != Id).Aggregate(0.0, (sum, next) => sum + next.Reachable(action.NewState));
-
-            return new HeuristicResult(action, reachable - enemyReachable);*/
-            throw new NotImplementedException();
         }
 
         public override double MultiScore(IState state)
@@ -45,7 +36,7 @@ namespace HurricaneEvacuation.Agents.Multi_Agents
             return Score - state.MultiAgents.Where(a => a.Id != Id).Aggregate(0.0, (sum, agent) => sum + agent.Score);
         }
 
-        public override double SemiHeuristic(IState state)
+        public override double Heuristic(IState state)
         {
             var reachable = Reachable(state);
             var enemyReachable =
