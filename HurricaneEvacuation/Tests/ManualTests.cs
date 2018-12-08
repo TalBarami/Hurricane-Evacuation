@@ -73,7 +73,7 @@ namespace HurricaneEvacuation.Tests
             "#V 12\r\n#E 0 1 W1\r\n#E 1 2 W1\r\n#E 2 3 W1\r\n#E 3 4 W1\r\n#E 4 5 W1\r\n#E 5 6 W1\r\n#E 6 7 W1\r\n#E 7 8 W1\r\n#E 8 9 W1\r\n#E 9 10 W1\r\n#E 10 11 W1\r\n#E 0 11 W1\r\n#V 1 P 1\r\n#V 7 P 1\r\n#V 0 S\r\n#V 6 S";
 
         private const string multiAgentSemiCoOp =
-            "#V 6\r\n#E 0 1 W1\r\n#E 0 2 W1\r\n#E 1 3 W1\r\n#E 2 4 W2\r\n#E 3 4 W1\r\n#V 1 P 1\r\n#V 2 P 1\r\n#V 4 S";
+            "#V 6\r\n#E 0 1 W1\r\n#E 0 2 W1\r\n#E 1 3 W1\r\n#E 2 4 W1\r\n#E 3 4 W1\r\n#V 1 P 1\r\n#V 2 P 1\r\n#V 4 S";
 
         private IList<IAgent> a;
         private IGraph g;
@@ -342,7 +342,7 @@ namespace HurricaneEvacuation.Tests
         public void MultiAgentNoOp()
         {
             g = new GraphParser().CreateGraphFromString(multiAgentNoOp);
-            Constants.Initialize(15, 1, -10, 8);
+            Constants.Initialize(17, 1, -10, 4);
 
             var initialState = new State(g, new List<IAgent>()
             {
@@ -361,8 +361,8 @@ namespace HurricaneEvacuation.Tests
 
             var initialState = new State(g, new List<IAgent>()
             {
-                new CoOpAgent(0, 0),
-                new CoOpAgent(1, 3)
+                new SemiCoOpAgent(0, 0),
+                new SemiCoOpAgent(1, 3)
             });
 
             Simulator s = new Simulator(initialState);

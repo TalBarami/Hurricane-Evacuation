@@ -7,7 +7,7 @@ namespace HurricaneEvacuation.Environment
 {
     internal class CommandLineInitializer
     {
-        public IState initialState;
+        public IState InitialState;
         private readonly AgentsFactory factory;
         public CommandLineInitializer(string graphText)
         {
@@ -16,7 +16,7 @@ namespace HurricaneEvacuation.Environment
             var graph = CreateGraph(graphText);
             var agents = CreateAgents(graph);
 
-            initialState = new State(graph, agents);
+            InitialState = new State(graph, agents);
         }
 
         private void InitializeConstants()
@@ -61,6 +61,8 @@ namespace HurricaneEvacuation.Environment
             {
                 Console.WriteLine("Please specify: <numOfAgents>");
             } while (!int.TryParse(Console.ReadLine(), out numOfAgents));
+
+            Console.WriteLine(factory.MapToString());
 
             Console.WriteLine("Please specify: <agentType>;<vertexId> (also add ';<initialDelay>' for vandal agents or ';<maximumExpands> for RTA* agents)");
             var agents = new List<IAgent>();

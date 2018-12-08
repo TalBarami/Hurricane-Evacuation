@@ -12,11 +12,11 @@ namespace HurricaneEvacuation
             /*var graph = File.ReadAllText(args[1]);
 
             var initializer = new CommandLineInitializer(graph);
-            var simulator = new Simulator(initializer.initialState);
+            var simulator = new Simulator(initializer.InitialState);
             simulator.Start();*/
 
             ManualTests m = new ManualTests();
-            m.SemiCoOpBasic();
+            m.MultiAgentNoOp();
         }
     }
 }

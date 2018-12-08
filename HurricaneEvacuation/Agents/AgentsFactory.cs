@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using HurricaneEvacuation.Agents.Basic_Agents;
+using HurricaneEvacuation.Agents.Multi_Agents;
 using HurricaneEvacuation.Agents.Search_Agents;
 
 namespace HurricaneEvacuation.Agents
@@ -11,27 +14,30 @@ namespace HurricaneEvacuation.Agents
         private int initialPosition;
         private int initialDelay;
 
-        private Dictionary<int, Func<IAgent>> agentsMapper;
+        private Tuple<string, Func<IAgent>>[] agentsMapper;
 
         public AgentsFactory()
         {
             id = 0;
 
-            agentsMapper = new Dictionary<int, Func<IAgent>>()
+            agentsMapper = new[]
             {
-                {0, CreateHumanAgent},
-                {1, CreateGreedyAgent },
-                {2, CreateVandalAgent },
-                {3, CreateGreedySearchAgent },
-                {4, CreateAStarAgent },
-                {5, CreateRtaStarAgent }
+                Tuple.Create<string, Func<IAgent>>(typeof(HumanAgent).Name, CreateHumanAgent),
+                Tuple.Create<string, Func<IAgent>>(typeof(GreedyAgent).Name, CreateGreedyAgent),
+                Tuple.Create<string, Func<IAgent>>(typeof(VandalAgent).Name, CreateVandalAgent),
+                Tuple.Create<string, Func<IAgent>>(typeof(GreedySearchAgent).Name, CreateGreedyAgent),
+                Tuple.Create<string, Func<IAgent>>(typeof(AStarAgent).Name, CreateAStarAgent),
+                Tuple.Create<string, Func<IAgent>>(typeof(RTAStarAgent).Name, CreateRtaStarAgent),
+                Tuple.Create<string, Func<IAgent>>(typeof(AdversarialAgent).Name, CreateAdversarialAgent),
+                Tuple.Create<string, Func<IAgent>>(typeof(SemiCoOpAgent).Name, CreateSemiCoOpAgent),
+                Tuple.Create<string, Func<IAgent>>(typeof(CoOpAgent).Name, CreateCoOpAgent),
             };
         }
 
         public IAgent CreateAgent(int agentType, int position)
         {
             initialPosition = position;
-            return agentsMapper[agentType].Invoke();
+            return agentsMapper[agentType].Item2.Invoke();
         }
 
         public IAgent CreateAgent(int agentType, int position, int delay)
@@ -68,6 +74,32 @@ namespace HurricaneEvacuation.Agents
         private IAgent CreateRtaStarAgent()
         {
             return new RTAStarAgent(id++, initialPosition, 50);
+        }
+
+        private IAgent CreateAdversarialAgent()
+        {
+            return new AdversarialAgent(id++, initialPosition);
+        }
+
+        private IAgent CreateSemiCoOpAgent()
+        {
+            return new SemiCoOpAgent(id++, initialPosition);
+        }
+
+        private IAgent CreateCoOpAgent()
+        {
+            return new CoOpAgent(id++, initialPosition);
+        }
+
+        public string MapToString()
+        {
+            var sb = new StringBuilder();
+            for (var i = 0; i < agentsMapper.Length; i++)
+            {
+                sb.Append($"{i}. {agentsMapper[i].Item1}\n");
+            }
+
+            return sb.ToString();
         }
     }
 }
