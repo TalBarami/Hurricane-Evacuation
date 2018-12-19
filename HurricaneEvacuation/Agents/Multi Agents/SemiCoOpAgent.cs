@@ -27,8 +27,8 @@ namespace HurricaneEvacuation.Agents.Multi_Agents
 
         protected override IAction CalculateMove(IState state)
         {
-            var tree = new MinimaxTree(new Traverse(state, Id));
-            tree.Root.PrintPretty("", true);
+            var tree = new MaximaxTree(new Traverse(state, Id));
+            /*tree.Root.PrintPretty("", true);*/
             return tree.Result.Action;
         }
 

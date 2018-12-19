@@ -53,9 +53,9 @@
     <Compile Include="Agents\AbstractHelpfulAgent.cs" />
     <Compile Include="Agents\AbstractHeuristicAgent.cs" />
     <Compile Include="Agents\AgentsFactory.cs" />
-    <Compile Include="Agents\GameTree.cs" />
-    <Compile Include="Agents\Multi Agents\MaximaxTree.cs" />
     <Compile Include="Agents\Multi Agents\MultiHeuristicResult.cs" />
+    <Compile Include="Agents\Multi Agents\MultiValuesHeuristicResult.cs" />
+    <Compile Include="Agents\Multi Agents\MaximaxTree.cs" />
     <Compile Include="Agents\Search Agents\AbstractSearchAgent.cs" />
     <Compile Include="Agents\Search Agents\AStarAgent.cs" />
     <Compile Include="Agents\Search Agents\SearchHeuristicResult.cs" />
@@ -102,6 +102,7 @@
     <Content Include="Resources\graph3.txt" />
     <Content Include="Resources\graph4.txt" />
     <Content Include="Resources\graph5.txt" />
+    <Content Include="Resources\TextFile1.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
