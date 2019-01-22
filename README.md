@@ -27,7 +27,7 @@ Each agent program (a function) works as follows. The agent is called by the sim
 - An agent using a simplified version of real-time A*. 
 
 ### Part 2: Game tree search agents
-- Adversarial (zero sum game): each agent aims to maximize its own score minus the opposing agent's score. Here you should implement an "optimal" agent, using mini-max, with alpha-beta pruning.
+- Adversarial (zero sum game): each agent aims to maximize its own score minus the opposing agent's score.
 - A semi-cooperative game: each agent tries to maximize its own score. The agent disregards the other agent score, except that ties are broken cooperatively.
 - A fully cooperative both agents aim to maximize the sum of scores. 
 
